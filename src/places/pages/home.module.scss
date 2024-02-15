@@ -1,0 +1,46 @@
+@import '../../styles/variables.scss';
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  width: 100%;
+  height: 100%;
+  .sidebar {
+    display: flex;
+    background-color: $--rgba-purple;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    flex: 0 0 20%;
+    @media screen and (max-width: 767px) {
+      flex: 0 0 40%;
+    }
+    height: 70%;
+  }
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    flex: 0 0 80%;
+    @media screen and (max-width: 767px) {
+      flex: 0 0 60%;
+    }
+    height: 100%;
+    &__title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      h2 {
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 3rem;
+        width: 80%;
+        text-align: center;
+        background: $--hero-linear-background;
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+      }
+    }
+  }
+}
