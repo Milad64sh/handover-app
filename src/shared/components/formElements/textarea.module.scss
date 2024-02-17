@@ -15,4 +15,10 @@
     border: 1px solid $--light-grey;
     width: 100%;
   }
+  textarea:last-child {
+    margin-bottom: 10px;
+  }
+  .inValid {
+    border: 1px solid red;
+  }
 }
