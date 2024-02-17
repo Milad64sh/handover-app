@@ -1,0 +1,30 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  label {
+    flex: 0 0 10%;
+    font-size: 1.15rem;
+    font-weight: 100;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  input {
+    padding: 10px 0;
+    flex: 0 0 80%;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+  }
+  textarea {
+    border-radius: 5px;
+    border: 1px solid $--light-grey;
+    flex: 0 0 100%;
+    left: auto;
+  }
+}

@@ -1,5 +1,8 @@
 import React from 'react';
+
+import Input from '../../shared/components/formElements/Input';
 import styles from './weeklyForm.module.scss';
+import Textarea from '../../shared/components/formElements/Textarea';
 
 const WeeklyForm = () => {
   return (
@@ -10,40 +13,30 @@ const WeeklyForm = () => {
       <form action='' className={styles.container__form}>
         <div className={styles.container__form__general}>
           <div className={styles.container__form__general__item}>
-            <label
-              htmlFor='service'
-              className={styles.container__form__general__item__label}
-            >
-              Service
-            </label>
-            <input
+            <Input
+              element='input'
               type='text'
-              name='service'
-              className={styles.container__form__general__item__input}
+              label='Service'
+              validators={[]}
+              errorText='Please enter a valid service'
             />
           </div>
           <div className={styles.container__form__general__item}>
-            <label
-              htmlFor='date'
-              className={styles.container__form__general__item__label}
-            >
-              Week
-            </label>
-            <input
+            <Input
+              element='input'
               type='date'
-              className={styles.container__form__general__item__input}
+              label='Week'
+              validators={[]}
+              errorText='Please enter a valid date'
             />
           </div>
           <div className={styles.container__form__general__item}>
-            <label
-              htmlFor='staff'
-              className={styles.container__form__general__item__label}
-            >
-              staff
-            </label>
-            <input
+            <Input
+              element='input'
               type='text'
-              className={styles.container__form__general__item__input}
+              label='Staff'
+              validators={[]}
+              errorText='Please enter a valid name'
             />
           </div>
         </div>
@@ -68,53 +61,19 @@ const WeeklyForm = () => {
                   13 Safeguarding service users
                 </h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Is there evedience that staff are completing weekly
-                  maintenance reports?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Is there any outstanding maintenace issues for the service?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Is there evedience that staff are completing weekly
+                  maintenance reports?'
+              />
+
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Is there any outstanding maintenace issues for the service?'
+              />
             </div>
             <div
               className={
@@ -128,76 +87,24 @@ const WeeklyForm = () => {
               >
                 <h3>Eterior Property</h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Is the exterior of the property in good order?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Are the gardens neat and tidy?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Are there any health and safety issues in regards to the house
-                  and garden? Have these been reported?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Is the exterior of the property in good order?'
+              />
+
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Is the exterior of the property in good order?'
+              />
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Are there any health and safety issues in regards to the house
+                  and garden? Have these been reported?'
+              />
             </div>
           </div>
         </div>
@@ -220,29 +127,11 @@ const WeeklyForm = () => {
               >
                 <h3>Reg 13 Safeguarding</h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Have receipts been scanned for the previous week?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Have receipts been scanned for the previous week?'
+              />
             </div>
           </div>
         </div>
@@ -265,55 +154,19 @@ const WeeklyForm = () => {
               >
                 <h3>Reg 15 premises and equipment</h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Is there sufficient arrangements in place and appropriate
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Is there sufficient arrangements in place and appropriate
                   plastic bags to deal appropriately with household waste and
-                  recycling? when was this checked and by who?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Are there adequate stock supplies of hand wash and hand
-                  sanitiser?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+                  recycling? when was this checked and by who?'
+              />
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Are there adequate stock supplies of hand wash and hand
+                  sanitiser?'
+              />
             </div>
           </div>
         </div>
@@ -336,29 +189,11 @@ const WeeklyForm = () => {
               >
                 <h3>Reg 12 Safeguarding</h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  First aid box checked?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+              <Textarea
+                element='textarea'
+                type='text'
+                label='First aid box checked?'
+              />
             </div>
           </div>
         </div>
@@ -381,29 +216,11 @@ const WeeklyForm = () => {
               >
                 <h3>Reg 15 Premises and equipment</h3>
               </div>
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__question
-                }
-              >
-                <label
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__label
-                  }
-                  htmlFor='q1'
-                >
-                  Fire alarms and carbon monoxide alarms checked?
-                </label>
-                <textarea
-                  className={
-                    styles.container__form__sectionMain__questions__section__question__textarea
-                  }
-                  name='q1'
-                  id=''
-                  cols='30'
-                  rows='5'
-                ></textarea>
-              </div>
+              <Textarea
+                element='textarea'
+                type='text'
+                label='Fire alarms and carbon monoxide alarms checked?'
+              />
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ const navbar = () => {
     <div className={styles.container}>
       <div className={styles.container__content}>
         <div className={styles.container__content__logo}>
-          <Link to={'/'}>jigsaw creative care</Link>
+          <Link to={'/home'}>jigsaw creative care</Link>
         </div>
         <div className={styles.container__content__icons}>login</div>
       </div>
