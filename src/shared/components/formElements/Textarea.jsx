@@ -45,11 +45,11 @@ const Textarea = (props) => {
     });
   };
   // VALIDATE INPUT ON SUBMIT
-  // const touchHandler = () => {
-  //   dispatch({
-  //     type: 'TOUCH',
-  //   });
-  // };
+  const touchHandler = () => {
+    dispatch({
+      type: 'TOUCH',
+    });
+  };
 
   const element = props.element === 'textarea' && (
     <textarea
@@ -57,7 +57,7 @@ const Textarea = (props) => {
       rows={props.rows || 5}
       columns={props.column || 30}
       onChange={changeHandler}
-      // onBlur={touchHandler}
+      onBlur={touchHandler}
       value={inputState.value}
     />
   );
@@ -65,11 +65,12 @@ const Textarea = (props) => {
   return (
     <div
       className={`${styles.container} ${
-        !inputState.isValid && inputState.isTouched && styles.invalid
+        !inputState.isValid && inputState.isTouched && styles.inValid
       }`}
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}
+      {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>
   );
 };

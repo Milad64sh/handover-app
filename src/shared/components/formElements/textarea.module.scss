@@ -18,7 +18,17 @@
   textarea:last-child {
     margin-bottom: 10px;
   }
-  .inValid {
-    border: 1px solid red;
+  p {
+    color: red;
+  }
+  &.inValid {
+    textarea {
+      border-color: red;
+      background-color: rgba(red, 0.1);
+
+      &:last-child {
+        margin-bottom: 10px;
+      }
+    }
   }
 }

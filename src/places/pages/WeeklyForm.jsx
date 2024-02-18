@@ -88,7 +88,7 @@ const WeeklyForm = () => {
               type='text'
               label='Service'
               validators={[VALIDATOR_REQUIRE()]}
-              // errorText='Please enter a valid service'
+              errorText='Please enter a valid service'
               onInput={inputHandler}
             />
           </div>
@@ -99,7 +99,7 @@ const WeeklyForm = () => {
               type='date'
               label='Week'
               validators={[VALIDATOR_REQUIRE()]}
-              // errorText='Please enter a valid date'
+              errorText='Please enter a valid date'
               onInput={inputHandler}
             />
           </div>
@@ -110,7 +110,7 @@ const WeeklyForm = () => {
               type='text'
               label='Staff'
               validators={[VALIDATOR_REQUIRE()]}
-              // errorText='Please enter a valid name'
+              errorText='Please enter a valid name'
               onInput={inputHandler}
             />
           </div>
@@ -145,7 +145,7 @@ const WeeklyForm = () => {
                 onInput={inputHandler}
                 label='Is there evedience that staff are completing weekly
                   maintenance reports?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
 
               <Textarea
@@ -155,7 +155,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='Is there any outstanding maintenace issues for the service?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
             </div>
             <div
@@ -178,7 +178,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='Is the exterior of the property in good order?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
 
               <Textarea
@@ -188,7 +188,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='Is the exterior of the property in good order?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
               <Textarea
                 id='question_5'
@@ -198,7 +198,7 @@ const WeeklyForm = () => {
                 onInput={inputHandler}
                 label='Are there any health and safety issues in regards to the house
                   and garden? Have these been reported?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
             </div>
           </div>
@@ -229,7 +229,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='Have receipts been scanned for the previous week?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
             </div>
           </div>
@@ -262,7 +262,7 @@ const WeeklyForm = () => {
                 label='Is there sufficient arrangements in place and appropriate
                   plastic bags to deal appropriately with household waste and
                   recycling? when was this checked and by who?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
               <Textarea
                 id='question_8'
@@ -303,7 +303,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='First aid box checked?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
             </div>
           </div>
@@ -334,7 +334,7 @@ const WeeklyForm = () => {
                 validators={[VALIDATOR_MINLENGTH(10)]}
                 onInput={inputHandler}
                 label='Fire alarms and carbon monoxide alarms checked?'
-                // errorText='Please explain in more detail'
+                errorText='Please explain in more detail'
               />
             </div>
           </div>
