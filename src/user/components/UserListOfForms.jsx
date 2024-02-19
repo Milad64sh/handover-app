@@ -2,6 +2,7 @@ import React from 'react';
 import Card from '../../shared/components/UIElements/Card';
 import styles from './userListOfForms.module.scss';
 import FormItem from './FormItem';
+import { Link } from 'react-router-dom';
 
 const UserListOfForms = (props) => {
   if (props.forms.length === 0) {
@@ -9,7 +10,9 @@ const UserListOfForms = (props) => {
       <div className={styles.noContent}>
         <Card>
           <h2>No form uploaded yet!</h2>
-          <button>back to handovers</button>
+          <button>
+            <Link to={'/weekly-handover'}>BACK TO HANDOVERS</Link>
+          </button>
         </Card>
       </div>
     );
@@ -21,7 +24,7 @@ const UserListOfForms = (props) => {
         <FormItem
           key={form.id}
           id={form.id}
-          service={form.servic}
+          service={form.service}
           date={form.date}
           staff={form.staff}
           question_1={form.question_1}
