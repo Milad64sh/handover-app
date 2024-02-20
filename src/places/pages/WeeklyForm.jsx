@@ -90,6 +90,7 @@ const WeeklyForm = () => {
               validators={[VALIDATOR_REQUIRE()]}
               errorText='Please enter a valid service'
               onInput={inputHandler}
+              isWeeklyForm={true}
             />
           </div>
           <div className={styles.container__form__general__item}>
@@ -101,6 +102,7 @@ const WeeklyForm = () => {
               validators={[VALIDATOR_REQUIRE()]}
               errorText='Please enter a valid date'
               onInput={inputHandler}
+              isWeeklyForm={true}
             />
           </div>
           <div className={styles.container__form__general__item}>
@@ -112,6 +114,7 @@ const WeeklyForm = () => {
               validators={[VALIDATOR_REQUIRE()]}
               errorText='Please enter a valid name'
               onInput={inputHandler}
+              isWeeklyForm={true}
             />
           </div>
         </div>

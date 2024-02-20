@@ -6,22 +6,13 @@
   justify-content: start;
   align-items: center;
   width: 100%;
-  &__weeklyFormLabel {
-    flex: 0 0 10%;
-    font-size: 1.15rem;
-    font-weight: 100;
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    color: #fff;
-  }
-  &__authLabel {
+  label {
     flex: 0 0 30%;
     font-size: 1.15rem;
-    color: #000;
-    text-transform: capitalize;
     font-weight: 100;
+    text-transform: capitalize;
     letter-spacing: 1px;
-    padding-left: 10px;
+    // color: #fff;
   }
   &__content {
     display: flex;

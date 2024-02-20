@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 
 import { validate } from '../../util/validators';
-import styles from './input.module.scss';
+import styles from './authInput.module.scss';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -22,7 +22,7 @@ const inputReducer = (state, action) => {
   }
 };
 
-const Input = (props) => {
+const AuthInput = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue || '',
     isValid: props.initialValid || false,
@@ -57,21 +57,11 @@ const Input = (props) => {
       onChange={changeHandler}
       onBlur={touchHandler}
       value={inputState.value}
-      isWeeklyForm={props.isWeeklyForm}
     />
   );
   return (
     <div className={styles.container}>
-      {props.isWeeklyForm ? (
-        <label className={styles.container__weeklyFormLabel} htmlFor={props.id}>
-          {props.label}
-        </label>
-      ) : (
-        <label className={styles.container__authLabel} htmlFor={props.id}>
-          {props.label}
-        </label>
-      )}
-
+      <label htmlFor={props.id}>{props.label}</label>
       <div
         className={`${styles.container__content}  ${
           !inputState.isValid && inputState.isTouched && styles.invalid
@@ -86,4 +76,4 @@ const Input = (props) => {
   );
 };
 
-export default Input;
+export default AuthInput;
