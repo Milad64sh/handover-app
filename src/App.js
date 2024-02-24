@@ -13,7 +13,7 @@ import DailyForm from './places/pages/DailyForm.jsx';
 import WeeklyForm from './places/pages/WeeklyForm.jsx';
 import MonthlyForm from './places/pages/MonthlyForm.jsx';
 import Footer from './places/components/Footer.jsx';
-import Users from './user/pages/Users.js';
+import Users from './user/pages/Users.jsx';
 import UserForms from './user/pages/UserForms.jsx';
 import UpdateWeeklyForm from './places/pages/UpdateWeeklyForm.jsx';
 import Auth from './user/pages/Auth.jsx';
