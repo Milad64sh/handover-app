@@ -1,4 +1,3 @@
-
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
@@ -80,7 +79,10 @@ const login = async (req, res, next) => {
     );
     return next(error);
   }
-  res.json({ message: 'Successfully logged in' });
+  res.json({
+    message: 'Successfully logged in',
+    user: existingUser.toObject({ getters: true }),
+  });
 };
 
 exports.getUsers = getUsers;

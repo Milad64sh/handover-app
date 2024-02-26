@@ -14,7 +14,6 @@ router.post(
     check('service').not().isEmpty(),
     check('week').not().isEmpty(),
     check('staff').not().isEmpty(),
-    check('creator').not().isEmpty(),
     check('question_1').isLength({ min: 10 }),
     check('question_2').isLength({ min: 10 }),
     check('question_3').isLength({ min: 10 }),

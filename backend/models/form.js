@@ -19,4 +19,4 @@ const formSchema = new Schema({
   creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
 });
 
-module.exports = mongoose.model('Form', formSchema);
+module.exports = mongoose.model('Weekly-handover', formSchema);

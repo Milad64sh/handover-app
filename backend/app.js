@@ -17,10 +17,11 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
   next();
 });
 
-app.use('/api/forms', formsRoutes);
+app.use('/api/weekly-handovers', formsRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((req, res, next) => {
