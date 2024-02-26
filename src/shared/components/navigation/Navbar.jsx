@@ -14,7 +14,7 @@ const Navbar = (props) => {
         <div className={styles.container__content__links}>
           {auth.isLoggedIn && (
             <div className={styles.container__content__links__item}>
-              <Link to={`/p1/forms`}>MY FORMS</Link>
+              <Link to={`${auth.userId}/forms`}>MY FORMS</Link>
             </div>
           )}
           {!auth.isLoggedIn && (

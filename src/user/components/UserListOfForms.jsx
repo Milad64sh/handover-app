@@ -25,8 +25,9 @@ const UserListOfForms = (props) => {
           key={form.id}
           id={form.id}
           service={form.service}
-          date={form.date}
+          week={form.week}
           staff={form.staff}
+          creatorId={form.creator}
           question_1={form.question_1}
           question_2={form.question_2}
           question_3={form.question_3}
@@ -37,6 +38,7 @@ const UserListOfForms = (props) => {
           question_8={form.question_8}
           question_9={form.question_9}
           question_10={form.question_10}
+          onDelete={props.onDeleteForm}
         />
       ))}
     </ul>

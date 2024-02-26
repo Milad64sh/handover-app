@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/Http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 import Card from '../../shared/components/UIElements/Card';
 import Modal from '../../shared/components/UIElements/Modal';
@@ -8,6 +10,7 @@ import Modal from '../../shared/components/UIElements/Modal';
 import styles from './formItem.module.scss';
 
 const FormItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
@@ -17,15 +20,21 @@ const FormItem = (props) => {
   const cancelDeleteHandler = () => {
     setShowModal(false);
   };
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowModal(false);
-    console.log('DELETING...');
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/weekly-handovers/${props.id}`,
+        'DELETE'
+      );
+      props.onDelete(props.id);
+    } catch (err) {}
   };
   // const openModalHandler = () => setShowModal(true);
   // const closeModalHandler = () => setShowModal(false);
   return (
     <>
-      <Modal
+      {/* <Modal
         show={showModal}
         onCancel={cancelDeleteHandler}
         header='Are you sure?'
@@ -43,9 +52,10 @@ const FormItem = (props) => {
         }
       >
         <p>Do you want to delete this form?</p>
-      </Modal>
+      </Modal> */}
       <li className={styles.formItem}>
         <Card className={styles.formItem__card}>
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className={styles.formItem__card__content}>
             <div className={styles.formItem__card__content__service}>
               <span>service name:</span>
@@ -53,7 +63,7 @@ const FormItem = (props) => {
             </div>
             <div className={styles.formItem__card__content__date}>
               <span>week:</span>
-              <p>{props.date}</p>
+              <p>{props.week}</p>
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
@@ -61,9 +71,9 @@ const FormItem = (props) => {
             {auth.isLoggedIn && (
               <>
                 <button>
-                  <Link to={`/weekly-handover/${props.id}`}>EDIT</Link>
+                  <Link to={`/weekly-handovers/${props.id}`}>EDIT</Link>
                 </button>
-                <button onClick={showDeleteWarningHandler}>DELETE</button>
+                <button onClick={confirmDeleteHandler}>DELETE</button>
               </>
             )}
           </div>

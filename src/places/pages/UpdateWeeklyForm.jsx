@@ -1,55 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/Http-hook';
+import { AuthContext } from '../../shared/context/auth-context';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 import Input from '../../shared/components/formElements/Input';
 import Textarea from '../../shared/components/formElements/Textarea';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import styles from './weeklyForm.module.scss';
-
-// For using useForm hook in this component check video 66;
-
-const DUMMY_FORMS = [
-  {
-    id: 'p1',
-    service: 'JS',
-    date: '2024-02-18',
-    staff: 'MS',
-    question_1: 'test answer1',
-    question_2: 'test answer2',
-    question_3: 'test answer3',
-    question_4: 'test answer4',
-    question_5: 'test answer5',
-    question_6: 'test answer6',
-    question_7: 'test answer7',
-    question_8: 'test answer8',
-    question_9: 'test answer9',
-    question_10: 'test answer10',
-  },
-  {
-    id: 'p2',
-    service: 'JB',
-    date: '2024-02-18',
-    staff: 'AA',
-    question_1: 'test-2 answer1',
-    question_2: 'test-2 answer2',
-    question_3: 'test-2 answer3',
-    question_4: 'test-2 answer4',
-    question_5: 'test-2 answer5',
-    question_6: 'test-2 answer6',
-    question_7: 'test-2 answer7',
-    question_8: 'test-2 answer8',
-    question_9: 'test-2 answer9',
-    question_10: 'test-2 answer10',
-  },
-];
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const UpdateWeeklyForm = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [loadedForm, setLoadedForm] = useState();
   const weeklyFormId = useParams().formId;
 
+  const navigate = useNavigate();
   const [formState, inputHandler, setFormData] = useForm(
     {
       service: {
@@ -108,385 +78,420 @@ const UpdateWeeklyForm = () => {
     false
   );
 
-  const identifiedForm = DUMMY_FORMS.find((p) => p.id === weeklyFormId);
-
   useEffect(() => {
-    if (identifiedForm) {
-      setFormData(
-        {
-          service: {
-            value: identifiedForm.service,
-            isValid: true,
+    const fetchForm = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`
+        );
+        setLoadedForm(responseData.form);
+        setFormData(
+          {
+            service: {
+              value: responseData.form.service,
+              isValid: true,
+            },
+            week: {
+              value: responseData.form.week,
+              isValid: true,
+            },
+            staff: {
+              value: responseData.form.staff,
+              isValid: true,
+            },
+            // question_1: {
+            //   value: responseData.form.question_1,
+            //   isValid: true,
+            // },
+            // question_2: {
+            //   value: responseData.form.question_2,
+            //   isValid: true,
+            // },
+            // question_3: {
+            //   value: responseData.form.question_3,
+            //   isValid: true,
+            // },
+            // question_4: {
+            //   value: responseData.form.question_4,
+            //   isValid: true,
+            // },
+            // question_5: {
+            //   value: responseData.form.question_5,
+            //   isValid: true,
+            // },
+            // question_6: {
+            //   value: responseData.form.question_6,
+            //   isValid: true,
+            // },
+            // question_7: {
+            //   value: responseData.form.question_7,
+            //   isValid: true,
+            // },
+            // question_8: {
+            //   value: responseData.form.question_8,
+            //   isValid: true,
+            // },
+            // question_9: {
+            //   value: responseData.form.question_9,
+            //   isValid: true,
+            // },
+            // question_10: {
+            //   value: responseData.form.question_10,
+            //   isValid: true,
+            // },
           },
-          week: {
-            value: identifiedForm.date,
-            isValid: true,
-          },
-          staff: {
-            value: identifiedForm.staff,
-            isValid: true,
-          },
-          question_1: {
-            value: identifiedForm.question_1,
-            isValid: true,
-          },
-          question_2: {
-            value: identifiedForm.question_2,
-            isValid: true,
-          },
-          question_3: {
-            value: identifiedForm.question_3,
-            isValid: true,
-          },
-          question_4: {
-            value: identifiedForm.question_4,
-            isValid: true,
-          },
-          question_5: {
-            value: identifiedForm.question_5,
-            isValid: true,
-          },
-          question_6: {
-            value: identifiedForm.question_6,
-            isValid: true,
-          },
-          question_7: {
-            value: identifiedForm.question_7,
-            isValid: true,
-          },
-          question_8: {
-            value: identifiedForm.question_8,
-            isValid: true,
-          },
-          question_9: {
-            value: identifiedForm.question_9,
-            isValid: true,
-          },
-          question_10: {
-            value: identifiedForm.question_10,
-            isValid: true,
-          },
-        },
-        true
-      );
-    }
-    setIsLoading(false);
-  }, [setFormData, identifiedForm]);
+          true
+        );
+      } catch (err) {}
+    };
+    fetchForm();
+  }, [sendRequest, weeklyFormId, setFormData]);
 
-  const updateWeeklyForm = (event) => {};
-  const weeklyHandoverId = useParams().formId;
-  const updatedFormSubmitHandler = (event) => {
+  const updatedFormSubmitHandler = async (event) => {
+    console.log('Form State before PATCH:', formState);
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`,
+        'PATCH',
+        JSON.stringify({
+          service: formState.inputs.service.value,
+          week: formState.inputs.week.value,
+          staff: formState.inputs.staff.value,
+          question_1: formState.inputs.question_1.value,
+          question_2: formState.inputs.question_2.value,
+          question_3: formState.inputs.question_3.value,
+          question_4: formState.inputs.question_4.value,
+          question_5: formState.inputs.question_5.value,
+          question_6: formState.inputs.question_6.value,
+          question_7: formState.inputs.question_7.value,
+          question_8: formState.inputs.question_8.value,
+          question_9: formState.inputs.question_9.value,
+          question_10: formState.inputs.question_10.value,
+        }),
+        {
+          'Content-Type': 'application/json',
+        }
+      );
+    } catch (err) {
+      console.error('Error sending PATCH request:', err);
+    }
     event.preventDefault();
-    console.log(formState.inputs);
+    console.log('Form State After PATCH:', formState);
+    console.log('weeklyFormId:', weeklyFormId);
+    navigate(`/${auth.userId}/forms`);
   };
 
-  if (!identifiedForm) {
+  if (isLoading) {
+    return <LoadingSpinner asOverlay />;
+  }
+  if (!loadedForm && !error) {
     return <h2>Could not find form!</h2>;
   }
 
-  if (isLoading) {
-    return <h2>Loading...</h2>;
-  }
   return (
-    <div className={styles.container}>
-      <div className={styles.container__title}>
-        <h2>weekly checks</h2>
-      </div>
-      <form
-        action=''
-        className={styles.container__form}
-        onSubmit={updatedFormSubmitHandler}
-      >
-        <div className={styles.container__form__general}>
-          <div className={styles.container__form__general__item}>
-            <Input
-              id='service'
-              element='input'
-              type='text'
-              label='Service'
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText='Please enter a valid service'
-              onInput={inputHandler}
-              initialValue={formState.inputs.service.value}
-              initialValid={formState.inputs.service.isValid}
-            />
-          </div>
-          <div className={styles.container__form__general__item}>
-            <Input
-              id='week'
-              element='input'
-              type='date'
-              label='Week'
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText='Please enter a valid date'
-              onInput={inputHandler}
-              initialValue={formState.inputs.week.value}
-              initialValid={formState.inputs.week.isValid}
-            />
-          </div>
-          <div className={styles.container__form__general__item}>
-            <Input
-              id='staff'
-              element='input'
-              type='text'
-              label='Staff'
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText='Please enter a valid name'
-              onInput={inputHandler}
-              initialValue={formState.inputs.staff.value}
-              initialValid={formState.inputs.staff.isValid}
-            />
-          </div>
+    <>
+      {/* <ErrorModal error={error} onClear={clearError} /> */}
+      <div className={styles.container}>
+        <div className={styles.container__title}>
+          <h2>weekly checks</h2>
         </div>
-        {/* MAINTENANCE */}
-        <div className={styles.container__form__sectionMain}>
-          <div className={styles.container__form__sectionMain__title}>
-            <h3>maintenance reports</h3>
-          </div>
-          <div className={styles.container__form__sectionMain__questions}>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>
-                  Reg 9 Person-centred care, Reg 12 Safe care and treatment, Reg
-                  13 Safeguarding service users
-                </h3>
+        {!isLoading && loadedForm && (
+          <form
+            className={styles.container__form}
+            onSubmit={updatedFormSubmitHandler}
+          >
+            <div className={styles.container__form__general}>
+              <div className={styles.container__form__general__item}>
+                <Input
+                  id='service'
+                  element='input'
+                  type='text'
+                  label='Service'
+                  validators={[VALIDATOR_REQUIRE()]}
+                  errorText='Please enter a valid service'
+                  onInput={inputHandler}
+                  initialValue={loadedForm.service}
+                  initialValid={true}
+                />
               </div>
+              <div className={styles.container__form__general__item}>
+                <Input
+                  id='week'
+                  element='input'
+                  type='date'
+                  label='Week'
+                  validators={[VALIDATOR_REQUIRE()]}
+                  errorText='Please enter a valid date'
+                  onInput={inputHandler}
+                  initialValue={loadedForm.week}
+                  initialValid={true}
+                />
+              </div>
+              <div className={styles.container__form__general__item}>
+                <Input
+                  id='staff'
+                  element='input'
+                  type='text'
+                  label='Staff'
+                  validators={[VALIDATOR_REQUIRE()]}
+                  errorText='Please enter a valid name'
+                  onInput={inputHandler}
+                  initialValue={loadedForm.staff}
+                  initialValid={true}
+                />
+              </div>
+            </div>
+            {/* MAINTENANCE */}
+            {/* <div className={styles.container__form__sectionMain}>
+              <div className={styles.container__form__sectionMain__title}>
+                <h3>maintenance reports</h3>
+              </div>
+              <div className={styles.container__form__sectionMain__questions}>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>
+                      Reg 9 Person-centred care, Reg 12 Safe care and treatment,
+                      Reg 13 Safeguarding service users
+                    </h3>
+                  </div>
 
-              <Textarea
-                id='question_1'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Is there evedience that staff are completing weekly
+                  <Textarea
+                    id='question_1'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Is there evedience that staff are completing weekly
                   maintenance reports?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_1.value}
-                initialValid={formState.inputs.question_1}
-              />
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_1}
+                    initialValid={true}
+                  />
 
-              <Textarea
-                id='question_2'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Is there any outstanding maintenace issues for the service?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_2.value}
-                initialValid={formState.inputs.question_2}
-              />
-            </div>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>Eterior Property</h3>
-              </div>
+                  <Textarea
+                    id='question_2'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Is there any outstanding maintenace issues for the service?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_2}
+                    initialValid={true}
+                  />
+                </div>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Eterior Property</h3>
+                  </div>
 
-              <Textarea
-                id='question_3'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Is the exterior of the property in good order?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_3.value}
-                initialValid={formState.inputs.question_3}
-              />
+                  <Textarea
+                    id='question_3'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Is the exterior of the property in good order?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_3}
+                    initialValid={true}
+                  />
 
-              <Textarea
-                id='question_4'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Is the exterior of the property in good order?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_4.value}
-                initialValid={formState.inputs.question_4}
-              />
-              <Textarea
-                id='question_5'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Are there any health and safety issues in regards to the house
+                  <Textarea
+                    id='question_4'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Is the exterior of the property in good order?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_4}
+                    initialValid={true}
+                  />
+                  <Textarea
+                    id='question_5'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Are there any health and safety issues in regards to the house
                   and garden? Have these been reported?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_5.value}
-                initialValid={formState.inputs.question_5}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* FINANCE */}
-        <div className={styles.container__form__sectionMain}>
-          <div className={styles.container__form__sectionMain__title}>
-            <h3>finance checks</h3>
-          </div>
-          <div className={styles.container__form__sectionMain__questions}>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>Reg 13 Safeguarding</h3>
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_5}
+                    initialValid={true}
+                  />
+                </div>
               </div>
-              <Textarea
-                id='question_6'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Have receipts been scanned for the previous week?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_6.value}
-                initialValid={formState.inputs.question_6}
-              />
-            </div>
-          </div>
-        </div>
+            </div> */}
 
-        {/* INFECTION */}
-        <div className={styles.container__form__sectionMain}>
-          <div className={styles.container__form__sectionMain__title}>
-            <h3>infection control</h3>
-          </div>
-          <div className={styles.container__form__sectionMain__questions}>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>Reg 15 premises and equipment</h3>
+            {/* FINANCE */}
+            {/* <div className={styles.container__form__sectionMain}>
+              <div className={styles.container__form__sectionMain__title}>
+                <h3>finance checks</h3>
               </div>
-              <Textarea
-                id='question_7'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Is there sufficient arrangements in place and appropriate
+              <div className={styles.container__form__sectionMain__questions}>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Reg 13 Safeguarding</h3>
+                  </div>
+                  <Textarea
+                    id='question_6'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Have receipts been scanned for the previous week?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_6}
+                    initialValid={true}
+                  />
+                </div>
+              </div>
+            </div> */}
+
+            {/* INFECTION */}
+            {/* <div className={styles.container__form__sectionMain}>
+              <div className={styles.container__form__sectionMain__title}>
+                <h3>infection control</h3>
+              </div>
+              <div className={styles.container__form__sectionMain__questions}>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Reg 15 premises and equipment</h3>
+                  </div>
+                  <Textarea
+                    id='question_7'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Is there sufficient arrangements in place and appropriate
                   plastic bags to deal appropriately with household waste and
                   recycling? when was this checked and by who?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_7.value}
-                initialValid={formState.inputs.question_7}
-              />
-              <Textarea
-                id='question_8'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Are there adequate stock supplies of hand wash and hand
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_7}
+                    initialValid={true}
+                  />
+                  <Textarea
+                    id='question_8'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Are there adequate stock supplies of hand wash and hand
                   sanitiser?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_8.value}
-                initialValid={formState.inputs.question_8}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* TASK */}
-        <div className={styles.container__form__sectionMain}>
-          <div className={styles.container__form__sectionMain__title}>
-            <h3>task</h3>
-          </div>
-          <div className={styles.container__form__sectionMain__questions}>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>Reg 12 Safeguarding</h3>
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_8}
+                    initialValid={true}
+                  />
+                </div>
               </div>
-              <Textarea
-                id='question_9'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='First aid box checked?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_9.value}
-                initialValid={formState.inputs.question_9}
-              />
-            </div>
-          </div>
-        </div>
+            </div> */}
 
-        {/* TASK */}
-        <div className={styles.container__form__sectionMain}>
-          <div className={styles.container__form__sectionMain__title}>
-            <h3>task</h3>
-          </div>
-          <div className={styles.container__form__sectionMain__questions}>
-            <div
-              className={
-                styles.container__form__sectionMain__questions__section
-              }
-            >
-              <div
-                className={
-                  styles.container__form__sectionMain__questions__section__title
-                }
-              >
-                <h3>Reg 15 Premises and equipment</h3>
+            {/* TASK */}
+            {/* <div className={styles.container__form__sectionMain}>
+              <div className={styles.container__form__sectionMain__title}>
+                <h3>task</h3>
               </div>
-              <Textarea
-                id='question_10'
-                element='textarea'
-                type='text'
-                validators={[VALIDATOR_MINLENGTH(10)]}
-                onInput={inputHandler}
-                label='Fire alarms and carbon monoxide alarms checked?'
-                errorText='Please explain in more detail'
-                initialValue={formState.inputs.question_10.value}
-                initialValid={formState.inputs.question_10}
-              />
-            </div>
-          </div>
-        </div>
-        <button type='submit' disabled={!formState.isValid}>
-          update form
-        </button>
-      </form>
-    </div>
+              <div className={styles.container__form__sectionMain__questions}>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Reg 12 Safeguarding</h3>
+                  </div>
+                  <Textarea
+                    id='question_9'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='First aid box checked?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_9}
+                    initialValid={true}
+                  />
+                </div>
+              </div>
+            </div> */}
+
+            {/* TASK */}
+            {/* <div className={styles.container__form__sectionMain}>
+              <div className={styles.container__form__sectionMain__title}>
+                <h3>task</h3>
+              </div>
+              <div className={styles.container__form__sectionMain__questions}>
+                <div
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Reg 15 Premises and equipment</h3>
+                  </div>
+                  <Textarea
+                    id='question_10'
+                    element='textarea'
+                    type='text'
+                    validators={[VALIDATOR_MINLENGTH(10)]}
+                    onInput={inputHandler}
+                    label='Fire alarms and carbon monoxide alarms checked?'
+                    errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_10}
+                    initialValid={true}
+                  />
+                </div>
+              </div>
+            </div> */}
+            <button type='submit' disabled={!formState.isValid}>
+              UPDATE FORM
+            </button>
+          </form>
+        )}
+      </div>
+    </>
   );
 };
 

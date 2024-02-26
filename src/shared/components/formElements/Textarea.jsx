@@ -26,7 +26,7 @@ const inputReducer = (state, action) => {
 const Textarea = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue || '',
-    isValid: props.initilValid || false,
+    isValid: props.initialValid || false,
     isTouched: false,
   });
 

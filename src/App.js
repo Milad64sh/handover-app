@@ -21,13 +21,16 @@ import { AuthContext } from './shared/context/auth-context.js';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(false);
 
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -39,7 +42,10 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/daily-handover' element={<DailyForm />} />
         <Route path='/weekly-handover' element={<WeeklyForm />} />
-        <Route path='/weekly-handover/:formId' element={<UpdateWeeklyForm />} />
+        <Route
+          path='/weekly-handovers/:formId'
+          element={<UpdateWeeklyForm />}
+        />
         <Route path='/monthly-handover' element={<MonthlyForm />} />
         <Route path='*' element={<Navigate to='/home' replace />} />
       </>
@@ -58,25 +64,16 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
     >
       <Router>
         <Navbar />
-        <Routes>
-          {routes}
-          {/* <Route path='/' element={<Users />} />
-          <Route path='/auth' element={<Auth />} />
-          <Route path='/:userId/forms' element={<UserForms />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/daily-handover' element={<DailyForm />} />
-          <Route path='/weekly-handover' element={<WeeklyForm />} />
-          <Route
-            path='/weekly-handover/:formId'
-            element={<UpdateWeeklyForm />}
-          />
-          <Route path='/monthly-handover' element={<MonthlyForm />} />
-          <Route path='*' element={<Navigate to='/' replace />} /> */}
-        </Routes>
+        <Routes>{routes}</Routes>
         <Footer />
       </Router>
     </AuthContext.Provider>
