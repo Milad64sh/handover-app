@@ -28,7 +28,7 @@ router.post(
   formControllers.createForm
 );
 
-router.patch(
+router.post(
   '/:formid',
   [
     check('service').not().isEmpty(),

@@ -213,18 +213,21 @@ const deleteForm = async (req, res, next) => {
     const error = new HttpError('Form for this user not found.', 404);
     return next(error);
   }
+  const sess = await mongoose.startSession();
+  sess.startTransaction();
   try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    // await form.remove({ session: sess });
     form.creator.forms.pull(form);
+    form.creator.markModified('forms');
     await form.creator.save({ session: sess });
+    await Form.deleteOne({ _id: formId }, { session: sess });
     await sess.commitTransaction();
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       'Something went wrong, could not delete the form.',
       500
     );
+
     return next(error);
   }
   res.status(200).json({ message: 'Deleted Place' });
