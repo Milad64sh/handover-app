@@ -19,6 +19,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       width: 50%;
       &__service {
         display: flex;
@@ -42,6 +43,41 @@
           font-weight: 700;
           color: $--weekly-color;
           padding-left: 10px;
+        }
+      }
+    }
+    &__actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+
+      flex: 0 0 40%;
+      button {
+        padding: 10px 15px;
+        letter-spacing: 1px;
+        background-color: lighten($--weekly-color, 30%);
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        &:hover {
+          background-color: lighten($--weekly-color, 20%);
+        }
+      }
+      :nth-child(3) {
+        background-color: red;
+        &:hover {
+          background-color: darken(red, 10%);
+        }
+      }
+      &__link {
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover {
+          background-color: lighten($--weekly-color, 20%);
         }
       }
     }

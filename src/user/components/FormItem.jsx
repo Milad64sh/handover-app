@@ -67,13 +67,25 @@ const FormItem = (props) => {
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
-            <button>VIEW FORM</button>
-            {auth.isLoggedIn && (
+            <button className={styles.formItem__card__actions__action}>
+              VIEW FORM
+            </button>
+            {auth.isLoggedIn && auth.userId === props.creatorId && (
               <>
-                <button>
-                  <Link to={`/weekly-handovers/${props.id}`}>EDIT</Link>
+                <Link
+                  className={styles.formItem__card__actions__link}
+                  to={`/weekly-handovers/${props.id}`}
+                >
+                  <button className={styles.formItem__card__actions__action}>
+                    EDIT
+                  </button>
+                </Link>
+                <button
+                  className={styles.formItem__card__actions__action}
+                  onClick={confirmDeleteHandler}
+                >
+                  DELETE
                 </button>
-                <button onClick={confirmDeleteHandler}>DELETE</button>
               </>
             )}
           </div>

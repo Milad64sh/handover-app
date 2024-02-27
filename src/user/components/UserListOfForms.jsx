@@ -11,7 +11,7 @@ const UserListOfForms = (props) => {
         <Card>
           <h2>No form uploaded yet!</h2>
           <button>
-            <Link to={'/weekly-handover'}>BACK TO HANDOVERS</Link>
+            <Link to={'/weekly-handovers'}>BACK TO HANDOVERS</Link>
           </button>
         </Card>
       </div>

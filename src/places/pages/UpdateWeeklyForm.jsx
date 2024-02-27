@@ -99,46 +99,46 @@ const UpdateWeeklyForm = () => {
               value: responseData.form.staff,
               isValid: true,
             },
-            // question_1: {
-            //   value: responseData.form.question_1,
-            //   isValid: true,
-            // },
-            // question_2: {
-            //   value: responseData.form.question_2,
-            //   isValid: true,
-            // },
-            // question_3: {
-            //   value: responseData.form.question_3,
-            //   isValid: true,
-            // },
-            // question_4: {
-            //   value: responseData.form.question_4,
-            //   isValid: true,
-            // },
-            // question_5: {
-            //   value: responseData.form.question_5,
-            //   isValid: true,
-            // },
-            // question_6: {
-            //   value: responseData.form.question_6,
-            //   isValid: true,
-            // },
-            // question_7: {
-            //   value: responseData.form.question_7,
-            //   isValid: true,
-            // },
-            // question_8: {
-            //   value: responseData.form.question_8,
-            //   isValid: true,
-            // },
-            // question_9: {
-            //   value: responseData.form.question_9,
-            //   isValid: true,
-            // },
-            // question_10: {
-            //   value: responseData.form.question_10,
-            //   isValid: true,
-            // },
+            question_1: {
+              value: responseData.form.question_1,
+              isValid: true,
+            },
+            question_2: {
+              value: responseData.form.question_2,
+              isValid: true,
+            },
+            question_3: {
+              value: responseData.form.question_3,
+              isValid: true,
+            },
+            question_4: {
+              value: responseData.form.question_4,
+              isValid: true,
+            },
+            question_5: {
+              value: responseData.form.question_5,
+              isValid: true,
+            },
+            question_6: {
+              value: responseData.form.question_6,
+              isValid: true,
+            },
+            question_7: {
+              value: responseData.form.question_7,
+              isValid: true,
+            },
+            question_8: {
+              value: responseData.form.question_8,
+              isValid: true,
+            },
+            question_9: {
+              value: responseData.form.question_9,
+              isValid: true,
+            },
+            question_10: {
+              value: responseData.form.question_10,
+              isValid: true,
+            },
           },
           true
         );
@@ -148,11 +148,12 @@ const UpdateWeeklyForm = () => {
   }, [sendRequest, weeklyFormId, setFormData]);
 
   const updatedFormSubmitHandler = async (event) => {
+    event.preventDefault();
     console.log('Form State before PATCH:', formState);
     try {
       await sendRequest(
         `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`,
-        'PATCH',
+        'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
           week: formState.inputs.week.value,
@@ -175,7 +176,7 @@ const UpdateWeeklyForm = () => {
     } catch (err) {
       console.error('Error sending PATCH request:', err);
     }
-    event.preventDefault();
+
     console.log('Form State After PATCH:', formState);
     console.log('weeklyFormId:', weeklyFormId);
     navigate(`/${auth.userId}/forms`);
@@ -242,7 +243,7 @@ const UpdateWeeklyForm = () => {
               </div>
             </div>
             {/* MAINTENANCE */}
-            {/* <div className={styles.container__form__sectionMain}>
+            <div className={styles.container__form__sectionMain}>
               <div className={styles.container__form__sectionMain__title}>
                 <h3>maintenance reports</h3>
               </div>
@@ -338,10 +339,10 @@ const UpdateWeeklyForm = () => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* FINANCE */}
-            {/* <div className={styles.container__form__sectionMain}>
+            <div className={styles.container__form__sectionMain}>
               <div className={styles.container__form__sectionMain__title}>
                 <h3>finance checks</h3>
               </div>
@@ -371,10 +372,10 @@ const UpdateWeeklyForm = () => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* INFECTION */}
-            {/* <div className={styles.container__form__sectionMain}>
+            <div className={styles.container__form__sectionMain}>
               <div className={styles.container__form__sectionMain__title}>
                 <h3>infection control</h3>
               </div>
@@ -418,10 +419,10 @@ const UpdateWeeklyForm = () => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* TASK */}
-            {/* <div className={styles.container__form__sectionMain}>
+            <div className={styles.container__form__sectionMain}>
               <div className={styles.container__form__sectionMain__title}>
                 <h3>task</h3>
               </div>
@@ -451,10 +452,10 @@ const UpdateWeeklyForm = () => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* TASK */}
-            {/* <div className={styles.container__form__sectionMain}>
+            <div className={styles.container__form__sectionMain}>
               <div className={styles.container__form__sectionMain__title}>
                 <h3>task</h3>
               </div>
@@ -484,7 +485,7 @@ const UpdateWeeklyForm = () => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
             <button type='submit' disabled={!formState.isValid}>
               UPDATE FORM
             </button>
