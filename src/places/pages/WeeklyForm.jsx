@@ -95,7 +95,10 @@ const WeeklyForm = () => {
           question_10: formState.inputs.question_10.value,
           creator: auth.userId,
         }),
-        { 'Content-Type': 'application/json' }
+        {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
+        }
       );
 
       // redirect user to a different page

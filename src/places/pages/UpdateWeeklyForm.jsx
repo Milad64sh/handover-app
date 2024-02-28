@@ -171,14 +171,12 @@ const UpdateWeeklyForm = () => {
         }),
         {
           'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
         }
       );
     } catch (err) {
       console.error('Error sending PATCH request:', err);
     }
-
-    console.log('Form State After PATCH:', formState);
-    console.log('weeklyFormId:', weeklyFormId);
     navigate(`/${auth.userId}/forms`);
   };
 
