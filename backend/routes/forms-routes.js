@@ -1,12 +1,15 @@
 const express = require('express');
 const { check } = require('express-validator');
 const formControllers = require('../controllers/forms-controller');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
 router.get('/:formid', formControllers.getFormById);
 
 router.get('/user/:uid', formControllers.getFormsByUserId);
+
+router.use(checkAuth);
 
 router.post(
   '/',

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const HttpError = require('./models/http-error');
@@ -25,6 +26,11 @@ app.use('/api/weekly-handovers', formsRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((req, res, next) => {
+  // if (req.file) {
+  //   fs.unlink(req.file.path, (err) => {
+  //     console.log(err);
+  //   });
+  // }
   const error = new HttpError('Could not find this route.', 404);
   throw error;
 });

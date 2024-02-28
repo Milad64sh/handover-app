@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
@@ -41,13 +43,19 @@ const signUp = async (req, res, next) => {
     );
     return next(error);
   }
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError('Could not create user, please try again', 500);
+    return next(error);
+  }
 
   const createdUser = new User({
     name,
     email,
-    image:
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpikwizard.com%2Fphoto%2Fportrait-of-smiling-male-executive%2F39573f81d4d58261e5e1ed8f1ff890f6%2F&psig=AOvVaw2Fnf3HkJoJar6MzE0HxC74&ust=1708796196245000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKD84baAwoQDFQAAAAAdAAAAABAJ',
-    password,
+    // image: req.file.path,
+    password: hashedPassword,
     forms: [],
   });
   try {
@@ -56,7 +64,25 @@ const signUp = async (req, res, next) => {
     const error = new HttpError('Creating user failed, please try again.', 500);
     return next(error);
   }
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: createdUser.id, email: createdUser.email },
+      'supersecret_do_not_share',
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      'Signing up failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+
+  res
+    .status(201)
+    .json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
 
 // LOGIN
@@ -79,9 +105,37 @@ const login = async (req, res, next) => {
     );
     return next(error);
   }
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    const error = new HttpError(
+      'Could not log in, please check your credentials and try again.',
+      500
+    );
+    return next(error);
+  }
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      'supersecret_do_not_share',
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      'lggiing in failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+
   res.json({
-    message: 'Successfully logged in',
-    user: existingUser.toObject({ getters: true }),
+    userId: existingUser.id,
+    email: existingUser.email,
+    token: token,
   });
 };
 
