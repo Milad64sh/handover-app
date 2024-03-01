@@ -1,36 +1,44 @@
+require('dotenv').config();
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const HttpError = require('./models/http-error');
 const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
+// const { logger } = require('./middleware/logger');
 
 const formsRoutes = require('./routes/forms-routes');
 const usersRoutes = require('./routes/users-routes');
 
+// app.use(logger);
+
+connectDB();
+
 const app = express();
+
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+app.use(cors(corsOptions));
 
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//   );
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+//   next();
+// });
 
 app.use('/api/weekly-handovers', formsRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((req, res, next) => {
-  // if (req.file) {
-  //   fs.unlink(req.file.path, (err) => {
-  //     console.log(err);
-  //   });
-  // }
   const error = new HttpError('Could not find this route.', 404);
   throw error;
 });
@@ -43,13 +51,22 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error ocurred.' });
 });
 
-mongoose
-  .connect(
-    'mongodb+srv://Milad:KoZFrXs70caofsIx@cluster0.mme6o2k.mongodb.net/handovers?retryWrites=true&w=majority&appName=Cluster0'
-  )
-  .then(() => {
-    app.listen(5000);
-  })
-  .catch((err) => {
-    console.log(err);
+mongoose.connection.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
+});
+mongoose.connection.on('error', (err) => {
+  console.log(err);
+});
+
+// mongoose
+//   .connect(
+
+//   )
+//   .then(() => {
+//     app.listen(PORT);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });

@@ -167,6 +167,14 @@ const updateFormById = async (req, res, next) => {
     return next(error);
   }
 
+  if (form.creator.toString() !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to edit this document.',
+      401
+    );
+    return next(error);
+  }
+
   form.service = service;
   form.week = week;
   form.staff = staff;
@@ -205,6 +213,14 @@ const deleteForm = async (req, res, next) => {
     const error = new HttpError(
       'Something went wrong, could not delete the form.',
       500
+    );
+    return next(error);
+  }
+
+  if (form.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to delete this document.',
+      401
     );
     return next(error);
   }
