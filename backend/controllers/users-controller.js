@@ -5,6 +5,7 @@ const asyncHandler = require('express-async-handler');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
+const Form = require('../models/form');
 
 // ROUTES ONLY HAVE ACCESS BY ADMIN AND MANAGER
 
@@ -92,18 +93,19 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // DELETE USER
-const deleteUser = asyncHandler(async (req, res, next) => {
+const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.body;
   if (!id) {
     return res.status(400).json({ message: 'User ID Required.' });
   }
+
   const user = await User.findById(id).exec();
 
   if (!user) {
     return res.status(400).json({ message: 'User not found.' });
   }
-  const result = await user.deleteOne();
-  const reply = `Username ${result.name} with ID ${result._id} deleted.`;
+  const reply = `Username ${user.name} with ID ${user._id} deleted.`;
+  await user.deleteOne();
   res.json(reply);
 });
 
