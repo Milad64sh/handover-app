@@ -2,15 +2,17 @@ require('dotenv').config();
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const HttpError = require('./models/http-error');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
-// const { logger } = require('./middleware/logger');
+const { logger, logEvents } = require('./middleware/logger');
 
 const formsRoutes = require('./routes/forms-routes');
 const usersRoutes = require('./routes/users-routes');
+const authRoutes = require('./routes/auth-routes');
 
 // app.use(logger);
 
@@ -24,6 +26,10 @@ app.use(bodyParser.json());
 
 app.use(cors(corsOptions));
 
+app.use(express.json());
+
+app.use(cookieParser());
+
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 //   res.setHeader(
@@ -35,6 +41,7 @@ app.use(cors(corsOptions));
 //   next();
 // });
 
+app.use('/api/auth', authRoutes);
 app.use('/api/weekly-handovers', formsRoutes);
 app.use('/api/users', usersRoutes);
 

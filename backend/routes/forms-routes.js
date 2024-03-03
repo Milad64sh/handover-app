@@ -2,8 +2,10 @@ const express = require('express');
 const { check } = require('express-validator');
 const formControllers = require('../controllers/forms-controller');
 const checkAuth = require('../middleware/check-auth');
+const verifyJWT = require('../middleware/verify-JWT.JS');
 
 const router = express.Router();
+router.use(verifyJWT);
 
 router.get('/:formid', formControllers.getFormById);
 
