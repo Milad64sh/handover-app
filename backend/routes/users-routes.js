@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 
 const usersControllers = require('../controllers/users-controller');
 const verifyJWT = require('../middleware/verify-JWT.JS');
-// const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 // router.use(verifyJWT);
@@ -20,7 +19,7 @@ router.post(
   usersControllers.signUp
 );
 
-// router.post('/login', usersControllers.login);
+router.post('/login', usersControllers.login);
 
 router.get('/', usersControllers.getAllUsers);
 router.post('/', usersControllers.createNewUser);

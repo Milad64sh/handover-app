@@ -5,16 +5,19 @@ const asyncHnadler = require('express-async-handler');
 const HttpError = require('../models/http-error');
 
 const login = asyncHnadler(async (req, res, next) => {
-  const { name, password } = req.body;
+  const { name, password, email } = req.body;
 
-  if (!name || !password) {
-    return res.status(400).json({ message: 'All fields are required' });
+  if (!password || !email) {
+    return res.status(400).json({ message: 'All fields are required!' });
   }
 
-  const existingUser = await User.findOne({ name }).exec();
+  const existingUser = await User.findOne({ email: email });
 
   if (!existingUser || !existingUser.active) {
-    return res.status(401).json({ message: 'Unauthorized user.' });
+    console.log(`existing user: ${existingUser}`);
+    return res.status(401).json({
+      message: 'Unauthorized user.',
+    });
   }
 
   if (!existingUser) {
@@ -38,7 +41,7 @@ const login = asyncHnadler(async (req, res, next) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '10s' }
+    { expiresIn: '1h' }
   );
 
   const refreshToken = jwt.sign(
@@ -53,7 +56,11 @@ const login = asyncHnadler(async (req, res, next) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   // Send back accessToken containing username and roles
-  res.json({ accessToken });
+  res.json({
+    token: accessToken,
+    userId: existingUser.id,
+    email: existingUser.email,
+  });
 });
 
 const refresh = asyncHnadler(async (req, res) => {
@@ -80,7 +87,7 @@ const refresh = asyncHnadler(async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '10s' }
+        { expiresIn: '1h' }
       );
       res.json({ accessToken });
     })
