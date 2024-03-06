@@ -15,8 +15,11 @@ const Users = () => {
           'http://localhost:5000/api/users'
         );
 
-        setLoadedUsers(responseData.users);
-      } catch (err) {}
+        setLoadedUsers(responseData);
+        console.log(responseData);
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchUsers();
   }, [sendRequest]);

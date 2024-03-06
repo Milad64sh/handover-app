@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import './App.scss';
 import Navbar from './shared/components/navigation/Navbar.jsx';
 
@@ -18,26 +18,19 @@ import UserForms from './user/pages/UserForms.jsx';
 import UpdateWeeklyForm from './places/pages/UpdateWeeklyForm.jsx';
 import Auth from './user/pages/Auth.jsx';
 import { AuthContext } from './shared/context/auth-context.js';
+import useAuth from './shared/hooks/Auth-hook.jsx';
+import NewUser from './user/pages/NewUser.jsx';
 
 function App() {
-  const [token, setToken] = useState(false);
-  const [userId, setUserId] = useState(false);
-
-  const login = useCallback((uid, token) => {
-    setToken(token);
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-  }, []);
-
+  const { token, login, logout, userId, isManager, isAdmin, status } =
+    useAuth();
   let routes;
 
   if (token) {
     routes = (
       <>
+        {isManager && <Route path='/users' element={<Users />} />}
+        {isManager && <Route path='/users/new' element={<NewUser />} />}
         <Route path='/:userId/forms' element={<UserForms />} />
         <Route path='/home' element={<Home />} />
         <Route path='/daily-handover' element={<DailyForm />} />
@@ -53,7 +46,6 @@ function App() {
   } else {
     routes = (
       <>
-        <Route path='/' element={<Users />} />
         <Route path='/home' element={<Home />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/:userId/forms' element={<UserForms />} />
@@ -61,13 +53,15 @@ function App() {
       </>
     );
   }
-
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn: !!token,
         token: token,
         userId: userId,
+        isManager: isManager,
+        isAdmin: isAdmin,
+        status: status,
         login: login,
         logout: logout,
       }}

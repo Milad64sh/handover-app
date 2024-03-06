@@ -383,7 +383,11 @@ const WeeklyForm = () => {
               </div>
             </div>
           </div>
-          <button type='submit' disabled={!formState.isValid}>
+          <button
+            className={styles.container__form__btnWeekly}
+            type='submit'
+            disabled={!formState.isValid}
+          >
             submit
           </button>
         </form>

@@ -61,7 +61,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users/login',
+          'http://localhost:5000/api/auth',
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -69,7 +69,13 @@ const Auth = () => {
           }),
           { 'Content-Type': 'application/json' }
         );
-        auth.login(responseData.userId, responseData.token);
+        auth.login(
+          responseData.userId,
+          responseData.token,
+          responseData.isManager,
+          responseData.isAdmin,
+          responseData.status
+        );
       } catch (err) {
         console.log(err);
       }
@@ -87,7 +93,13 @@ const Auth = () => {
             'Content-Type': 'application/json',
           }
         );
-        auth.login(responseData.userId, responseData.token);
+        auth.login(
+          responseData.userId,
+          responseData.token,
+          responseData.isManager,
+          responseData.isAdmin,
+          responseData.status
+        );
       } catch (err) {
         console.log('formState:', formState);
         console.log(err);
@@ -102,7 +114,9 @@ const Auth = () => {
 
       <Card className={styles.auth}>
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
+        <div className={styles.auth__heading}>
+          <h2>Login Required</h2>
+        </div>
         <form onSubmit={authSubmitHandler} className={styles.auth__form}>
           <div className={styles.auth__form__item}>
             {!isLoginMode && (
@@ -141,11 +155,19 @@ const Auth = () => {
               onInput={inputHandler}
             />
           </div>
-          <button type='submit' disabled={!formState.isValid}>
+          <button
+            className={styles.auth__form__btn}
+            type='submit'
+            disabled={!formState.isValid}
+          >
             {isLoginMode ? 'LOGIN' : 'SIGNUP'}
           </button>
         </form>
-        <button reverse onClick={switchModeHandler}>
+        <button
+          className={styles.auth__form__btn}
+          reverse
+          onClick={switchModeHandler}
+        >
           {isLoginMode ? 'SIGNUP' : 'LOGIN'}
         </button>
       </Card>

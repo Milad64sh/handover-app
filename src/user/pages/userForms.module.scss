@@ -1,0 +1,65 @@
+@import '../../styles/variables.scss';
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  &__handovers {
+    display: block;
+  }
+  &__formList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 4rem;
+    &__daily {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 4rem;
+      &__dailyH2 {
+        width: 90%;
+        margin-bottom: 1rem;
+        border-bottom: 3px solid $--daily-color;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: $--daily-color;
+      }
+    }
+    &__weekly {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 4rem;
+      &__weeklyH2 {
+        width: 90%;
+        margin-bottom: 1rem;
+        border-bottom: 3px solid $--weekly-color;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: $--weekly-color;
+      }
+    }
+    &__monthly {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 4rem;
+      &__monthlyH2 {
+        width: 90%;
+        margin-bottom: 1rem;
+        border-bottom: 3px solid $--monthly-color;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: $--monthly-color;
+      }
+    }
+  }
+}

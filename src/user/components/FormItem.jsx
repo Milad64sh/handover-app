@@ -72,9 +72,6 @@ const FormItem = (props) => {
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
-            <button className={styles.formItem__card__actions__action}>
-              VIEW FORM
-            </button>
             {auth.isLoggedIn && auth.userId === props.creatorId && (
               <>
                 <Link

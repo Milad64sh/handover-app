@@ -2,7 +2,7 @@ import React from 'react';
 
 import UserItem from './UserItem';
 import Card from '../../shared/components/UIElements/Card';
-import './UsersList.css';
+import styles from './users-list.module.scss';
 
 const UsersList = (props) => {
   if (props.items.length === 0) {
@@ -16,13 +16,15 @@ const UsersList = (props) => {
   }
 
   return (
-    <ul className='users-list'>
+    <ul className={styles.usersList}>
       {props.items.map((user) => (
         <UserItem
           key={user.id}
           id={user.id}
           image={user.image}
           name={user.name}
+          roles={user.roles}
+          active={user.active}
           formCount={user.forms.length}
         />
       ))}

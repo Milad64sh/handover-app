@@ -149,7 +149,6 @@ const UpdateWeeklyForm = () => {
 
   const updatedFormSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log('Form State before PATCH:', formState);
     try {
       await sendRequest(
         `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`,
