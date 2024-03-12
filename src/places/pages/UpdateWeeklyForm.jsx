@@ -142,7 +142,9 @@ const UpdateWeeklyForm = () => {
           },
           true
         );
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchForm();
   }, [sendRequest, weeklyFormId, setFormData]);

@@ -23,12 +23,19 @@ const Users = () => {
     };
     fetchUsers();
   }, [sendRequest]);
+  const userDeletedHandler = (deletedUserId) => {
+    setLoadedUsers((prevUsers) =>
+      prevUsers.filter((user) => user.id !== deletedUserId)
+    );
+  };
 
   return (
     <>
       {/* <ErrorModal error={error} onClear={clearError}/> */}
       {isLoading && <LoadingSpinner asOverlay />}
-      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
+      {!isLoading && loadedUsers && (
+        <UsersList items={loadedUsers} onDeleteUser={userDeletedHandler} />
+      )}
     </>
   );
 };

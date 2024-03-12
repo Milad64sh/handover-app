@@ -75,6 +75,8 @@ const WeeklyForm = () => {
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log('Token:', auth.token);
+    console.log('Token:', auth.userId);
     try {
       await sendRequest(
         'http://localhost:5000/api/weekly-handovers',
@@ -100,11 +102,12 @@ const WeeklyForm = () => {
           Authorization: 'Bearer ' + auth.token,
         }
       );
+      console.log(formState);
 
       // redirect user to a different page
       navigate('/home');
     } catch (err) {
-      console.log(err);
+      console.log('error is:', err);
     }
   };
 

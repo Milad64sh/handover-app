@@ -76,8 +76,9 @@ const Auth = () => {
           responseData.isAdmin,
           responseData.status
         );
+        console.log(responseData);
       } catch (err) {
-        console.log(err);
+        console.log('error is:', err);
       }
     } else {
       try {

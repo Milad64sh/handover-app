@@ -80,8 +80,8 @@ export const useAuth = () => {
       login(
         storedData.userId,
         storedData.token,
-        storedData.isManager,
-        storedData.status,
+        // storedData.isManager,
+        // storedData.status,
         new Date(storedData.expiration)
       );
       logoutTimer = setTimeout(logout, remainingTime);

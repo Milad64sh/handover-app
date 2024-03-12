@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import UserItem from './UserItem';
 import Card from '../../shared/components/UIElements/Card';
@@ -20,12 +20,13 @@ const UsersList = (props) => {
       {props.items.map((user) => (
         <UserItem
           key={user.id}
-          id={user.id}
+          id={user._id}
           image={user.image}
           name={user.name}
           roles={user.roles}
           active={user.active}
           formCount={user.forms.length}
+          onDelete={props.onDeleteUser}
         />
       ))}
     </ul>

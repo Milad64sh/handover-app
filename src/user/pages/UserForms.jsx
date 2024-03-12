@@ -32,7 +32,8 @@ const UserForms = () => {
     };
     fetchForms();
   }, [sendRequest, userId]);
-  const placeDeletedHandler = (deletedFormId) => {
+
+  const formDeletedHandler = (deletedFormId) => {
     setLoadedForms((prevForms) =>
       prevForms.filter((form) => form.id !== deletedFormId)
     );
@@ -62,7 +63,7 @@ const UserForms = () => {
               {!isLoading && loadedForms && (
                 <UserListOfForms
                   forms={loadedForms}
-                  onDeleteForm={placeDeletedHandler}
+                  onDeleteForm={formDeletedHandler}
                 />
               )}
             </div>

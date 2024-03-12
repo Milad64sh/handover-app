@@ -8,7 +8,7 @@ const selectReducer = (state, action) => {
     case 'CHANGE':
       return {
         ...state,
-        value: action.val,
+        value: [action.val],
         isValid: validate(action.val, action.validators),
       };
     case 'TOUCH': {
@@ -22,6 +22,15 @@ const selectReducer = (state, action) => {
       return state;
   }
 };
+export const ROLES = {
+  Employee: 'Employee',
+  Manager: 'Manager',
+  Admin: 'Admin',
+};
+export const ACTIVE_OPTIONS = {
+  active: 'Active',
+  inactive: 'Inactive',
+};
 const Select = (props) => {
   const [selectState, dispatch] = useReducer(selectReducer, {
     value: props.initialValue || '',
@@ -29,38 +38,72 @@ const Select = (props) => {
     isTouched: false,
   });
 
-  const { id, onSelect } = props;
-  const { value, isValid } = selectState;
+  const handleChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log('Selected Value:', selectedValue);
 
-  useEffect(() => {
-    props.onSelect(id, value, isValid);
-  }, [id, value, isValid, onSelect]);
-
-  const changeHandler = (event) => {
     dispatch({
       type: 'CHANGE',
-      val: event.target.value,
-      validators: props.validators,
+      val: selectedValue,
+      validators: props.validators || [],
     });
-  };
-  // VALIDATE INPUT ON SUBMIT
-  const touchHandler = () => {
-    dispatch({
-      type: 'TOUCH',
-    });
+    props.onInput(props.id, selectedValue, true);
   };
 
-  const select = props.select === 'select' && (
-    <textarea
-      id={props.id}
-      rows={props.rows || 5}
-      columns={props.column || 30}
-      onChange={changeHandler}
-      onBlur={touchHandler}
-      value={selectState.value}
-    />
+  const handleBlur = () => {
+    dispatch({ type: 'TOUCH' });
+  };
+
+  useEffect(() => {
+    // When the initial value changes, update the state
+    dispatch({
+      type: 'CHANGE',
+      val: props.initialValue || '',
+      validators: props.validators || [],
+    });
+  }, [props.initialValue, props.validators]);
+
+  const options = Object.values(ROLES).map((role) => {
+    return (
+      <option key={role} value={role}>
+        {' '}
+        {role}
+      </option>
+    );
+  });
+  const activeOptions = Object.values(ACTIVE_OPTIONS).map((active) => {
+    return (
+      <option key={active} value={active}>
+        {' '}
+        {active}
+      </option>
+    );
+  });
+
+  return (
+    <div className={styles.container}>
+      <label className={styles.container__authLabel} htmlFor={props.id}>
+        {props.label}
+      </label>
+      <div
+        className={`${styles.container__content}  ${
+          !selectState.isValid && selectState.isTouched && styles.invalid
+        }`}
+      >
+        <select
+          id={props.id}
+          value={selectState.value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        >
+          {props.label === 'Assigned Roles' ? options : activeOptions}
+        </select>
+        {!selectState.isValid && selectState.isTouched && (
+          <p>{props.errorText}</p>
+        )}
+      </div>
+    </div>
   );
-  return <div></div>;
 };
 
 export default Select;

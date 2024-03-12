@@ -1,24 +1,72 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
+import { useHttpClient } from '../../shared/hooks/Http-hook';
+import { AuthContext } from '../../shared/context/auth-context';
 import styles from './UserItem.module.scss';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import { RiEditLine } from 'react-icons/ri';
 
 const UserItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const auth = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+
+  const confirmDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/users/${props.id}`,
+
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token,
+        }
+      );
+      props.onDelete(props.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <li className={styles.userItem}>
         <Card className={styles.userItem__content}>
-          <Link to={`/${props.id}/forms`}>
-            <div className={styles.userItem__info}>
-              <h2>{props.name}</h2>
+          <div className={styles.userItem__content__info}>
+            <h3 className={styles.userItem__content__info__name}>
+              {props.name}
+            </h3>
 
-              <h3>
+            <Link
+              className={styles.userItem__content__info__link}
+              to={`/${props.id}/forms`}
+            >
+              <h3 className={styles.userItem__content__info__forms}>
                 {props.formCount} {props.formCount === 1 ? 'Form' : 'Forms'}
               </h3>
-              <h3>{props.roles}</h3>
-              <h3>{props.active ? 'Active' : 'Inactive'}</h3>
-            </div>
-          </Link>
+            </Link>
+            <h3 className={styles.userItem__content__info__roles}>
+              {props.roles}
+            </h3>
+            <h3 className={styles.userItem__content__info__active}>
+              {props.active ? 'Active' : 'Inactive'}
+            </h3>
+          </div>
+          <div className={styles.userItem__content__actions}>
+            <button
+              onClick={confirmDeleteUser}
+              className={styles.userItem__content__actions__link}
+            >
+              <RiDeleteBin6Line />
+            </button>
+            <Link
+              className={styles.userItem__content__actions__link}
+              to={`/users/${props.id}`}
+            >
+              <RiEditLine />
+            </Link>
+          </div>
         </Card>
       </li>
     </>

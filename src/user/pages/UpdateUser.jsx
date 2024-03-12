@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import {
   VALIDATOR_EMAIL,
@@ -13,15 +13,14 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import Select from '../../shared/components/formElements/Select';
-import {
-  ROLES,
-  ACTIVE_OPTIONS,
-} from '../../shared/components/formElements/Select';
+import { ROLES } from '../../shared/components/formElements/Select';
 
-const NewUser = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+const UpdateUser = () => {
+  const [loadedUser, setLoadedUser] = useState();
   const auth = useContext(AuthContext);
+  const { isLoading, sendRequest } = useHttpClient();
   const navigate = useNavigate();
+  const userId = useParams().userId;
   const [formState, inputHandler, setFormData] = useForm(
     {
       name: {
@@ -29,10 +28,6 @@ const NewUser = () => {
         isValid: false,
       },
       email: {
-        value: '',
-        isValid: false,
-      },
-      password: {
         value: '',
         isValid: false,
       },
@@ -47,81 +42,82 @@ const NewUser = () => {
     },
     false
   );
-  const [isCreateMode, setIsCreateMode] = useState(true);
+  const isCreateMode = !userId; // Assuming userId is falsy for new user creation
 
-  const switchModeHandler = () => {
-    if (!isCreateMode) {
-      setFormData(
-        {
-          ...formState.inputs,
-          name: undefined,
-        },
-        formState.inputs.email.isValid && formState.inputs.password.isValid
-      );
-    } else {
-      setFormData(
-        {
-          ...formState.inputs,
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/users/${userId}`
+        );
+        setLoadedUser(responseData.user);
+        console.log(responseData.user);
+        setFormData({
           name: {
-            value: '',
-            isValid: false,
+            value: responseData.user.name,
+            isValid: true,
           },
-        },
-        false
-      );
-    }
-    setIsCreateMode((prevMode) => !prevMode);
-  };
-  const createNewUserHandler = async (event) => {
+          email: {
+            value: responseData.user.email,
+            isValid: true,
+          },
+          active: {
+            value: responseData.user.active,
+            isValid: true,
+          },
+          roles: {
+            value: responseData.user.roles,
+            isValid: true,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUser();
+  }, [sendRequest, userId, setFormData, isCreateMode]);
+
+  const updateUserSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const responseData = await sendRequest(
-        'http://localhost:5000/api/users',
-        'POST',
+      await sendRequest(
+        `http://localhost:5000/api/users/${userId}`,
+        'POST', // Assuming POST is used for both creating and updating
         JSON.stringify({
           name: formState.inputs.name.value,
           email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
           active: formState.inputs.active.value,
           roles: formState.inputs.roles.value,
         }),
         {
           'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
         }
       );
-      console.log('Response Data:', responseData);
-
-      navigate('/home');
     } catch (err) {
-      console.log('formState:', formState);
-      console.log('error message:', err);
+      console.log(err);
     }
+    navigate('/users');
   };
-  const options = Object.values(ROLES).map((role) => {
-    return (
-      <option key={role} value={role}>
-        {' '}
-        {role}
-      </option>
-    );
-  });
-  const activeOptions = Object.values(ACTIVE_OPTIONS).map((active) => {
-    return (
-      <option key={active} value={active}>
-        {' '}
-        {active}
-      </option>
-    );
-  });
+
+  const options = Object.values(ROLES).map((role) => (
+    <option key={role} value={role}>
+      {role}
+    </option>
+  ));
+
+  if (isLoading) {
+    return <LoadingSpinner asOverlay />;
+  }
 
   return (
-    <>
-      <Card className={styles.auth}>
-        {isLoading && <LoadingSpinner asOverlay />}
-        <div className={styles.auth__heading}>
-          <h2>create new user</h2>
-        </div>
-        <form onSubmit={createNewUserHandler} className={styles.auth__form}>
+    <Card className={styles.auth}>
+      <div className={styles.auth__heading}>
+        <h2>{isCreateMode ? 'Create New User' : 'Edit User'}</h2>
+      </div>
+      {!isLoading && loadedUser && (
+        <form onSubmit={updateUserSubmitHandler} className={styles.auth__form}>
           <div className={styles.auth__form__item}>
             <Input
               element='input'
@@ -132,6 +128,7 @@ const NewUser = () => {
               isWeeklyForm={false}
               errorText='Please enter your name.'
               onInput={inputHandler}
+              initialValue={loadedUser.name}
             />
           </div>
           <div className={styles.auth__form__item}>
@@ -143,6 +140,7 @@ const NewUser = () => {
               validators={[VALIDATOR_EMAIL, VALIDATOR_REQUIRE]}
               errorText='Please enter a valid email address.'
               onInput={inputHandler}
+              initialValue={loadedUser.email}
               isWeeklyForm={false}
             />
           </div>
@@ -153,8 +151,9 @@ const NewUser = () => {
               type='password'
               label='Password'
               validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE]}
-              errorText='Please enter a valid password with at least 8 character.'
+              errorText='Please enter a valid password with at least 8 characters.'
               onInput={inputHandler}
+              initialValue={loadedUser.value}
             />
           </div>
           <div className={styles.auth__form__selectContainer}>
@@ -166,33 +165,20 @@ const NewUser = () => {
               errorText='Please select a role.'
               onInput={inputHandler}
               options={options}
-              initialValue={formState.inputs.roles.value}
-            />
-          </div>
-          <div className={styles.auth__form__selectContainer}>
-            <Select
-              id='active'
-              element='select'
-              type='select'
-              label='Active'
-              errorText='Please select a role.'
-              onInput={inputHandler}
-              options={activeOptions}
-              initialValue={formState.inputs.active.value}
+              initialValue={loadedUser.roles}
             />
           </div>
           <button
             className={styles.auth__form__btn}
             type='submit'
-            disabled={!formState.isValid}
-            onClick={() => console.log('clicked')}
+            // disabled={!formState.isValid}
           >
             {isCreateMode ? 'CREATE USER' : 'EDIT USER'}
           </button>
         </form>
-      </Card>
-    </>
+      )}
+    </Card>
   );
 };
 
-export default NewUser;
+export default UpdateUser;

@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 45%;
+  &__authLabel {
+    flex: 0 0 90%;
+    font-size: 1.15rem;
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 100;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+}
