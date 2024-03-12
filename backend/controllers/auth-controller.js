@@ -5,7 +5,7 @@ const asyncHnadler = require('express-async-handler');
 const HttpError = require('../models/http-error');
 
 const login = asyncHnadler(async (req, res, next) => {
-  const { name, password, email } = req.body;
+  const { password, email } = req.body;
 
   if (!password || !email) {
     return res.status(400).json({ message: 'All fields are required!' });
@@ -20,13 +20,13 @@ const login = asyncHnadler(async (req, res, next) => {
     });
   }
 
-  if (!existingUser) {
-    const error = new HttpError(
-      'name/password does not match, please try again.',
-      403
-    );
-    return next(error);
-  }
+  // if (!existingUser) {
+  //   const error = new HttpError(
+  //     'name/password does not match, please try again.',
+  //     403
+  //   );
+  //   return next(error);
+  // }
 
   const match = await bcrypt.compare(password, existingUser.password);
   if (!match) {
@@ -55,7 +55,6 @@ const login = asyncHnadler(async (req, res, next) => {
     sameSite: 'none',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  // Send back accessToken containing username and roles
   res.json({
     token: accessToken,
     userId: existingUser.id,

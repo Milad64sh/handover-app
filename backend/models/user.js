@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   name: { type: String, required: true },
-  roles: [{ type: String, default: 'Employee' }],
-  active: { type: Boolean, default: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 8 },
   forms: [{ type: mongoose.Types.ObjectId, ref: 'Weekly-handover' }],
+  roles: { type: String, default: 'Employee' },
+  active: { type: Boolean, default: true },
 });
 
 userSchema.plugin(uniqueValidator);

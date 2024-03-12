@@ -13,7 +13,7 @@ const getFormById = async (req, res, next) => {
     form = await Form.findById(formId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find a place.',
+      'Something went wrong, could not find a form.',
       500
     );
     return next(error);
@@ -112,8 +112,6 @@ const createForm = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(user);
-
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -129,7 +127,7 @@ const createForm = async (req, res, next) => {
   res.status(201).json({ form: createdForm });
 };
 
-// PATCH
+// UPDATE FORM
 
 const updateFormById = async (req, res, next) => {
   const errors = validationResult(req);

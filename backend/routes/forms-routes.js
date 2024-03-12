@@ -5,13 +5,13 @@ const checkAuth = require('../middleware/check-auth');
 const verifyJWT = require('../middleware/verify-JWT.JS');
 
 const router = express.Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 router.get('/:formid', formControllers.getFormById);
 
 router.get('/user/:uid', formControllers.getFormsByUserId);
 
-router.use(checkAuth);
+// router.use(checkAuth);
 
 router.post(
   '/',

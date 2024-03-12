@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
@@ -18,10 +19,31 @@ const getAllUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+// GET USER BY ID
+const getUserById = async (req, res, next) => {
+  const userId = req.params.userid;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not find the user.',
+      500
+    );
+    return next(error);
+  }
+  if (!user) {
+    const error = new HttpError('Could not find a form for provided id.');
+    return next(error);
+  }
+  res.json({ user: user.toObject({ getters: true }) });
+};
+
 // NEW USER
 const createNewUser = asyncHandler(async (req, res) => {
-  const { name, password, roles, email } = req.body;
-  if (!name || !email || !password || !Array.isArray(roles) || !roles.length) {
+  const { name, password, roles, email, active } = req.body;
+  if (!name || !email || !password || !roles || active === undefined) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -31,7 +53,13 @@ const createNewUser = asyncHandler(async (req, res) => {
     return res.status(409).json({ message: 'Duplicate username' });
   }
   const hashedPassword = await bcrypt.hash(password, 12);
-  const userObject = { name, email, password: hashedPassword, roles };
+  const userObject = {
+    name,
+    email,
+    password: hashedPassword,
+    roles,
+    active: active === 'Active',
+  };
   const user = await User.create(userObject);
   if (user) {
     res.status(201).json({ message: `New user ${name} created` });
@@ -40,13 +68,101 @@ const createNewUser = asyncHandler(async (req, res) => {
   }
 });
 
+// const createUser = async (req, res, next) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     console.log(errors);
+//     throw new HttpError(
+//       'Invalid inputs passed, please check your inputs.',
+//       422
+//     );
+//   }
+//   const { name, email, password, forms, active, roles } = req.body;
+//   const createdUser = new User({
+//     name,
+//     email,
+//     password,
+//     forms,
+//     active,
+//     roles,
+//   });
+//   let user;
+//   try {
+//     user = await User.findById(email);
+//   } catch (err) {
+//     const error = new HttpError(
+//       'User failed to create, please try again.',
+//       500
+//     );
+//     return next(error);
+//   }
+//   try {
+//     const sess = await mongoose.startSession();
+//     sess.startTransaction();
+//     await createdUser.save({ session: sess });
+//     user.users.push(createdUser);
+//     await user.save({ session: sess });
+//     await sess.commitTransaction();
+//   } catch (err) {
+//     console.log(err);
+//     const error = new HttpError('Creating form failed, please try again.', 500);
+//     return next(error);
+//   }
+//   res.status(201).json({ user: createdUser });
+// };
+
 // UPDATE USER
+const updateUserById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(
+      new HttpError('Invalid inputs passed, please check your inputs.', 422)
+    );
+  }
+  const { name, email, roles, active } = req.body;
+
+  const userId = req.params.userid;
+
+  let user;
+  try {
+    user = await User.findById(userId).exec();
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not update form ',
+      500
+    );
+    return next(error);
+  }
+  // if (user.creator.toString() !== req.userData.userId) {
+  //   const error = new HttpError(
+  //     'You are not allowed to edit this document.',
+  //     401
+  //   );
+  //   return next(error);
+  // }
+  user.name = name;
+  user.email = email;
+  user.roles = roles;
+  user.active = active;
+  try {
+    await user.save();
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not update form ',
+      500
+    );
+    return next(error);
+  }
+  res.status(200).json({ user: user.toObject({ getters: true }) });
+};
 const updateUser = asyncHandler(async (req, res) => {
-  const { id, name, roles, active, password, forms } = req.body;
+  const { name, roles, active, password, forms } = req.body;
 
-  const user = await User.findById(id).exec();
+  const userId = req.params.userid;
+  const user = await User.findById(userId).exec();
 
-  if (!id) {
+  if (!userId) {
     return res.status(400).json({ message: 'User ID is required.' });
   }
   if (name !== undefined) {
@@ -57,7 +173,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.name = name;
   }
 
-  if (roles !== undefined && Array.isArray(roles)) {
+  if (roles !== undefined) {
     user.roles = roles;
   }
 
@@ -93,13 +209,14 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // DELETE USER
-const deleteUser = asyncHandler(async (req, res) => {
-  const { id } = req.body;
-  if (!id) {
+const deleteUser = async (req, res) => {
+  const userid = req.params.userid;
+
+  if (!userid) {
     return res.status(400).json({ message: 'User ID Required.' });
   }
 
-  const user = await User.findById(id).exec();
+  const user = await User.findById(userid).exec();
 
   if (!user) {
     return res.status(400).json({ message: 'User not found.' });
@@ -107,7 +224,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   const reply = `Username ${user.name} with ID ${user._id} deleted.`;
   await user.deleteOne();
   res.json(reply);
-});
+};
 
 // const getUsers = async (req, res, next) => {
 //   let users;
@@ -244,7 +361,10 @@ const login = async (req, res, next) => {
 };
 
 exports.getAllUsers = getAllUsers;
+exports.getUserById = getUserById;
 exports.createNewUser = createNewUser;
+// exports.createUser = createUser;
+exports.updateUserById = updateUserById;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 // exports.getUsers = getUsers;
