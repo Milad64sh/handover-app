@@ -11,7 +11,9 @@ router.get('/:formid', formControllers.getFormById);
 
 router.get('/user/:uid', formControllers.getFormsByUserId);
 
-// router.use(checkAuth);
+router.use(checkAuth);
+
+router.get('/', formControllers.getAllForms);
 
 router.post(
   '/',

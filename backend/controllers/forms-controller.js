@@ -5,6 +5,20 @@ const HttpError = require('../models/http-error');
 const Form = require('../models/form');
 const User = require('../models/user');
 
+const getAllForms = async (req, res, next) => {
+  let allForms;
+  try {
+    allForms = await Form.find().lean();
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not find the user.',
+      500
+    );
+    return next(error);
+  }
+};
+
 const getFormById = async (req, res, next) => {
   const formId = req.params.formid;
   let form;
@@ -214,12 +228,14 @@ const deleteForm = async (req, res, next) => {
     );
     return next(error);
   }
+  console.log(req.userData);
 
   if (form.creator.id !== req.userData.userId) {
     const error = new HttpError(
-      'You are not allowed to delete this document.',
+      `You are not allowed to delete this document. creator id is: ${form.creator.id} and user id is: ${req}`,
       401
     );
+
     return next(error);
   }
 
@@ -247,6 +263,7 @@ const deleteForm = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted Place' });
 };
 
+exports.getAllForms = getAllForms;
 exports.getFormById = getFormById;
 exports.getFormsByUserId = getFormsByUserId;
 exports.createForm = createForm;

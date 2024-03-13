@@ -35,6 +35,7 @@ const login = asyncHnadler(async (req, res, next) => {
 
   const accessToken = jwt.sign(
     {
+      userId: existingUser.id,
       UserInfo: {
         username: existingUser.username,
         roles: existingUser.roles,
