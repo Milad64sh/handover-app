@@ -1,0 +1,27 @@
+@import '../../../styles/variables.scss';
+.errorModal {
+  position: absolute;
+  &__closeBtn {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    top: 1rem;
+    right: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  &__okBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background-color: $--medium-purple;
+    cursor: pointer;
+  }
+}

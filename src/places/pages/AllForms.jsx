@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import UsersList from '../components/UsersList';
-
+import React, { useState, useEffect } from 'react';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
-
-const Users = () => {
+import styles from './allForms.module.scss';
+import FormsList from '../components/FormsList';
+const AllForms = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const [loadedUsers, setLoadedUsers] = useState();
+  const [loadedForms, setLoadedForms] = useState();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users'
+          'http://localhost:5000/api/weekly-handovers'
         );
 
-        setLoadedUsers(responseData);
+        setLoadedForms(responseData);
         console.log(responseData);
       } catch (err) {
         console.log(err);
@@ -24,9 +23,9 @@ const Users = () => {
     };
     fetchUsers();
   }, [sendRequest]);
-  const userDeletedHandler = (deletedUserId) => {
-    setLoadedUsers((prevUsers) =>
-      prevUsers.filter((user) => user.id !== deletedUserId)
+  const formDeletedHandler = (deletedFormId) => {
+    setLoadedForms((prevForms) =>
+      prevForms.filter((form) => form.id !== deletedFormId)
     );
   };
 
@@ -34,11 +33,11 @@ const Users = () => {
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
-      {!isLoading && loadedUsers && (
-        <UsersList items={loadedUsers} onDeleteUser={userDeletedHandler} />
+      {!isLoading && loadedForms && (
+        <FormsList items={loadedForms} onDeleteUser={formDeletedHandler} />
       )}
     </>
   );
 };
 
-export default Users;
+export default AllForms;

@@ -21,6 +21,7 @@ import { AuthContext } from './shared/context/auth-context.js';
 import useAuth from './shared/hooks/Auth-hook.jsx';
 import NewUser from './user/pages/NewUser.jsx';
 import UpdateUser from './user/pages/UpdateUser.jsx';
+import AllForms from './places/pages/AllForms.jsx';
 
 function App() {
   const { token, login, logout, userId, isManager, isAdmin, status } =
@@ -33,6 +34,7 @@ function App() {
         {isManager && <Route path='/users' element={<Users />} />}
         {isManager && <Route path='/users/:userId' element={<UpdateUser />} />}
         {isManager && <Route path='/users/new' element={<NewUser />} />}
+        {isManager && <Route path='/forms' element={<AllForms />} />}
         <Route path='/:userId/forms' element={<UserForms />} />
         <Route path='/home' element={<Home />} />
         <Route path='/daily-handover' element={<DailyForm />} />

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Modal from './Modal';
+import styles from './errorModal.module.scss';
 
 const ErrorModal = (props) => {
   return (
@@ -8,10 +9,17 @@ const ErrorModal = (props) => {
       onCancel={props.onClear}
       header='An Error Occurred!'
       show={!!props.error}
-      footer={<button onClick={props.onClear}>Okay</button>}
+      className={styles.errorModal}
+      footer={
+        <button className={styles.errorModal__okBtn} onClick={props.onClear}>
+          OKAY
+        </button>
+      }
     >
-      <p>{props.error}</p>
-      <button onClick={props.onClear}>close</button>
+      <p className={styles.errorModal__btns}>{props.error}</p>
+      <button className={styles.errorModal__closeBtn} onClick={props.onClear}>
+        X
+      </button>
     </Modal>
   );
 };

@@ -27,7 +27,7 @@ const Navbar = (props) => {
               <div className={styles.container__content__links__item}>
                 <Link
                   className={styles.container__content__links__item__link}
-                  to={'/all-forms'}
+                  to={'/forms'}
                 >
                   All FORMS
                 </Link>
