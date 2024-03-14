@@ -3,7 +3,6 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-
   const activeHttpRequests = useRef([]);
 
   const sendRequest = useCallback(
@@ -33,6 +32,7 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return responseData;
       } catch (err) {
+        console.error('HTTP request error:', err);
         setError(err.message);
         setIsLoading(false);
         throw err;
@@ -47,7 +47,9 @@ export const useHttpClient = () => {
 
   useEffect(() => {
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
+      activeHttpRequests.current = [];
     };
   }, []);
 

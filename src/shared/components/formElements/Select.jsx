@@ -17,6 +17,12 @@ const selectReducer = (state, action) => {
         isTouched: true,
       };
     }
+    case 'TOGGLE_OPTIONS': {
+      return {
+        ...state,
+        showOptions: !state.showOptions,
+      };
+    }
 
     default:
       return state;
@@ -36,6 +42,7 @@ const Select = (props) => {
     value: props.initialValue || '',
     isValid: props.initialValid || false,
     isTouched: false,
+    showOptions: false,
   });
 
   const handleChange = (event) => {
@@ -52,6 +59,10 @@ const Select = (props) => {
 
   const handleBlur = () => {
     dispatch({ type: 'TOUCH' });
+  };
+
+  const toggleOptions = () => {
+    dispatch({ type: 'TOGGLE_OPTIONS' });
   };
 
   useEffect(() => {
@@ -95,7 +106,11 @@ const Select = (props) => {
           value={selectState.value}
           onChange={handleChange}
           onBlur={handleBlur}
+          className={styles.container__content__select}
         >
+          <option value='' disabled hidden>
+            Select an option
+          </option>
           {props.label === 'Assigned Roles' ? options : activeOptions}
         </select>
         {!selectState.isValid && selectState.isTouched && (

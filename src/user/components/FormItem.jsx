@@ -42,7 +42,7 @@ const FormItem = (props) => {
   // const closeModalHandler = () => setShowConfirmModal(false);
   return (
     <>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
@@ -88,26 +88,28 @@ const FormItem = (props) => {
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
-            {auth.isLoggedIn && auth.userId === props.creatorId && (
-              <>
-                <Link
-                  className={styles.formItem__card__actions__link}
-                  to={`/weekly-handovers/${props.id}`}
-                >
-                  <button className={styles.formItem__card__actions__action}>
-                    EDIT
-                  </button>
-                </Link>
-                {auth.isLoggedIn && (
-                  <button
-                    className={styles.formItem__card__actions__action}
-                    onClick={showDeleteWarningHandler}
+            {auth.isLoggedIn &&
+              (auth.userId === props.creatorId || auth.isManager) && (
+                <>
+                  <Link
+                    className={styles.formItem__card__actions__link}
+                    to={`/weekly-handovers/${props.id}`}
                   >
-                    DELETE
-                  </button>
-                )}
-              </>
-            )}
+                    <button className={styles.formItem__card__actions__action}>
+                      EDIT
+                    </button>
+                  </Link>
+                  {auth.isLoggedIn &&
+                    (auth.userId === props.creatorId || auth.isManager) && (
+                      <button
+                        className={styles.formItem__card__actions__action}
+                        onClick={showDeleteWarningHandler}
+                      >
+                        DELETE
+                      </button>
+                    )}
+                </>
+              )}
           </div>
         </Card>
       </li>

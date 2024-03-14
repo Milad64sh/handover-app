@@ -37,11 +37,11 @@ const NewUser = () => {
         isValid: false,
       },
       active: {
-        value: true,
+        value: '',
         isValid: false,
       },
       roles: {
-        value: 'Employee',
+        value: '',
         isValid: false,
       },
     },
@@ -175,7 +175,7 @@ const NewUser = () => {
               element='select'
               type='select'
               label='Active'
-              errorText='Please select a role.'
+              errorText='Please select a status.'
               onInput={inputHandler}
               options={activeOptions}
               initialValue={formState.inputs.active.value}
@@ -185,7 +185,6 @@ const NewUser = () => {
             className={styles.auth__form__btn}
             type='submit'
             disabled={!formState.isValid}
-            onClick={() => console.log('clicked')}
           >
             {isCreateMode ? 'CREATE USER' : 'EDIT USER'}
           </button>

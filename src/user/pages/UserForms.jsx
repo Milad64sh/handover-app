@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import AppContext from '../../appContext';
 
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import Sidebar from '../../places/components/Sidebar';
 
 import styles from '../../places/pages/home.module.scss';
@@ -40,7 +41,7 @@ const UserForms = () => {
   };
   return (
     <>
-      {/* <ErrorModal error={error} onClear={clearError} */}
+      <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner />}
       <div className={styles.container}>
         <div className={styles.sidebar}>

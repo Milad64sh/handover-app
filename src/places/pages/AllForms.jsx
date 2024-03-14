@@ -9,19 +9,19 @@ const AllForms = () => {
   const [loadedForms, setLoadedForms] = useState();
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchForms = async () => {
       try {
         const responseData = await sendRequest(
           'http://localhost:5000/api/weekly-handovers'
         );
 
-        setLoadedForms(responseData);
+        setLoadedForms(responseData.allForms);
         console.log(responseData);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchUsers();
+    fetchForms();
   }, [sendRequest]);
   const formDeletedHandler = (deletedFormId) => {
     setLoadedForms((prevForms) =>
@@ -34,7 +34,7 @@ const AllForms = () => {
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
       {!isLoading && loadedForms && (
-        <FormsList items={loadedForms} onDeleteUser={formDeletedHandler} />
+        <FormsList forms={loadedForms} onDeleteForm={formDeletedHandler} />
       )}
     </>
   );

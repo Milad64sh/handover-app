@@ -4,7 +4,7 @@ import Card from '../../shared/components/UIElements/Card';
 import styles from './formsList.module.scss';
 
 const FormsList = (props) => {
-  if (props.items.length === 0) {
+  if (props.forms.length === 0) {
     return (
       <div className={styles.card}>
         <Card>
@@ -15,14 +15,14 @@ const FormsList = (props) => {
   }
   return (
     <ul className={styles.contentList}>
-      {props.items.map((form) => (
+      {props.forms.map((form) => (
         <FormItem
           key={form.id}
           id={form.id}
           service={form.service}
           week={form.week}
           staff={form.staff}
-          onDelete={props.onDeleteUser}
+          onDelete={props.onDeleteForm}
         />
       ))}
     </ul>
