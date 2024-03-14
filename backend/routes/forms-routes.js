@@ -10,10 +10,9 @@ const router = express.Router();
 router.get('/:formid', formControllers.getFormById);
 
 router.get('/user/:uid', formControllers.getFormsByUserId);
+router.get('/', formControllers.getAllForms);
 
 router.use(checkAuth);
-
-router.get('/', formControllers.getAllForms);
 
 router.post(
   '/',

@@ -17,6 +17,11 @@ const getAllForms = async (req, res, next) => {
     );
     return next(error);
   }
+  if (!allForms || allForms.length === 0) {
+    const error = new HttpError('Could not find any form.', 404);
+    return next(error);
+  }
+  res.json({ allForms: allForms });
 };
 
 const getFormById = async (req, res, next) => {
