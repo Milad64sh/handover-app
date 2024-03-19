@@ -2,39 +2,87 @@ import React, { useState, useEffect } from 'react';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
-import styles from './allForms.module.scss';
 import FormsList from '../components/FormsList';
+import Filters from '../../shared/components/filters/Filters';
+
+export const STAFFOPTIONS = [
+  { label: 'MS', value: 'MS' },
+  { label: 'AA', value: 'AA' },
+  { label: 'AR', value: 'AR' },
+  { label: 'JD', value: 'JD' },
+];
+export const SERVICEOPTIONS = [
+  { label: 'JS', value: 'JS' },
+  { label: 'JB', value: 'JB' },
+  { label: 'SC', value: 'SC' },
+];
+
 const AllForms = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForms, setLoadedForms] = useState();
+  const [staffValue, setStaffValue] = useState([]);
+  const [serviceValue, setServiceValue] = useState([]);
 
-  useEffect(() => {
-    const fetchForms = async () => {
-      try {
-        const responseData = await sendRequest(
-          'http://localhost:5000/api/weekly-handovers'
-        );
-
-        setLoadedForms(responseData.allForms);
-        console.log(responseData);
-      } catch (err) {
-        console.log(err);
+  const fetchForms = async () => {
+    try {
+      const filters = {};
+      if (staffValue.length > 0) {
+        filters.staff = staffValue;
       }
-    };
-    fetchForms();
-  }, [sendRequest]);
+      if (serviceValue.length > 0) {
+        filters.service = serviceValue;
+      }
+      const staffQueryString = staffValue
+        .map((option) => option.value)
+        .join(',');
+      const serviceQueryString = serviceValue
+        .map((option) => option.value)
+        .join(',');
+
+      const url = `http://localhost:5000/api/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}`;
+      const responseData = await sendRequest(url);
+
+      setLoadedForms(responseData.allForms);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFilterChange = (filterType, selectedValue) => {
+    if (filterType === 'staff') {
+      setStaffValue(selectedValue);
+    } else if (filterType === 'service') {
+      setServiceValue(selectedValue);
+    }
+  };
+
   const formDeletedHandler = (deletedFormId) => {
     setLoadedForms((prevForms) =>
       prevForms.filter((form) => form.id !== deletedFormId)
     );
   };
 
+  useEffect(() => {
+    fetchForms();
+  }, [staffValue, serviceValue]);
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
       {!isLoading && loadedForms && (
-        <FormsList forms={loadedForms} onDeleteForm={formDeletedHandler} />
+        <>
+          <Filters
+            staffValue={staffValue}
+            serviceValue={serviceValue}
+            serviceOptions={SERVICEOPTIONS}
+            staffOptions={STAFFOPTIONS}
+            setStaffValue={setStaffValue}
+            setServiceValue={setServiceValue}
+            onFilterChange={handleFilterChange}
+          />
+          <FormsList forms={loadedForms} onDeleteForm={formDeletedHandler} />
+        </>
       )}
     </>
   );

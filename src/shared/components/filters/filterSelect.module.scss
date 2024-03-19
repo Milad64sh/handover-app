@@ -1,0 +1,102 @@
+@import '../../../styles/variables.scss';
+.container {
+  position: relative;
+  width: 80%;
+  min-height: 1.5em;
+  border: 0.05em solid #777;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 0.25em;
+  outline: none;
+  margin-bottom: 1em;
+  &:focus {
+    box-shadow: 0 0 5px #444;
+    border: none;
+  }
+  &__value {
+    flex-grow: 1;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    &__option-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 0.05rem solid $--light-purple;
+      border-radius: 0.25rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 1.05rem;
+      gap: 0.25em;
+      cursor: pointer;
+      background: none;
+      outline: none;
+      &:hover,
+      &:focus {
+        background-color: lighten($--light-purple, 20%);
+        color: #fff;
+      }
+    }
+    &__remove-btn {
+      &:hover,
+      &:focus {
+        color: $--light-purple;
+      }
+    }
+  }
+  &__clear-btn {
+    background-color: transparent;
+    color: #777;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.25rem;
+    &:focus,
+    &:hover {
+      color: #333;
+    }
+  }
+  &__divider {
+    background-color: #777;
+    align-self: stretch;
+    width: 0.05rem;
+  }
+  &__caret {
+    translate: 0 35%;
+    border: 0.45rem solid transparent;
+    border-top-color: #777;
+  }
+  &__options {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: none;
+    max-height: 10rem;
+    overflow-y: auto;
+    border: 0.05em solid #777;
+    border-radius: 0.25em;
+    width: 100%;
+    left: 0;
+    top: calc(100% + 0.35em);
+    background-color: #fff;
+    z-index: 100;
+    &.show {
+      display: block;
+    }
+    &__option {
+      padding: 0.5em 0.5em;
+      cursor: pointer;
+      &.selected {
+        background-color: lighten($--light-purple, 10%);
+        color: #fff;
+      }
+      &.highlighted {
+        background-color: lighten($--light-purple, 30%);
+        color: #fff;
+      }
+    }
+  }
+}

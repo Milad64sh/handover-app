@@ -17,12 +17,6 @@ const selectReducer = (state, action) => {
         isTouched: true,
       };
     }
-    case 'TOGGLE_OPTIONS': {
-      return {
-        ...state,
-        showOptions: !state.showOptions,
-      };
-    }
 
     default:
       return state;
@@ -42,12 +36,10 @@ const Select = (props) => {
     value: props.initialValue || '',
     isValid: props.initialValid || false,
     isTouched: false,
-    showOptions: false,
   });
 
   const handleChange = (event) => {
     const selectedValue = event.target.value;
-    console.log('Selected Value:', selectedValue);
 
     dispatch({
       type: 'CHANGE',
@@ -59,10 +51,6 @@ const Select = (props) => {
 
   const handleBlur = () => {
     dispatch({ type: 'TOUCH' });
-  };
-
-  const toggleOptions = () => {
-    dispatch({ type: 'TOGGLE_OPTIONS' });
   };
 
   useEffect(() => {

@@ -93,7 +93,6 @@ const NewUser = () => {
 
       navigate('/home');
     } catch (err) {
-      console.log('formState:', formState);
       console.log('error message:', err);
     }
   };
