@@ -17,20 +17,23 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      flex: 0 0 20%;
+      flex: 0 0 50%;
       text-decoration: none;
       @media screen and (max-width: 867px) {
         flex: 0 0 40%;
       }
       &__item {
         background-color: transparent;
+        width: 25%;
         border: none;
         letter-spacing: 1px;
         font-size: 1.15rem;
         background-color: $--medium-purple;
         padding: 5px 10px;
         border-radius: 4px;
+        margin-left: 5px;
         color: #fff;
+        text-align: center;
         cursor: pointer;
         &:hover {
           background-color: darken($--medium-purple, 10%);
@@ -38,7 +41,6 @@
         &__link {
           text-decoration: none;
           color: #fff;
-          // font-weight: 100;
         }
       }
     }

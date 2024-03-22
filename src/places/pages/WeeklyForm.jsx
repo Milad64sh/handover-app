@@ -110,6 +110,7 @@ const WeeklyForm = () => {
       console.log('error is:', err);
     }
   };
+  console.log('auth name:', auth);
 
   return (
     <>
@@ -159,6 +160,7 @@ const WeeklyForm = () => {
                 errorText='Please enter a valid name'
                 onInput={inputHandler}
                 isWeeklyForm={true}
+                value={auth.name}
               />
             </div>
           </div>

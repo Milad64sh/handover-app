@@ -9,6 +9,11 @@
     :nth-child(1) {
       border-top-right-radius: 5px;
       box-shadow: 0 2px 4px -2px $--dark-purple;
+      z-index: 4;
+    }
+    :nth-child(2) {
+      box-shadow: 0 2px 4px -2px $--dark-purple;
+      z-index: 3;
     }
 
     &__item {

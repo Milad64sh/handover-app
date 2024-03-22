@@ -74,9 +74,10 @@ const Auth = () => {
           responseData.token,
           responseData.isManager,
           responseData.isAdmin,
-          responseData.status
+          responseData.status,
+          responseData.name
         );
-        console.log(responseData);
+        console.log('responseData:', responseData);
       } catch (err) {
         console.log('error is:', err);
       }
@@ -99,7 +100,8 @@ const Auth = () => {
           responseData.token,
           responseData.isManager,
           responseData.isAdmin,
-          responseData.status
+          responseData.status,
+          responseData.name
         );
       } catch (err) {
         console.log('formState:', formState);

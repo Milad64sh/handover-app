@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 let logoutTimer;
@@ -10,10 +10,11 @@ export const useAuth = () => {
   const [isManager, setIsManager] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState('Employee');
+  const [name, setName] = useState('');
 
-  const login = useCallback((uid, token, expirationDate) => {
+  const login = useCallback((uid, token, name, expirationDate) => {
     const decoded = jwtDecode(token);
-    const { name, roles } = decoded.UserInfo;
+    const { username, roles } = decoded.UserInfo;
     const isManagerValue = roles.includes('Manager');
     const isAdminValue = roles.includes('Admin');
     let statusValue = 'Employee';
@@ -22,21 +23,31 @@ export const useAuth = () => {
 
     setToken(token);
     setUserId(uid);
+    setName(username);
     setIsManager(isManagerValue);
     setIsAdmin(isAdminValue);
     setStatus(statusValue);
 
-    let tokenExpirationDate =
-      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
-    if (!(tokenExpirationDate instanceof Date)) {
-      tokenExpirationDate = new Date(tokenExpirationDate);
+    let tokenExpirationDate;
+    if (expirationDate) {
+      tokenExpirationDate = new Date(expirationDate);
+    } else {
+      tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
     }
+
+    if (isNaN(tokenExpirationDate.getTime())) {
+      // Handle invalid date
+      console.error('Invalid expiration date:', expirationDate);
+      return; // Or throw an error, depending on your logic
+    }
+
     setTokenExpirationDateState(tokenExpirationDate);
 
     localStorage.setItem(
       'userData',
       JSON.stringify({
         userId: uid,
+        name: name,
         isManager: isManagerValue,
         isAdmin: isAdminValue,
         status: statusValue,
@@ -44,7 +55,8 @@ export const useAuth = () => {
         expiration: tokenExpirationDate.toISOString(),
       })
     );
-
+    console.log('decoded:', decoded.UserInfo.name);
+    console.log('local storage userData:', localStorage.token);
     // Perform additional actions after state has been updated
     // This will ensure you have the latest state values
     // Example: console.log('isManagerValue:', isManagerValue);
@@ -56,6 +68,7 @@ export const useAuth = () => {
     setUserId(null);
     setIsAdmin(null);
     setIsManager(null);
+    setName('');
 
     localStorage.removeItem('userData');
   }, []);
@@ -80,7 +93,7 @@ export const useAuth = () => {
       login(
         storedData.userId,
         storedData.token,
-        // storedData.isManager,
+        storedData.name,
         // storedData.status,
         new Date(storedData.expiration)
       );
@@ -88,14 +101,15 @@ export const useAuth = () => {
     } else {
       clearTimeout(logoutTimer);
     }
-  }, [login, logout]);
+    console.log('storedData username', name);
+  }, [login, logout, name]);
 
   return {
-    name: '',
+    name,
     roles: [],
     isAdmin,
     isManager,
-    status: '',
+    status,
     token,
     login,
     logout,
