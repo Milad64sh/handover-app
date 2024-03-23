@@ -2,18 +2,6 @@ import React from 'react';
 import styles from './filters.module.scss';
 import FilterSelect from './FilterSelect';
 
-export const STAFFOPTIONS = [
-  { label: 'MS', value: 'MS' },
-  { label: 'AA', value: 'AA' },
-  { label: 'AR', value: 'AR' },
-  { label: 'JD', value: 'JD' },
-];
-export const SERVICEOPTIONS = [
-  { label: 'JS', value: 'JS' },
-  { label: 'JB', value: 'JB' },
-  { label: 'SC', value: 'SC' },
-];
-
 const Filters = ({
   onFilterChange,
   staffValue,

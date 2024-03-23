@@ -88,25 +88,43 @@ const FormItem = (props) => {
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
+            <div className={styles.formItem__card__actions__action}>
+              <Link
+                className={styles.formItem__card__actions__action__link}
+                to={`/weekly-handovers/${props.id}/view-form`}
+              >
+                <button className={styles.formItem__card__actions__action__btn}>
+                  READ
+                </button>
+              </Link>
+            </div>
             {auth.isLoggedIn &&
               (auth.userId === props.creatorId || auth.isManager) && (
                 <>
-                  <Link
-                    className={styles.formItem__card__actions__link}
-                    to={`/weekly-handovers/${props.id}`}
-                  >
-                    <button className={styles.formItem__card__actions__action}>
-                      EDIT
-                    </button>
-                  </Link>
+                  <div className={styles.formItem__card__actions__action}>
+                    <Link
+                      className={styles.formItem__card__actions__action__link}
+                      to={`/weekly-handovers/${props.id}`}
+                    >
+                      <button
+                        className={styles.formItem__card__actions__action__btn}
+                      >
+                        EDIT
+                      </button>
+                    </Link>
+                  </div>
                   {auth.isLoggedIn &&
                     (auth.userId === props.creatorId || auth.isManager) && (
-                      <button
-                        className={styles.formItem__card__actions__action}
-                        onClick={showDeleteWarningHandler}
-                      >
-                        DELETE
-                      </button>
+                      <div className={styles.formItem__card__actions__action}>
+                        <button
+                          className={
+                            styles.formItem__card__actions__action__deleteBtn
+                          }
+                          onClick={showDeleteWarningHandler}
+                        >
+                          DELETE
+                        </button>
+                      </div>
                     )}
                 </>
               )}

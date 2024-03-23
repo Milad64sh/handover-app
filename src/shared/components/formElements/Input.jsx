@@ -29,12 +29,12 @@ const Input = (props) => {
     isTouched: props.valid || false,
   });
 
-  const { id, onInput } = props;
+  const { id, onInput, disabled } = props;
   const { value, isValid } = inputState;
 
   useEffect(() => {
     props.onInput(id, value, isValid);
-  }, [id, value, isValid, onInput]);
+  }, [id, value, isValid, onInput, disabled]);
 
   const changeHandler = (event) => {
     dispatch({
@@ -58,6 +58,7 @@ const Input = (props) => {
       onBlur={touchHandler}
       value={inputState.value}
       isWeeklyForm={props.isWeeklyForm}
+      disabled={disabled}
     />
   );
   return (

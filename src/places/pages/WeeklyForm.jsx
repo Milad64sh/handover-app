@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
@@ -26,8 +27,8 @@ const WeeklyForm = () => {
       isValid: false,
     },
     staff: {
-      value: '',
-      isValid: false,
+      value: auth.name,
+      isValid: true,
     },
     question_1: {
       value: '',
@@ -75,8 +76,7 @@ const WeeklyForm = () => {
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log('Token:', auth.token);
-    console.log('Token:', auth.userId);
+
     try {
       await sendRequest(
         'http://localhost:5000/api/weekly-handovers',
@@ -84,7 +84,7 @@ const WeeklyForm = () => {
         JSON.stringify({
           service: formState.inputs.service.value,
           week: formState.inputs.week.value,
-          staff: formState.inputs.staff.value,
+          staff: auth.name,
           question_1: formState.inputs.question_1.value,
           question_2: formState.inputs.question_2.value,
           question_3: formState.inputs.question_3.value,
@@ -102,7 +102,6 @@ const WeeklyForm = () => {
           Authorization: 'Bearer ' + auth.token,
         }
       );
-      console.log(formState);
 
       // redirect user to a different page
       navigate('/home');
@@ -110,11 +109,10 @@ const WeeklyForm = () => {
       console.log('error is:', err);
     }
   };
-  console.log('auth name:', auth);
 
   return (
     <>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
+      <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
       <div className={styles.container}>
         <div className={styles.container__title}>
@@ -150,7 +148,7 @@ const WeeklyForm = () => {
                 isWeeklyForm={true}
               />
             </div>
-            <div className={styles.container__form__general__item}>
+            {/* <div className={styles.container__form__general__item}>
               <Input
                 id='staff'
                 element='input'
@@ -160,9 +158,10 @@ const WeeklyForm = () => {
                 errorText='Please enter a valid name'
                 onInput={inputHandler}
                 isWeeklyForm={true}
-                value={auth.name}
+                initialValue={auth.name}
+                disabled={true}
               />
-            </div>
+            </div> */}
           </div>
           {/* MAINTENANCE */}
           <div className={styles.container__form__sectionMain}>

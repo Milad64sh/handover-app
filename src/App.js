@@ -22,9 +22,10 @@ import useAuth from './shared/hooks/Auth-hook.jsx';
 import NewUser from './user/pages/NewUser.jsx';
 import UpdateUser from './user/pages/UpdateUser.jsx';
 import AllForms from './places/pages/AllForms.jsx';
+import ReadWeeklyForm from './places/pages/ReadWeeklyFrom.jsx';
 
 function App() {
-  const { token, login, logout, userId, isManager, isAdmin, status } =
+  const { token, login, logout, userId, isManager, isAdmin, status, name } =
     useAuth();
   let routes;
 
@@ -42,6 +43,10 @@ function App() {
         <Route
           path='/weekly-handovers/:formId'
           element={<UpdateWeeklyForm />}
+        />
+        <Route
+          path='/weekly-handovers/:formId/view-form'
+          element={<ReadWeeklyForm />}
         />
         <Route path='/monthly-handover' element={<MonthlyForm />} />
         <Route path='*' element={<Navigate to='/home' replace />} />
@@ -66,6 +71,7 @@ function App() {
         isManager: isManager,
         isAdmin: isAdmin,
         status: status,
+        name: name,
         login: login,
         logout: logout,
       }}

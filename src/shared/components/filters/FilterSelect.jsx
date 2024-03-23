@@ -67,6 +67,7 @@ const FilterSelect = (props) => {
     };
     containerRef.current?.addEventListener('keydown', handler);
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       containerRef.current?.removeEventListener('keydown', handler);
     };
   }, [isOpen, highlightedIndex, options, selectOption]);

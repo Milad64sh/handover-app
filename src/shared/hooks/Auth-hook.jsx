@@ -55,8 +55,6 @@ export const useAuth = () => {
         expiration: tokenExpirationDate.toISOString(),
       })
     );
-    console.log('decoded:', decoded.UserInfo.name);
-    console.log('local storage userData:', localStorage.token);
     // Perform additional actions after state has been updated
     // This will ensure you have the latest state values
     // Example: console.log('isManagerValue:', isManagerValue);
@@ -101,7 +99,6 @@ export const useAuth = () => {
     } else {
       clearTimeout(logoutTimer);
     }
-    console.log('storedData username', name);
   }, [login, logout, name]);
 
   return {

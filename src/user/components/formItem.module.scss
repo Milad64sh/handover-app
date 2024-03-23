@@ -51,33 +51,44 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-around;
-
       flex: 0 0 20%;
-      button {
-        padding: 10px 15px;
-        letter-spacing: 1px;
-        background-color: green;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        &:hover {
-          background-color: green;
+      &__action {
+        display: flex;
+        flex-direction: row;
+        &__btn {
+          padding: 10px 15px;
+          letter-spacing: 1px;
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+          margin-left: 5px;
+          background-color: $--weekly-color;
+          border: 1px solid $--weekly-color;
+          &:hover {
+            background-color: lighten($--weekly-color, 20%);
+            border: 1px solid lighten($--weekly-color, 20%);
+          }
         }
-      }
-      :nth-child(2) {
-        background-color: red;
-        &:hover {
-          background-color: darken(red, 10%);
+
+        &__link {
+          color: #fff;
+          text-decoration: none;
         }
-      }
-      &__link {
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-        cursor: pointer;
-        &:hover {
-          background-color: lighten($--weekly-color, 20%);
+        &__deleteBtn {
+          background-color: transparent;
+          padding: 10px 15px;
+          letter-spacing: 1px;
+          border: none;
+          border-radius: 4px;
+          color: red;
+          border: 1px solid red;
+          cursor: pointer;
+          margin-left: 5px;
+          &:hover {
+            background-color: red;
+            color: #fff;
+          }
         }
       }
     }

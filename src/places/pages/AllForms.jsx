@@ -20,6 +20,8 @@ export const SERVICEOPTIONS = [
 const AllForms = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForms, setLoadedForms] = useState();
+  const [staffOptions, setStaffOptions] = useState([]);
+  // const [serviceOptions, setServiceOptions] = useState([]);
   const [staffValue, setStaffValue] = useState([]);
   const [serviceValue, setServiceValue] = useState([]);
 
@@ -48,6 +50,25 @@ const AllForms = () => {
     }
   };
 
+  const fetchUsersNames = async () => {
+    try {
+      const responseData = await sendRequest(
+        'http://localhost:5000/api/users/names'
+      );
+      if (!responseData) {
+        throw new Error('Failed to fetch usersNames');
+      }
+      const processedOptions = responseData.map((name) => ({
+        label: name,
+        value: name,
+      }));
+      console.log(processedOptions);
+      setStaffOptions(processedOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleFilterChange = (filterType, selectedValue) => {
     if (filterType === 'staff') {
       setStaffValue(selectedValue);
@@ -63,7 +84,9 @@ const AllForms = () => {
   };
 
   useEffect(() => {
+    fetchUsersNames();
     fetchForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [staffValue, serviceValue]);
 
   return (
@@ -76,7 +99,7 @@ const AllForms = () => {
             staffValue={staffValue}
             serviceValue={serviceValue}
             serviceOptions={SERVICEOPTIONS}
-            staffOptions={STAFFOPTIONS}
+            staffOptions={staffOptions}
             setStaffValue={setStaffValue}
             setServiceValue={setServiceValue}
             onFilterChange={handleFilterChange}

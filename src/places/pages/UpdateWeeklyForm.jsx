@@ -31,8 +31,8 @@ const UpdateWeeklyForm = () => {
         isValid: false,
       },
       staff: {
-        value: '',
-        isValid: false,
+        value: auth.name,
+        isValid: true,
       },
       question_1: {
         value: '',
@@ -96,7 +96,7 @@ const UpdateWeeklyForm = () => {
               isValid: true,
             },
             staff: {
-              value: responseData.form.staff,
+              value: auth.name,
               isValid: true,
             },
             question_1: {
@@ -147,7 +147,7 @@ const UpdateWeeklyForm = () => {
       }
     };
     fetchForm();
-  }, [sendRequest, weeklyFormId, setFormData]);
+  }, [sendRequest, weeklyFormId, setFormData, auth.name]);
 
   const updatedFormSubmitHandler = async (event) => {
     event.preventDefault();
@@ -158,7 +158,7 @@ const UpdateWeeklyForm = () => {
         JSON.stringify({
           service: formState.inputs.service.value,
           week: formState.inputs.week.value,
-          staff: formState.inputs.staff.value,
+          staff: auth.name,
           question_1: formState.inputs.question_1.value,
           question_2: formState.inputs.question_2.value,
           question_3: formState.inputs.question_3.value,
@@ -190,7 +190,7 @@ const UpdateWeeklyForm = () => {
 
   return (
     <>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
+      <ErrorModal error={error} onClear={clearError} />
       <div className={styles.container}>
         <div className={styles.container__title}>
           <h2>weekly checks</h2>
@@ -227,7 +227,7 @@ const UpdateWeeklyForm = () => {
                   initialValid={true}
                 />
               </div>
-              <div className={styles.container__form__general__item}>
+              {/* <div className={styles.container__form__general__item}>
                 <Input
                   id='staff'
                   element='input'
@@ -236,10 +236,11 @@ const UpdateWeeklyForm = () => {
                   validators={[VALIDATOR_REQUIRE()]}
                   errorText='Please enter a valid name'
                   onInput={inputHandler}
-                  initialValue={loadedForm.staff}
+                  initialValue={auth.name}
+                  disabled={true}
                   initialValid={true}
                 />
-              </div>
+              </div> */}
             </div>
             {/* MAINTENANCE */}
             <div className={styles.container__form__sectionMain}>
@@ -485,7 +486,11 @@ const UpdateWeeklyForm = () => {
                 </div>
               </div>
             </div>
-            <button type='submit' disabled={!formState.isValid}>
+            <button
+              className={styles.container__form__btnWeekly}
+              type='submit'
+              disabled={!formState.isValid}
+            >
               UPDATE FORM
             </button>
           </form>
