@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
+import html2pdf from 'html2pdf.js';
 import { useParams } from 'react-router-dom';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
@@ -14,7 +14,6 @@ const ReadWeeklyForm = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForm, setLoadedForm] = useState();
   const weeklyFormId = useParams().formId;
-
   const [formState, setFormData] = useForm(
     {
       service: {
@@ -151,58 +150,228 @@ const ReadWeeklyForm = () => {
     return <h2>Could not find form!</h2>;
   }
 
+  // const generateAndDownloadPDF = () => {
+  //   const container = document.querySelector(`.${styles.container}`);
+  //   const pdfWidth = 210;
+  //   const pdfHeight = 297;
+
+  //   html2canvas(container).then((canvas) => {
+  //     const imgData = canvas.toDataURL('image/png');
+  //     const pdf = new jsPDF({
+  //       orientation: 'portrait',
+  //       unit: 'mm',
+  //       format: 'a4',
+  //     });
+  //     const imgProps = pdf.getImageProperties(imgData);
+  //     const scaleX = pdfWidth / imgProps.width;
+  //     const scaleY = pdfHeight / imgProps.height;
+  //     const scale = Math.min(scaleX, scaleY);
+  //     let yPos = 0;
+  //     let remainingHeight = imgProps.height * scale;
+  //     while (remainingHeight > 0) {
+  //       const pageHeight = Math.min(remainingHeight, pdfHeight);
+  //       pdf.addImage(imgData, 'PNG', 0, yPos, pdfWidth, pageHeight);
+  //       yPos -= pdfHeight;
+  //       if (remainingHeight > pdfHeight) {
+  //         pdf.addPage();
+  //       }
+  //       remainingHeight -= pdfHeight;
+  //     }
+  //     const fileName = 'weekly_form.pdf';
+  //     pdf.save(fileName);
+  //   });
+  // };
+
   const generateAndDownloadPDF = () => {
-    const container = document.querySelector(`.${styles.container}`);
-    const dpi = 300;
-    html2canvas(container, { dpi: dpi }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const componentWidth = pdf.internal.pageSize.getWidth();
-      const componentHeight = pdf.internal.pageSize.getHeight();
-      pdf.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
-      const fileName = 'weekly_form.pdf';
-      pdf.save(fileName);
-    });
+    const element = document.querySelector(`.${styles.container}`);
+    const opt = {
+      margin: 1,
+      filename: 'weekly_form.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   };
 
+  const containerTitleStyle = {
+    textAlign: 'center',
+    fontFamily: 'inherit',
+    textTransform: 'uppercase',
+    padding: '10px 0 20px 0',
+    color: '#1d1d79',
+  };
+  const form = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid #aaa9a9',
+    borderRadius: '10px',
+    width: '90%',
+    marginBottom: '3rem',
+  };
+  const general = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start',
+    paddingLeft: '20px',
+    paddingTop: '20px',
+    paddingBottom: '20px',
+    width: '100%',
+    borderBottom: '1px solid #aaa9a9',
+    backgroundColor: 'none',
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px',
+  };
+  const item = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'start',
+    width: '100%',
+    padding: '5px 0',
+  };
+  const label = {
+    flex: '0 0 15%',
+    fontSize: '1.15rem',
+    fontWeight: '400',
+    textTransform: 'capitalize',
+    letterSpacing: '1px',
+    color: '#1d1d79',
+  };
+  const input = {
+    padding: '10px 10px',
+    flex: '0 0 80%',
+    borderRadius: '4px',
+    border: 'none',
+    outline: 'none',
+  };
+  const sectionMain = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
+    border: '1px solid #aaa9a9',
+    borderRadius: '10px',
+    margin: '20px 0',
+  };
+  const sectionMainTitle = {
+    textTransform: 'uppercase',
+    color: '#1d1d79',
+    padding: '10px 0',
+  };
+  const sectionMainQuestions = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  };
+  const sectionMainSection = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  };
+  const sectionMainSectionTitle = {
+    borderBottom: '1px solid #aaa9a9',
+    width: '90%',
+    padding: '5px 0',
+    color: '#1d1d79',
+    textTransform: 'capitalize',
+  };
+  const sectionMainSectionQuesiton = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '90%',
+  };
+  const sectionMainSectionQuesitonLabel = {
+    padding: '10px 0',
+  };
   return (
-    <>
+    <div className={styles.wrapper}>
       <ErrorModal error={error} onClear={clearError} />
-      <div className={styles.container}>
-        <div className={styles.container__title}>
+      <div style={containerStyle} className={styles.container}>
+        <div style={containerTitleStyle} className={styles.container__title}>
           <h2>weekly checks Form</h2>
         </div>
         {!isLoading && loadedForm && (
-          <div className={styles.container__form}>
-            <div className={styles.container__form__general}>
-              <div className={styles.container__form__general__item}>
-                <div className={styles.container__form__general__item__label}>
+          <div style={form} className={styles.container__form}>
+            <div style={general} className={styles.container__form__general}>
+              <div
+                style={item}
+                className={styles.container__form__general__item}
+              >
+                <div
+                  style={label}
+                  className={styles.container__form__general__item__label}
+                >
                   Service:
                 </div>
-                <div className={styles.container__form__general__item__input}>
+                <div
+                  style={input}
+                  className={styles.container__form__general__item__input}
+                >
                   {loadedForm.service}
                 </div>
               </div>
-              <div className={styles.container__form__general__item}>
-                <div className={styles.container__form__general__item__label}>
+              <div
+                style={item}
+                className={styles.container__form__general__item}
+              >
+                <div
+                  style={label}
+                  className={styles.container__form__general__item__label}
+                >
                   Date:
                 </div>
-                <div className={styles.container__form__general__item__input}>
+                <div
+                  style={input}
+                  className={styles.container__form__general__item__input}
+                >
                   {loadedForm.week}
                 </div>
               </div>
-              <div className={styles.container__form__general__item}>
-                <div className={styles.container__form__general__item__label}>
+              <div
+                style={item}
+                className={styles.container__form__general__item}
+              >
+                <div
+                  style={label}
+                  className={styles.container__form__general__item__label}
+                >
                   Staff:
                 </div>
-                <div className={styles.container__form__general__item__input}>
+                <div
+                  style={input}
+                  className={styles.container__form__general__item__input}
+                >
                   {auth.name}
                 </div>
               </div>
             </div>
             {/* MAINTENANCE */}
-            <div className={styles.container__form__sectionMain}>
-              <div className={styles.container__form__sectionMain__title}>
+            <div
+              style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainTitle}
+                className={styles.container__form__sectionMain__title}
+              >
                 <h3>maintenance reports</h3>
               </div>
               <div className={styles.container__form__sectionMain__questions}>
@@ -543,7 +712,7 @@ const ReadWeeklyForm = () => {
           DOWNLOAD FORM
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
