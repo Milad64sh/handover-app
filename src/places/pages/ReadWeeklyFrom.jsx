@@ -185,7 +185,7 @@ const ReadWeeklyForm = () => {
   const generateAndDownloadPDF = () => {
     const element = document.querySelector(`.${styles.container}`);
     const opt = {
-      margin: 1,
+      margin: 0.5,
       filename: 'weekly_form.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
@@ -297,9 +297,15 @@ const ReadWeeklyForm = () => {
     flexDirection: 'column',
     justifyContent: 'center',
     width: '90%',
+    marginBottom: '5px',
   };
   const sectionMainSectionQuesitonLabel = {
     padding: '10px 0',
+  };
+  const sectionMainTextarea = {
+    borderRadius: '5px',
+    padding: '20px 5px',
+    border: '1px solid #aaa9a9',
   };
   return (
     <div className={styles.wrapper}>
@@ -374,13 +380,18 @@ const ReadWeeklyForm = () => {
               >
                 <h3>maintenance reports</h3>
               </div>
-              <div className={styles.container__form__sectionMain__questions}>
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -391,11 +402,13 @@ const ReadWeeklyForm = () => {
                     </h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -404,6 +417,7 @@ const ReadWeeklyForm = () => {
                       maintenance reports?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -412,11 +426,13 @@ const ReadWeeklyForm = () => {
                     </div>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -425,6 +441,7 @@ const ReadWeeklyForm = () => {
                       service?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -434,11 +451,13 @@ const ReadWeeklyForm = () => {
                   </div>
                 </div>
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -446,11 +465,13 @@ const ReadWeeklyForm = () => {
                     <h3>Exterior Property</h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -458,6 +479,7 @@ const ReadWeeklyForm = () => {
                       Is the exterior of the property in good order?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -466,11 +488,13 @@ const ReadWeeklyForm = () => {
                     </div>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -478,6 +502,7 @@ const ReadWeeklyForm = () => {
                       Is the exterior of the property in good order?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -486,11 +511,13 @@ const ReadWeeklyForm = () => {
                     </div>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -499,6 +526,7 @@ const ReadWeeklyForm = () => {
                       house and garden? Have these been reported?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -511,17 +539,28 @@ const ReadWeeklyForm = () => {
             </div>
 
             {/* FINANCE */}
-            <div className={styles.container__form__sectionMain}>
-              <div className={styles.container__form__sectionMain__title}>
+            <div
+              style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainTitle}
+                className={styles.container__form__sectionMain__title}
+              >
                 <h3>finance checks</h3>
               </div>
-              <div className={styles.container__form__sectionMain__questions}>
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -529,11 +568,13 @@ const ReadWeeklyForm = () => {
                     <h3>Reg 13 Safeguarding</h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -541,6 +582,7 @@ const ReadWeeklyForm = () => {
                       Have receipts been scanned for the previous week?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -553,17 +595,28 @@ const ReadWeeklyForm = () => {
             </div>
 
             {/* INFECTION */}
-            <div className={styles.container__form__sectionMain}>
-              <div className={styles.container__form__sectionMain__title}>
+            <div
+              style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainTitle}
+                className={styles.container__form__sectionMain__title}
+              >
                 <h3>infection control</h3>
               </div>
-              <div className={styles.container__form__sectionMain__questions}>
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -571,11 +624,13 @@ const ReadWeeklyForm = () => {
                     <h3>Reg 15 premises and equipment</h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -585,6 +640,7 @@ const ReadWeeklyForm = () => {
                       and recycling? when was this checked and by who?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -593,11 +649,13 @@ const ReadWeeklyForm = () => {
                     </div>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -606,6 +664,7 @@ const ReadWeeklyForm = () => {
                       sanitiser?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -618,17 +677,28 @@ const ReadWeeklyForm = () => {
             </div>
 
             {/* TASK */}
-            <div className={styles.container__form__sectionMain}>
-              <div className={styles.container__form__sectionMain__title}>
+            <div
+              style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainTitle}
+                className={styles.container__form__sectionMain__title}
+              >
                 <h3>task</h3>
               </div>
-              <div className={styles.container__form__sectionMain__questions}>
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -636,11 +706,13 @@ const ReadWeeklyForm = () => {
                     <h3>Reg 12 Safeguarding</h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -648,6 +720,7 @@ const ReadWeeklyForm = () => {
                       First aid box checked?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
@@ -660,17 +733,28 @@ const ReadWeeklyForm = () => {
             </div>
 
             {/* TASK */}
-            <div className={styles.container__form__sectionMain}>
-              <div className={styles.container__form__sectionMain__title}>
+            <div
+              style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainTitle}
+                className={styles.container__form__sectionMain__title}
+              >
                 <h3>task</h3>
               </div>
-              <div className={styles.container__form__sectionMain__questions}>
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
                 <div
+                  style={sectionMainSection}
                   className={
                     styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
+                    sectionMainSectionTitle
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
@@ -678,11 +762,13 @@ const ReadWeeklyForm = () => {
                     <h3>Reg 15 Premises and equipment</h3>
                   </div>
                   <div
+                    style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
                     }
                   >
                     <div
+                      sectionMainSectionQuesitonLabel
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
@@ -690,6 +776,7 @@ const ReadWeeklyForm = () => {
                       Fire alarms and carbon monoxide alarms checked?
                     </div>
                     <div
+                      style={sectionMainTextarea}
                       className={
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
