@@ -10,14 +10,16 @@ const Filters = ({
   staffOptions,
   setStaffValue,
   setServiceValue,
+  openFilters,
 }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.container__heading}>
-          <h3>filters</h3>
-        </div>
-        <div className={styles.container__filters}>
+        <div
+          className={`${styles.container__filters} ${
+            openFilters ? styles.show : ''
+          }`}
+        >
           <div className={styles.container__filters__item}>
             <div className={styles.container__filters__item__label}>
               Search by Staff:
@@ -38,7 +40,7 @@ const Filters = ({
           </div>
           <div className={styles.container__filters__item}>
             <div className={styles.container__filters__item__label}>
-              Search by Service name:
+              Search by Service:
             </div>
             <div className={styles.container__filters__item__filter}>
               <FilterSelect

@@ -40,6 +40,7 @@ const FormItem = (props) => {
   };
   // const openModalHandler = () => setShowConfirmModal(true);
   // const closeModalHandler = () => setShowConfirmModal(false);
+  // console.log('in form item comp:', props);
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -107,6 +108,10 @@ const FormItem = (props) => {
                       to={`/weekly-handovers/${props.id}`}
                     >
                       <button
+                        onClick={() => {
+                          console.log(props.creator);
+                          console.log(props);
+                        }}
                         className={styles.formItem__card__actions__action__btn}
                       >
                         EDIT

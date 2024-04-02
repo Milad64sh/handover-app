@@ -5,6 +5,8 @@
   flex-direction: column;
   &__handovers {
     display: block;
+    width: 70%;
+    margin: 0 auto;
   }
   &__formList {
     display: flex;

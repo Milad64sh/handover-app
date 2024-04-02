@@ -8,24 +8,30 @@ const FormsList = (props) => {
     return (
       <div className={styles.card}>
         <Card>
-          <h2>No users found.</h2>
+          <h2>No Form found.</h2>
         </Card>
       </div>
     );
   }
+
   return (
-    <ul className={styles.contentList}>
-      {props.forms.map((form) => (
-        <FormItem
-          key={form.id}
-          id={form.id}
-          service={form.service}
-          week={form.week}
-          staff={form.staff}
-          onDelete={props.onDeleteForm}
-        />
-      ))}
-    </ul>
+    <>
+      <div className={styles.container}>
+        <ul className={styles.container__contentList}>
+          {props.forms.map((form) => (
+            <FormItem
+              key={form.id}
+              id={form.id}
+              creator={form.creator}
+              service={form.service}
+              week={form.week}
+              staff={form.staff}
+              onDelete={props.onDeleteForm}
+            />
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

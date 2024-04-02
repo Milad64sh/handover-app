@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
+import Modal from '../../shared/components/UIElements/Modal';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import styles from './UserItem.module.scss';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { RiEditLine } from 'react-icons/ri';
@@ -10,14 +13,20 @@ import { RiEditLine } from 'react-icons/ri';
 const UserItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+  const cancelDeleteUser = () => {
+    setShowConfirmModal(false);
+  };
 
   const confirmDeleteUser = async () => {
-    setShowModal(false);
+    setShowConfirmModal(false);
     try {
       await sendRequest(
         `http://localhost:5000/api/users/${props.id}`,
-
         'DELETE',
         null,
         {
@@ -31,6 +40,39 @@ const UserItem = (props) => {
   };
   return (
     <>
+      {isLoading && <LoadingSpinner asOverlay />}
+      <ErrorModal error={error} onClear={clearError} />
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteUser}
+        header='Are you sure?'
+        contentClass={styles.userItem__modalContent}
+        footerClass={styles.userItem__modalActions}
+        footer={
+          <>
+            <div className={styles.userItem__modalActions__modalBtns}>
+              <button
+                className={styles.userItem__modalActions__modalBtns__btn}
+                inverse
+                onClick={cancelDeleteUser}
+              >
+                CANCEL
+              </button>
+              <button
+                className={styles.userItem__modalActions__modalBtns__btn}
+                danger
+                onClick={confirmDeleteUser}
+              >
+                DELETE
+              </button>
+            </div>
+          </>
+        }
+      >
+        <p className={styles.userItem__modalActions__p}>
+          Do you want to delete this form?
+        </p>
+      </Modal>
       <li className={styles.userItem}>
         <Card className={styles.userItem__content}>
           <div className={styles.userItem__content__info}>
@@ -55,7 +97,7 @@ const UserItem = (props) => {
           </div>
           <div className={styles.userItem__content__actions}>
             <button
-              onClick={confirmDeleteUser}
+              onClick={showDeleteWarningHandler}
               className={styles.userItem__content__actions__link}
             >
               <RiDeleteBin6Line />

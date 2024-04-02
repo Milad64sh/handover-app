@@ -365,7 +365,7 @@ const ReadWeeklyForm = () => {
                   style={input}
                   className={styles.container__form__general__item__input}
                 >
-                  {auth.name}
+                  {loadedForm.staff}
                 </div>
               </div>
             </div>

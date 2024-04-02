@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+.container {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 0;
+  button {
+    padding: 7px 15px;
+    border: none;
+    background-color: $--medium-purple;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-right: 3px;
+    button:last-child {
+      margin-right: 0;
+    }
+    cursor: pointer;
+    &:disabled {
+      background-color: lighten($--medium-purple, 20%);
+      cursor: default;
+    }
+  }
+}

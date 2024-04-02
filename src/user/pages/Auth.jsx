@@ -77,7 +77,7 @@ const Auth = () => {
           responseData.status,
           responseData.name
         );
-        console.log('responseData:', responseData);
+        // console.log('responseData:', responseData);
       } catch (err) {
         console.log('error is:', err);
       }
@@ -90,6 +90,9 @@ const Auth = () => {
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
+            isManager: false,
+            isAdmin: false,
+            status: 'Employee',
           }),
           {
             'Content-Type': 'application/json',
@@ -98,9 +101,9 @@ const Auth = () => {
         auth.login(
           responseData.userId,
           responseData.token,
-          responseData.isManager,
-          responseData.isAdmin,
-          responseData.status,
+          false,
+          false,
+          'Employee',
           responseData.name
         );
       } catch (err) {

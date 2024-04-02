@@ -26,7 +26,8 @@ const UserForms = () => {
           `http://localhost:5000/api/weekly-handovers/user/${userId}`
         );
         setLoadedForms(responseData.forms);
-        console.log(responseData);
+        console.log(responseData.forms);
+        console.log(userId);
       } catch (err) {
         console.log(err);
       }
@@ -48,8 +49,9 @@ const UserForms = () => {
           <Sidebar />
         </div>
         <div className={userStyles.container}>
-          <div className={userStyles.container__handovers}></div>
-          {openItem ? <Handovers /> : ''}
+          <div className={userStyles.container__handovers}>
+            {openItem ? <Handovers /> : ''}
+          </div>
 
           <div className={userStyles.container__formList}>
             <div className={userStyles.container__formList__daily}>

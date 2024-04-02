@@ -8,20 +8,22 @@
   justify-content: center;
   width: 100%;
   border-bottom: 1px solid #777;
-  &__heading {
-    text-transform: uppercase;
-  }
   &__filters {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: all 0.3s ease-in-out;
+    &.show {
+      display: flex;
+    }
     &__item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
+
       &__label {
         flex: 0 0 30%;
         font-size: 1.15rem;

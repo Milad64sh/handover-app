@@ -17,10 +17,15 @@ const Home = () => {
           </div>
         )}
         <div className={styles.hero}>
-          <div className={styles.hero__title}>
-            <h2>welcome to jigsaw team portal</h2>
-          </div>
-          {openItem ? <Handovers /> : ''}
+          {openItem ? (
+            <div className={styles.hero__handovers}>
+              <Handovers />
+            </div>
+          ) : (
+            <div className={styles.hero__title}>
+              <h2>welcome to jigsaw team portal</h2>
+            </div>
+          )}
         </div>
       </div>
     </>

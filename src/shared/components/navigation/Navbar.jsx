@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-context';
 import styles from './navbar.module.scss';
 
@@ -9,57 +9,66 @@ const Navbar = (props) => {
     <div className={styles.container}>
       <div className={styles.container__content}>
         <div className={styles.container__content__logo}>
-          <Link className={styles.container__content__logo__link} to={'/home'}>
+          <NavLink
+            className={styles.container__content__logo__link}
+            to={'/home'}
+            activeClassName={styles.active}
+          >
             jigsaw creative care
-          </Link>
+          </NavLink>
         </div>
         <div className={styles.container__content__links}>
           {auth.isLoggedIn && auth.isManager && (
             <>
               <div className={styles.container__content__links__item}>
-                <Link
+                <NavLink
                   className={styles.container__content__links__item__link}
                   to={'/users'}
+                  activeClassName={styles.active}
                 >
                   USERS
-                </Link>
+                </NavLink>
               </div>
               <div className={styles.container__content__links__item}>
-                <Link
+                <NavLink
                   className={styles.container__content__links__item__link}
-                  to={'/forms'}
+                  to={'/all-forms'}
+                  activeClassName={styles.active}
                 >
                   All FORMS
-                </Link>
+                </NavLink>
               </div>
               <div className={styles.container__content__links__item}>
-                <Link
+                <NavLink
                   className={styles.container__content__links__item__link}
                   to={'/users/new'}
+                  activeClassName={styles.active}
                 >
                   NEW USER
-                </Link>
+                </NavLink>
               </div>
             </>
           )}
           {auth.isLoggedIn && (
             <div className={styles.container__content__links__item}>
-              <Link
+              <NavLink
                 className={styles.container__content__links__item__link}
                 to={`${auth.userId}/forms`}
+                activeClassName={styles.active}
               >
                 MY FORMS
-              </Link>
+              </NavLink>
             </div>
           )}
           {!auth.isLoggedIn && (
             <div className={styles.container__content__links__item}>
-              <Link
+              <NavLink
                 className={styles.container__content__links__item__link}
                 to={'/auth'}
+                activeClassName={styles.active}
               >
                 LOGIN
-              </Link>
+              </NavLink>
             </div>
           )}
           {auth.isLoggedIn && (

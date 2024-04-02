@@ -38,9 +38,13 @@
         &:hover {
           background-color: darken($--medium-purple, 10%);
         }
+
         &__link {
           text-decoration: none;
           color: #fff;
+          &.active {
+            background-color: darken($--medium-purple, 10%);
+          }
         }
       }
     }
@@ -49,7 +53,12 @@
       font-weight: 700;
       font-size: 1.25rem;
       &__link {
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
+        span {
+          padding: 0;
+        }
       }
     }
   }

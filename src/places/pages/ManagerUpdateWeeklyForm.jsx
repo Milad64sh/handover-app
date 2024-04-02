@@ -10,15 +10,14 @@ import {
 import Input from '../../shared/components/formElements/Input';
 import Textarea from '../../shared/components/formElements/Textarea';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import Card from '../../shared/components/UIElements/Card';
 import styles from './weeklyForm.module.scss';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
-const UpdateWeeklyForm = () => {
+const ManagerUpdateWeeklyForm = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForm, setLoadedForm] = useState();
-  const weeklyFormId = useParams().formId;
+  const weeklyFormCreator = useParams().creator;
 
   const navigate = useNavigate();
   const [formState, inputHandler, setFormData] = useForm(
@@ -83,7 +82,7 @@ const UpdateWeeklyForm = () => {
     const fetchForm = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`
+          `http://localhost:5000/api/weekly-handovers/manager/${weeklyFormCreator}`
         );
 
         setLoadedForm(responseData.form);
@@ -150,13 +149,13 @@ const UpdateWeeklyForm = () => {
       }
     };
     fetchForm();
-  }, [sendRequest, weeklyFormId, setFormData, auth.name]);
+  }, [sendRequest, weeklyFormCreator, setFormData, auth.name]);
 
   const updatedFormSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`,
+        `http://localhost:5000/api/weekly-handovers/${weeklyFormCreator}`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
@@ -188,17 +187,7 @@ const UpdateWeeklyForm = () => {
     return <LoadingSpinner asOverlay />;
   }
   if (!loadedForm && !error) {
-    return (
-      <>
-        <div className={styles.noContent}>
-          <div className={styles.noContent__content}>
-            <Card>
-              <h2>Could not find form!</h2>
-            </Card>
-          </div>
-        </div>
-      </>
-    );
+    return <h2>Could not find form!</h2>;
   }
 
   return (
@@ -240,6 +229,20 @@ const UpdateWeeklyForm = () => {
                   initialValid={true}
                 />
               </div>
+              {/* <div className={styles.container__form__general__item}>
+                <Input
+                  id='staff'
+                  element='input'
+                  type='text'
+                  label='Staff'
+                  validators={[VALIDATOR_REQUIRE()]}
+                  errorText='Please enter a valid name'
+                  onInput={inputHandler}
+                  initialValue={auth.name}
+                  disabled={true}
+                  initialValid={true}
+                />
+              </div> */}
             </div>
             {/* MAINTENANCE */}
             <div className={styles.container__form__sectionMain}>
@@ -499,4 +502,4 @@ const UpdateWeeklyForm = () => {
   );
 };
 
-export default UpdateWeeklyForm;
+export default ManagerUpdateWeeklyForm;

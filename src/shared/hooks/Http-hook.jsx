@@ -33,7 +33,7 @@ export const useHttpClient = () => {
         return responseData;
       } catch (err) {
         console.error('HTTP request error:', err);
-        if (err instanceof DOMException && err.name === 'AbortError') {
+        if (err.name === 'AbortError') {
           console.log('Request was aborted, ignoring the error.');
         } else {
           setError(err.message);
@@ -53,7 +53,7 @@ export const useHttpClient = () => {
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
-      activeHttpRequests.current = [];
+      // activeHttpRequests.current = [];
     };
   }, []);
 

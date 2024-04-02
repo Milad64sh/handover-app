@@ -14,10 +14,11 @@ export const useAuth = () => {
 
   const login = useCallback((uid, token, name, expirationDate) => {
     const decoded = jwtDecode(token);
-    const { username, roles } = decoded.UserInfo;
-    const isManagerValue = roles.includes('Manager');
-    const isAdminValue = roles.includes('Admin');
-    let statusValue = 'Employee';
+    const { username, roles, isAdmin, isManager, status } =
+      decoded.UserInfo || {};
+    const isManagerValue = roles ? roles.includes('Manager') : false;
+    const isAdminValue = roles ? roles.includes('Admin') : false;
+    let statusValue = status || 'Employee';
     if (isManagerValue) statusValue = 'Manager';
     if (isAdminValue) statusValue = 'Admin';
 

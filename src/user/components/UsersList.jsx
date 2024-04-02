@@ -7,10 +7,12 @@ import styles from './users-list.module.scss';
 const UsersList = (props) => {
   if (props.items.length === 0) {
     return (
-      <div className='center'>
-        <Card>
-          <h2>No users found.</h2>
-        </Card>
+      <div className={styles.noContent}>
+        <div className={styles.noContent__content}>
+          <Card>
+            <h2>No users found.</h2>
+          </Card>
+        </div>
       </div>
     );
   }

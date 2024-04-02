@@ -216,7 +216,7 @@ const WeeklyForm = () => {
                     styles.container__form__sectionMain__questions__section__title
                   }
                 >
-                  <h3>Eterior Property</h3>
+                  <h3>Exterior Property</h3>
                 </div>
 
                 <Textarea

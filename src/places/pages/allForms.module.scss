@@ -1,1 +1,63 @@
 @import '../../styles/variables.scss';
+@import '../../styles/animations.scss';
+
+.button {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  &__toggle {
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: none;
+    letter-spacing: 1px;
+    color: $--medium-purple;
+    cursor: pointer;
+    &__icon {
+      font-size: 1.25rem;
+      font-weight: 700;
+      height: 19px;
+      width: 19px;
+      transition: all 0.3s ease-in-out;
+      transform-origin: center;
+      &.rotate {
+        transform: rotateX(180deg);
+      }
+    }
+  }
+}
+.filters {
+  display: flex;
+  opacity: 0;
+  height: 0;
+  &.open {
+    animation: openFilters 0.3s forwards;
+    height: 20%;
+    opacity: 1;
+  }
+  &.close {
+    animation: closeFilters 0.3s forwards;
+    height: 0;
+    opacity: 0;
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  &__heading {
+    color: $--medium-purple;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 1rem 0;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}

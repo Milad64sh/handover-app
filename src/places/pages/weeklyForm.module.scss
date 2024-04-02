@@ -139,3 +139,21 @@
     }
   }
 }
+
+.noContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100%;
+  &__content {
+    padding: 20px 80px;
+    border-radius: 10px;
+    color: #fff;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    font-size: 1.25rem;
+    background-color: lighten($--medium-purple, 30%);
+  }
+}
