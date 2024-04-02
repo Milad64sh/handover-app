@@ -12,12 +12,52 @@ const Form = require('../models/form');
 
 // ALL USERS
 const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select('-password').lean();
-  if (!users?.length) {
-    return res.status(400).json({ message: 'No users found.' });
+  let users;
+  try {
+    // pagination logic
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+    users = await User.find().skip(skip).limit(pageSize).select('-password');
+    const total = await Form.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+    res.json({
+      users: users.map((user) => user.toObject({ getters: true })),
+      pagination: {
+        total,
+        page,
+        pages,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not find users.',
+      500
+    );
+    return next(error);
   }
-  res.json(users);
+  if (!users || users.length === 0) {
+    const error = new HttpError('Could not find any user.', 404);
+    return next(error);
+  }
 });
+
+// GET USERS NAMES
+const getUsersNames = async (req, res, next) => {
+  try {
+    const users = await User.find({}, 'name');
+    const names = users.map((user) => user.name);
+    res.json(names);
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not find the user.',
+      500
+    );
+    return next(error);
+  }
+};
 
 // GET USER BY ID
 const getUserById = async (req, res, next) => {
@@ -275,9 +315,10 @@ const signUp = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    // image: req.file.path,
     password: hashedPassword,
     forms: [],
+    roles: 'Employee',
+    active: true,
   });
   try {
     await createdUser.save();
@@ -301,9 +342,15 @@ const signUp = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({ userId: createdUser.id, email: createdUser.email, token: token });
+  res.status(201).json({
+    userId: createdUser.id,
+    email: createdUser.email,
+    token: token,
+    isManager: false,
+    isAdmin: false,
+    status: 'Employee',
+    name: createdUser.name,
+  });
 };
 
 // LOGIN
@@ -361,12 +408,12 @@ const login = async (req, res, next) => {
 };
 
 exports.getAllUsers = getAllUsers;
+exports.getUsersNames = getUsersNames;
 exports.getUserById = getUserById;
 exports.createNewUser = createNewUser;
 // exports.createUser = createUser;
 exports.updateUserById = updateUserById;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
-// exports.getUsers = getUsers;
 exports.signUp = signUp;
 exports.login = login;

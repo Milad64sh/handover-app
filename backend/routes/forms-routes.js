@@ -7,12 +7,13 @@ const verifyJWT = require('../middleware/verify-JWT.JS');
 const router = express.Router();
 // router.use(verifyJWT);
 
-router.get('/:formid', formControllers.getFormById);
-
-router.get('/user/:uid', formControllers.getFormsByUserId);
 router.get('/', formControllers.getAllForms);
+router.get('/:formid', formControllers.getFormById);
+router.get('/user/:uid', formControllers.getFormsByUserId);
 
 router.use(checkAuth);
+
+router.delete('/:formid', formControllers.deleteForm);
 
 router.post(
   '/',
@@ -53,7 +54,5 @@ router.post(
   ],
   formControllers.updateFormById
 );
-
-router.delete('/:formid', formControllers.deleteForm);
 
 module.exports = router;
