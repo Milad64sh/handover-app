@@ -1,9 +1,54 @@
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
 const HttpError = require('../models/http-error');
 const Form = require('../models/form');
 const User = require('../models/user');
+
+const getAllForms = async (req, res, next) => {
+  let allForms;
+  try {
+    let query = {};
+    if (req.query.staff) {
+      query.staff = req.query.staff;
+    }
+    if (req.query.service) {
+      query.service = req.query.service;
+    }
+
+    // pagination logic
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+
+    allForms = await Form.find(query).skip(skip).limit(pageSize);
+
+    const total = await Form.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+    res.json({
+      allForms: allForms.map((form) => form.toObject({ getters: true })),
+      pagination: {
+        total,
+        page,
+        pages,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    console.log(pagination);
+    const error = new HttpError(
+      'Something went wrong, could not find the user.',
+      500
+    );
+    return next(error);
+  }
+  if (!allForms || allForms.length === 0) {
+    const error = new HttpError('Could not find any form.', 404);
+    return next(error);
+  }
+};
 
 const getFormById = async (req, res, next) => {
   const formId = req.params.formid;
@@ -13,19 +58,21 @@ const getFormById = async (req, res, next) => {
     form = await Form.findById(formId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find a place.',
+      'Something went wrong, could not find a form.',
       500
     );
     return next(error);
   }
 
   if (!form) {
-    const error = new HttpError('Could not find a form for provided id.');
+    const error = new HttpError('Could not find a form for provided ID!');
     return next(error);
   }
 
   res.json({ form: form.toObject({ getters: true }) });
 };
+
+// GET FORM FOR USER
 
 const getFormsByUserId = async (req, res, next) => {
   const userId = req.params.uid;
@@ -110,8 +157,6 @@ const createForm = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(user);
-
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -127,7 +172,7 @@ const createForm = async (req, res, next) => {
   res.status(201).json({ form: createdForm });
 };
 
-// PATCH
+// UPDATE FORM
 
 const updateFormById = async (req, res, next) => {
   const errors = validationResult(req);
@@ -157,10 +202,27 @@ const updateFormById = async (req, res, next) => {
   let form;
   try {
     form = await Form.findById(formId);
+    if (!form) {
+      const error = new HttpError('Form not found', 404);
+      return next(error);
+    }
   } catch (err) {
+    console.log(err);
+
     const error = new HttpError(
-      'Something went wrong, could not update form ',
+      'Something went wrong, could not update form',
       500
+    );
+    return next(error);
+  }
+
+  if (
+    form.creator.toString() !== req.userData.userId &&
+    req.userData.status !== 'Manager'
+  ) {
+    const error = new HttpError(
+      'You are not allowed to edit this document.',
+      401
     );
     return next(error);
   }
@@ -207,27 +269,44 @@ const deleteForm = async (req, res, next) => {
     return next(error);
   }
 
+  if (
+    form.creator.id !== req.userData.userId &&
+    req.userData.roles !== 'Manager'
+  ) {
+    console.log(req.userData);
+    const error = new HttpError(
+      `You are not allowed to delete this document. creator id is: ${form.creator.id} and user id is: ${req.userData.userId}, and user roles is ${req.userData}`,
+      401
+    );
+
+    return next(error);
+  }
+
   if (!form) {
     const error = new HttpError('Form for this user not found.', 404);
     return next(error);
   }
+  const sess = await mongoose.startSession();
+  sess.startTransaction();
   try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    // await form.remove({ session: sess });
     form.creator.forms.pull(form);
+    form.creator.markModified('forms');
     await form.creator.save({ session: sess });
+    await Form.deleteOne({ _id: formId }, { session: sess });
     await sess.commitTransaction();
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       'Something went wrong, could not delete the form.',
       500
     );
+
     return next(error);
   }
   res.status(200).json({ message: 'Deleted Place' });
 };
 
+exports.getAllForms = getAllForms;
 exports.getFormById = getFormById;
 exports.getFormsByUserId = getFormsByUserId;
 exports.createForm = createForm;
