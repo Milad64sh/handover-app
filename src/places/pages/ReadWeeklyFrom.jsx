@@ -76,7 +76,7 @@ const ReadWeeklyForm = () => {
     const fetchForm = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/weekly-handovers/${weeklyFormId}`
+          `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${weeklyFormId}`
         );
         setLoadedForm(responseData.form);
         setFormData(

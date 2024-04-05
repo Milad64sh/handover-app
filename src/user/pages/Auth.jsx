@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/formElements/Input';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -61,7 +62,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/auth',
+          `${process.env.REACT_APP_BACKEND_URL}/auth`,
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -84,8 +85,8 @@ const Auth = () => {
     } else {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users/signup',
-          'POST',
+          `${process.env.REACT_APP_BACKEND_URL}/users/signup',
+          'POST`,
           JSON.stringify({
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
@@ -116,7 +117,7 @@ const Auth = () => {
   return (
     <>
       {/* CREATE AN ERROR MODAL video 150 */}
-      {/* <ErrorModal error={error} onClear={clearError}/> */}
+      <ErrorModal error={error} onClear={clearError} />
 
       <Card className={styles.auth}>
         {isLoading && <LoadingSpinner asOverlay />}

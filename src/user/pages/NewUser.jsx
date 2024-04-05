@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import {
@@ -12,6 +12,7 @@ import Card from '../../shared/components/UIElements/Card';
 import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import Select from '../../shared/components/formElements/Select';
 import {
   ROLES,
@@ -76,8 +77,8 @@ const NewUser = () => {
     event.preventDefault();
     try {
       const responseData = await sendRequest(
-        'http://localhost:5000/api/users',
-        'POST',
+        `${process.env.REACT_APP_BACKEND_URL}/users',
+        'POST`,
         JSON.stringify({
           name: formState.inputs.name.value,
           email: formState.inputs.email.value,
@@ -115,6 +116,7 @@ const NewUser = () => {
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
       <Card className={styles.auth}>
         {isLoading && <LoadingSpinner asOverlay />}
         <div className={styles.auth__heading}>

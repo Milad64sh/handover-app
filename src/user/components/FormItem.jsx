@@ -24,7 +24,7 @@ const FormItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5000/api/weekly-handovers/${props.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/weekly-handovers/${props.id}`,
 
         'DELETE',
         null,

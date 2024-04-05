@@ -82,7 +82,7 @@ const ManagerUpdateWeeklyForm = () => {
     const fetchForm = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/weekly-handovers/manager/${weeklyFormCreator}`
+          `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/manager/${weeklyFormCreator}`
         );
 
         setLoadedForm(responseData.form);
@@ -155,7 +155,7 @@ const ManagerUpdateWeeklyForm = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/weekly-handovers/${weeklyFormCreator}`,
+        `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${weeklyFormCreator}`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
@@ -229,20 +229,6 @@ const ManagerUpdateWeeklyForm = () => {
                   initialValid={true}
                 />
               </div>
-              {/* <div className={styles.container__form__general__item}>
-                <Input
-                  id='staff'
-                  element='input'
-                  type='text'
-                  label='Staff'
-                  validators={[VALIDATOR_REQUIRE()]}
-                  errorText='Please enter a valid name'
-                  onInput={inputHandler}
-                  initialValue={auth.name}
-                  disabled={true}
-                  initialValid={true}
-                />
-              </div> */}
             </div>
             {/* MAINTENANCE */}
             <div className={styles.container__form__sectionMain}>

@@ -50,7 +50,7 @@ const AllForms = () => {
         .map((option) => option.value)
         .join(',');
 
-      const url = `http://localhost:5000/api/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
       const responseData = await sendRequest(url);
 
       setLoadedForms(responseData.allForms);
@@ -68,7 +68,7 @@ const AllForms = () => {
   const fetchUsersNames = async () => {
     try {
       const responseData = await sendRequest(
-        'http://localhost:5000/api/users/names'
+        `${process.env.REACT_APP_BACKEND_URL}/users/names`
       );
       if (!responseData) {
         throw new Error('Failed to fetch usersNames');

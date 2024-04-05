@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import {
@@ -48,7 +48,7 @@ const UpdateUser = () => {
     const fetchUser = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/${userId}`
+          `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`
         );
         setLoadedUser(responseData.user);
         console.log(responseData.user);
@@ -82,8 +82,8 @@ const UpdateUser = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/${userId}`,
-        'POST', // Assuming POST is used for both creating and updating
+        `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`,
+        'POST', // POST is used for both creating and updating
         JSON.stringify({
           name: formState.inputs.name.value,
           email: formState.inputs.email.value,

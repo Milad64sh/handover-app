@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.scss';
 import Navbar from './shared/components/navigation/Navbar.jsx';
 
@@ -9,21 +9,36 @@ import {
   Navigate,
 } from 'react-router-dom';
 import Home from './places/pages/Home.jsx';
-import DailyForm from './places/pages/DailyForm.jsx';
-import WeeklyForm from './places/pages/WeeklyForm.jsx';
-import MonthlyForm from './places/pages/MonthlyForm.jsx';
+// import DailyForm from './places/pages/DailyForm.jsx';
+// import WeeklyForm from './places/pages/WeeklyForm.jsx';
+// import MonthlyForm from './places/pages/MonthlyForm.jsx';
 // import Footer from './places/components/Footer.jsx';
-import Users from './user/pages/Users.jsx';
-import UserForms from './user/pages/UserForms.jsx';
-import UpdateWeeklyForm from './places/pages/UpdateWeeklyForm.jsx';
+// import Users from './user/pages/Users.jsx';
+// import UserForms from './user/pages/UserForms.jsx';
+// import UpdateWeeklyForm from './places/pages/UpdateWeeklyForm.jsx';
+// import NewUser from './user/pages/NewUser.jsx';
+// import AllForms from './places/pages/AllForms.jsx';
+// import ReadWeeklyForm from './places/pages/ReadWeeklyFrom.jsx';
 import Auth from './user/pages/Auth.jsx';
 import { AuthContext } from './shared/context/auth-context.js';
 import useAuth from './shared/hooks/Auth-hook.jsx';
-import NewUser from './user/pages/NewUser.jsx';
 import UpdateUser from './user/pages/UpdateUser.jsx';
-import AllForms from './places/pages/AllForms.jsx';
-import ReadWeeklyForm from './places/pages/ReadWeeklyFrom.jsx';
 import ManagerUpdateWeeklyForm from './places/pages/ManagerUpdateWeeklyForm.jsx';
+import LoadingSpinner from './shared/components/UIElements/LoadingSpinner.js';
+
+const DailyForm = React.lazy(() => import('./places/pages/DailyForm.jsx'));
+const WeeklyForm = React.lazy(() => import('./places/pages/WeeklyForm.jsx'));
+const MonthlyForm = React.lazy(() => import('./places/pages/MonthlyForm.jsx'));
+const UserForms = React.lazy(() => import('./user/pages/UserForms.jsx'));
+const Users = React.lazy(() => import('./user/pages/Users.jsx'));
+const AllForms = React.lazy(() => import('./places/pages/AllForms.jsx'));
+const NewUser = React.lazy(() => import('./user/pages/NewUser.jsx'));
+const UpdateWeeklyForm = React.lazy(() =>
+  import('./places/pages/UpdateWeeklyForm.jsx')
+);
+const ReadWeeklyForm = React.lazy(() =>
+  import('./places/pages/ReadWeeklyFrom.jsx')
+);
 
 function App() {
   const { token, login, logout, userId, isManager, isAdmin, status, name } =
@@ -85,11 +100,19 @@ function App() {
         logout: logout,
       }}
     >
-      <Router>
-        <Navbar />
-        <Routes>{routes}</Routes>
-        {/* <Footer /> */}
-      </Router>
+      <Suspense
+        fallback={
+          <div className='center'>
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <Router>
+          <Navbar />
+          <Routes>{routes}</Routes>
+          {/* <Footer /> */}
+        </Router>
+      </Suspense>
     </AuthContext.Provider>
   );
 }

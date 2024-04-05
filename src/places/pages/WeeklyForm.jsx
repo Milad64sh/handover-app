@@ -79,7 +79,7 @@ const WeeklyForm = () => {
 
     try {
       await sendRequest(
-        'http://localhost:5000/api/weekly-handovers',
+        `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,

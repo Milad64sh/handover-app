@@ -23,7 +23,7 @@ const UserForms = () => {
     const fetchForms = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/weekly-handovers/user/${userId}`
+          `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/user/${userId}`
         );
         setLoadedForms(responseData.forms);
         console.log(responseData.forms);
