@@ -55,14 +55,3 @@ mongoose.connection.once('open', () => {
 mongoose.connection.on('error', (err) => {
   console.log(err);
 });
-
-// mongoose
-//   .connect(
-
-//   )
-//   .then(() => {
-//     app.listen(PORT);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
