@@ -1,15 +1,15 @@
-const { trusted } = require('mongoose');
-const allowedOrigins = require('./allowedOrigins');
+// const { trusted } = require('mongoose');
+// const allowedOrigins = require('./allowedOrigins');
 
 const corsOptions = {
-  origin: (origin, cb) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      cb(null, true);
-    } else {
-      cb(new Error('Not allowed by CORS'));
-    }
-  },
-  // origin: '*',
+  // origin: (origin, cb) => {
+  //   if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+  //     cb(null, true);
+  //   } else {
+  //     cb(new Error('Not allowed by CORS'));
+  //   }
+  // },
+  origin: '*',
   credentials: true,
   optionsSuccessStatus: 200,
 };
