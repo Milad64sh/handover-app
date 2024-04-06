@@ -2,6 +2,7 @@
   "env": {
     "DB_USER": "Milad",
     "PASSWORD": "KoZFrXs70caofsIx",
-    "DB_NAME": "handovers"
+    "DB_NAME": "handovers-prod",
+    "ACCESS_TOKEN_SECRET": "e605c148a395f51f7e8a6965577d69182f74cc8ec7fe51f6d598c4240c78d418c7585e643edfa547b848df1d4b16ee24edb4f8fb64741c1d210c017ab982a36f"
   }
 }
