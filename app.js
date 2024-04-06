@@ -11,12 +11,12 @@ const HttpError = require('./backend/models/http-error');
 const mongoose = require('mongoose');
 // const connectDB = require('./config/dbConn');
 const connectDB = require('./backend/config/dbConn');
-const { logger, logEvents } = require('./middleware/logger');
+const { logger, logEvents } = require('./backend/middleware/logger');
 
 // const formsRoutes = require('./routes/forms-routes');
 const formsRoutes = require('./backend/routes/forms-routes');
-const usersRoutes = require('./backend/routes/users-routes');
 const authRoutes = require('./backend/routes/auth-routes');
+const usersRoutes = require('./backend/routes/users-routes');
 
 // app.use(logger);
 
