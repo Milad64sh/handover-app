@@ -34,9 +34,9 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/weekly-handovers', formsRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/auth', authRoutes);
+app.use('/weekly-handovers', formsRoutes);
+app.use('/users', usersRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
