@@ -4,15 +4,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
-const HttpError = require('./models/http-error');
+// const corsOptions = require('./config/corsOptions');
+// const HttpError = require('./models/http-error');
+const corsOptions = require('./backend/config/corsOptions');
+const HttpError = require('./backend/models/http-error');
 const mongoose = require('mongoose');
-const connectDB = require('./config/dbConn');
+// const connectDB = require('./config/dbConn');
+const connectDB = require('./backend/config/dbConn');
 const { logger, logEvents } = require('./middleware/logger');
 
-const formsRoutes = require('./routes/forms-routes');
-const usersRoutes = require('./routes/users-routes');
-const authRoutes = require('./routes/auth-routes');
+// const formsRoutes = require('./routes/forms-routes');
+const formsRoutes = require('./backend/routes/forms-routes');
+const usersRoutes = require('./backend/routes/users-routes');
+const authRoutes = require('./backend/routes/auth-routes');
 
 // app.use(logger);
 
