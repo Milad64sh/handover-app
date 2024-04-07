@@ -14,6 +14,10 @@ import { AuthContext } from '../../shared/context/auth-context';
 
 import styles from './auth.module.scss';
 
+const API =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_BACKEND_URL
+    : 'http://localhost:5000';
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -62,7 +66,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/auth`,
+          `${API}/auth`,
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -78,14 +82,14 @@ const Auth = () => {
           responseData.status,
           responseData.name
         );
-        // console.log('responseData:', responseData);
+        console.log('responseData:', responseData);
       } catch (err) {
         console.log('error is:', err);
       }
     } else {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
+          `${API}/users/signup`,
           'POST',
           JSON.stringify({
             name: formState.inputs.name.value,
