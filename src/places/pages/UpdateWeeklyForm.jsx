@@ -156,7 +156,7 @@ const UpdateWeeklyForm = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/api/weekly-handovers/${weeklyFormId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${weeklyFormId}`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
@@ -179,7 +179,7 @@ const UpdateWeeklyForm = () => {
         }
       );
     } catch (err) {
-      console.error('Error sending PATCH request:', err);
+      console.error('Error sending request to EDIT:', err);
     }
     navigate(`/${auth.userId}/forms`);
   };
