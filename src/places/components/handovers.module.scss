@@ -36,7 +36,9 @@
       text-transform: capitalize;
       background-color: transparent;
       opacity: 0;
-
+      @media screen and (max-width: 867px) {
+        display: none;
+      }
       animation: slideInFadeIn 0.5s forwards;
       a {
         background-color: transparent;
