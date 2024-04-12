@@ -12,7 +12,7 @@
     transition: all 0.3s ease-in-out;
     &:hover {
       width: 60%;
-      border-bottom: 1px solid darken($--medium-purple, 40%);
+      // border-bottom: 1px solid darken($--medium-purple, 40%);
     }
     &:nth-child(3) {
       border-bottom: none;

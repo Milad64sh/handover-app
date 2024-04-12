@@ -1,24 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './dropDownHandover.module.scss';
 
-const DropDownHandover = () => {
+const DropDownHandover = ({ toggleMenu, toggleCategory, handleNavigation }) => {
   return (
     <div className={styles.container}>
       <div className={styles.container__item}>
-        <Link className={styles.href} to={'/daily-handover'}>
+        <NavLink
+          className={styles.href}
+          to={'/daily-handover'}
+          onClick={handleNavigation}
+        >
           daily handover
-        </Link>
+        </NavLink>
       </div>
       <div className={styles.container__item}>
-        <Link className={styles.href} to={'/weekly-handover'}>
+        <NavLink
+          className={styles.href}
+          to={'/weekly-handover'}
+          onClick={handleNavigation}
+        >
           weekly handover
-        </Link>
+        </NavLink>
       </div>
       <div href='/monthly-handover' className={styles.container__item}>
-        <Link className={styles.href} to={'/monthly-handover'}>
+        <NavLink
+          className={styles.href}
+          to={'/monthly-handover'}
+          onClick={handleNavigation}
+        >
           monthly handover
-        </Link>
+        </NavLink>
       </div>
     </div>
   );

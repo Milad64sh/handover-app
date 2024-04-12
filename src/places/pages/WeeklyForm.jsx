@@ -148,20 +148,6 @@ const WeeklyForm = () => {
                 isWeeklyForm={true}
               />
             </div>
-            {/* <div className={styles.container__form__general__item}>
-              <Input
-                id='staff'
-                element='input'
-                type='text'
-                label='Staff'
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText='Please enter a valid name'
-                onInput={inputHandler}
-                isWeeklyForm={true}
-                initialValue={auth.name}
-                disabled={true}
-              />
-            </div> */}
           </div>
           {/* MAINTENANCE */}
           <div className={styles.container__form__sectionMain}>

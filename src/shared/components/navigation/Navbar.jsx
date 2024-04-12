@@ -26,6 +26,10 @@ const Navbar = (props) => {
             className={styles.container__content__logo__link}
             to={'/home'}
             activeClassName={styles.active}
+            onClick={() => {
+              setIsMenuOpen(false);
+              setShowCategory(false);
+            }}
           >
             jigsaw creative care
           </NavLink>
@@ -76,7 +80,14 @@ const Navbar = (props) => {
                       styles.container__MobContent__dropDown__category__items
                     } ${showCategory ? styles.show : ''}`}
                   >
-                    <DropDownHandover />
+                    <DropDownHandover
+                      toggleMenu={toggleMenu}
+                      toggleCategory={toggleCategory}
+                      handleNavigation={() => {
+                        setIsMenuOpen(false);
+                        setShowCategory(false);
+                      }}
+                    />
                   </div>
                 </div>
                 <div className={styles.container__MobContent__dropDown__item}>
@@ -86,6 +97,10 @@ const Navbar = (props) => {
                     }
                     to={'/users'}
                     activeClassName={styles.active}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setShowCategory(false);
+                    }}
                   >
                     USERS
                   </NavLink>
@@ -97,6 +112,10 @@ const Navbar = (props) => {
                     }
                     to={'/all-forms'}
                     activeClassName={styles.active}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setShowCategory(false);
+                    }}
                   >
                     All FORMS
                   </NavLink>
@@ -108,6 +127,10 @@ const Navbar = (props) => {
                     }
                     to={'/users/new'}
                     activeClassName={styles.active}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setShowCategory(false);
+                    }}
                   >
                     NEW USER
                   </NavLink>
@@ -131,6 +154,10 @@ const Navbar = (props) => {
                   className={styles.container__MobContent__dropDown__item__link}
                   to={'/auth'}
                   activeClassName={styles.active}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setShowCategory(false);
+                  }}
                 >
                   LOGIN
                 </NavLink>

@@ -19,7 +19,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      flex: 0 0 50%;
+      flex: 0 0 60%;
       text-decoration: none;
       @media screen and (max-width: 867px) {
         display: none;
@@ -108,7 +108,8 @@
       width: 100%;
       left: 0;
       opacity: 0;
-      margin-top: -200px;
+      margin-top: -300px;
+
       transition: all 0.3s ease-in-out;
       &__category {
         display: flex;
@@ -153,9 +154,11 @@
           height: 0;
           opacity: 0;
           width: 100%;
+          z-index: -1;
           &.show {
             height: 90px;
             opacity: 1;
+            z-index: 1000;
           }
         }
       }
@@ -191,9 +194,9 @@
         background-color: transparent;
         border: none;
         color: darken($--medium-purple, 20%);
-        font-size: 1.1rem;
+        font-size: 1.07rem;
+
         cursor: pointer;
-        // border-bottom: 1px solid $--medium-purple;
         &:hover {
           color: darken($--medium-purple, 40%);
         }
