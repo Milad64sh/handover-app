@@ -21,15 +21,27 @@
     justify-content: space-between;
     padding: 10px;
     width: 100%;
+    @media screen and (max-width: 867px) {
+      flex-direction: column;
+    }
     &__content {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       width: 50%;
+      @media screen and (max-width: 867px) {
+        width: 90%;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+      }
       &__service {
         display: flex;
         flex-direction: row;
+        @media screen and (max-width: 867px) {
+          margin-bottom: 10px;
+        }
         span {
           text-transform: capitalize;
         }
@@ -42,6 +54,9 @@
       &__date {
         display: flex;
         flex-direction: row;
+        @media screen and (max-width: 867px) {
+          margin-bottom: 10px;
+        }
         span {
           text-transform: capitalize;
         }
@@ -58,6 +73,10 @@
       align-items: center;
       justify-content: space-around;
       flex: 0 0 20%;
+      @media screen and (max-width: 867px) {
+        flex: 0 0 100%;
+        justify-content: space-between;
+      }
       &__action {
         display: flex;
         flex-direction: row;
@@ -69,8 +88,11 @@
           color: #fff;
           cursor: pointer;
           margin-left: 5px;
-          background-color: $--weekly-color;
-          border: 1px solid $--weekly-color;
+          background-color: lighten($--weekly-color, 10%);
+          border: 1px solid lighten($--weekly-color, 10%);
+          @media screen and (max-width: 867px) {
+            padding: 10px 30px;
+          }
           &:hover {
             background-color: lighten($--weekly-color, 20%);
             border: 1px solid lighten($--weekly-color, 20%);

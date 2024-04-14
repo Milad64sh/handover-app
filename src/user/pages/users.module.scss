@@ -14,8 +14,8 @@
   &__list {
     display: flex;
     width: 70%;
-    @media screen and (max-width: 990px) {
-      width: 90%;
+    @media screen and (max-width: 867px) {
+      width: 50%;
     }
   }
 }

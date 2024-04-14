@@ -32,11 +32,17 @@
         font-weight: 100;
         letter-spacing: 1px;
         padding-left: 10px;
+        @media screen and (max-width: 867px) {
+          flex: 0 0 40%;
+        }
       }
       &__filter {
         display: flex;
         justify-content: center;
         flex: 0 0 70%;
+        @media screen and (max-width: 867px) {
+          flex: 0 0 60%;
+        }
       }
     }
   }

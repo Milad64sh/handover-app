@@ -16,21 +16,40 @@
     align-items: center;
     margin-bottom: 10px;
     width: 100%;
+    @media screen and (max-width: 867px) {
+      flex-direction: column;
+    }
     &__info {
       display: flex;
       flex: 0 0 70%;
       justify-content: space-between;
       align-items: center;
       flex-direction: row;
+      @media screen and (max-width: 867px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        width: 95%;
+      }
       &__name {
         font-weight: bold;
         width: 30%;
         text-transform: capitalize;
+        @media screen and (max-width: 867px) {
+          display: block;
+          margin-bottom: 20px;
+          font-size: 1.25rem;
+        }
       }
       &__forms,
       &__roles,
       &__active {
         font-weight: 100;
+        @media screen and (max-width: 867px) {
+          display: block;
+          margin-bottom: 10px;
+          font-size: 1.25rem;
+        }
       }
       &__forms {
         &:hover,
@@ -53,6 +72,9 @@
       border-radius: 4px;
       box-shadow: 0 0 4px #fff;
       padding: 5px 10px;
+      @media screen and (max-width: 867px) {
+        width: 95%;
+      }
       &__link {
         text-decoration: none;
         color: #fff;

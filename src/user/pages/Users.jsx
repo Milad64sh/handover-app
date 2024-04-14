@@ -28,6 +28,7 @@ const Users = () => {
   const fetchUsers = async (page, limit) => {
     try {
       const url = `${process.env.REACT_APP_BACKEND_URL}/users?page=${page}&limit=${limit}`;
+      // const url = `${process.env.REACT_APP_BD_URL}/users?page=${page}&limit=${limit}`;
       const responseData = await sendRequest(url);
 
       setLoadedUsers(responseData.users);
