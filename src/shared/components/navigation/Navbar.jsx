@@ -143,6 +143,10 @@ const Navbar = (props) => {
                   className={styles.container__MobContent__dropDown__item__link}
                   to={`${auth.userId}/forms`}
                   activeClassName={styles.active}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setShowCategory(false);
+                  }}
                 >
                   MY FORMS
                 </NavLink>
