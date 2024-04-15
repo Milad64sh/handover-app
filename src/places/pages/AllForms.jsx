@@ -50,8 +50,8 @@ const AllForms = () => {
         .map((option) => option.value)
         .join(',');
 
-      // const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
-      const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
+      // const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
       const responseData = await sendRequest(url);
 
       setLoadedForms(responseData.allForms);

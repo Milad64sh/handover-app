@@ -51,45 +51,47 @@ const Navbar = (props) => {
               isMenuOpen ? styles.open : ''
             }`}
           >
-            {auth.isLoggedIn && auth.isManager && (
-              <>
-                <div
-                  className={`${
-                    styles.container__MobContent__dropDown__category
-                  } ${showCategory ? styles.expand : ''}`}
+            {auth.isLoggedIn && (
+              <div
+                className={`${
+                  styles.container__MobContent__dropDown__category
+                } ${showCategory ? styles.expand : ''}`}
+              >
+                <button
+                  className={
+                    styles.container__MobContent__dropDown__category__item
+                  }
+                  onClick={toggleCategory}
+                  activeClassName={styles.active}
                 >
-                  <button
-                    className={
-                      styles.container__MobContent__dropDown__category__item
-                    }
-                    onClick={toggleCategory}
-                    activeClassName={styles.active}
-                  >
-                    HANDOVERS
-                    <div
-                      className={`${
-                        styles.container__MobContent__dropDown__category__item__span
-                      } ${showCategory ? styles.rotate : ''}`}
-                    >
-                      <MdOutlineKeyboardArrowDown />
-                    </div>
-                  </button>
-                  {/* dropDown forms HANDOVERS */}
+                  HANDOVERS
                   <div
                     className={`${
-                      styles.container__MobContent__dropDown__category__items
-                    } ${showCategory ? styles.show : ''}`}
+                      styles.container__MobContent__dropDown__category__item__span
+                    } ${showCategory ? styles.rotate : ''}`}
                   >
-                    <DropDownHandover
-                      toggleMenu={toggleMenu}
-                      toggleCategory={toggleCategory}
-                      handleNavigation={() => {
-                        setIsMenuOpen(false);
-                        setShowCategory(false);
-                      }}
-                    />
+                    <MdOutlineKeyboardArrowDown />
                   </div>
+                </button>
+                {/* dropDown forms HANDOVERS */}
+                <div
+                  className={`${
+                    styles.container__MobContent__dropDown__category__items
+                  } ${showCategory ? styles.show : ''}`}
+                >
+                  <DropDownHandover
+                    toggleMenu={toggleMenu}
+                    toggleCategory={toggleCategory}
+                    handleNavigation={() => {
+                      setIsMenuOpen(false);
+                      setShowCategory(false);
+                    }}
+                  />
                 </div>
+              </div>
+            )}
+            {auth.isLoggedIn && auth.isManager && (
+              <>
                 <div className={styles.container__MobContent__dropDown__item}>
                   <NavLink
                     className={
