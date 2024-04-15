@@ -7,7 +7,8 @@ const loginLimiter = require('../middleware/login-limiter');
 const router = express.Router();
 
 router.post('/', loginLimiter, authControllers.login);
-router.get('/refresh', authControllers.refresh);
+router.post('/send-email', authControllers.sendEmail);
 router.post('/logout', authControllers.logout);
+router.get('/refresh', authControllers.refresh);
 
 module.exports = router;

@@ -96,6 +96,14 @@ const logout = asyncHnadler(async (req, res) => {
   res.json({ message: 'Cookie cleared' });
 });
 
+const sendEmail = async (req, res, next) => {
+  const email = req.body.email;
+  const user = await User.findOne({ email: email });
+  if (!user) {
+  }
+};
+
 exports.login = login;
 exports.refresh = refresh;
 exports.logout = logout;
+exports.sendEmail = sendEmail;
