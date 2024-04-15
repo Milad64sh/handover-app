@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/formElements/Input';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
@@ -174,13 +175,21 @@ const Auth = () => {
             {isLoginMode ? 'LOGIN' : 'SIGNUP'}
           </button>
         </form>
-        <button
-          className={styles.auth__form__btn}
-          reverse
-          onClick={switchModeHandler}
-        >
-          {isLoginMode ? 'SIGNUP' : 'LOGIN'}
-        </button>
+        <div className={styles.auth__form__access}>
+          <div className={styles.auth__form__acess__signup}>
+            <span>New User?</span>
+            <button
+              className={styles.auth__form__btn}
+              reverse
+              onClick={switchModeHandler}
+            >
+              {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+            </button>
+          </div>
+          <div className={styles.auth__form__acess__forgetPass}>
+            <NavLink to={'/forget-password'}>Forgot Password?</NavLink>
+          </div>
+        </div>
       </Card>
     </>
   );
