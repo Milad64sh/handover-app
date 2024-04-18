@@ -100,7 +100,16 @@ const sendEmail = async (req, res, next) => {
   const email = req.body.email;
   const user = await User.findOne({ email: email });
   if (!user) {
+    const error = new HttpError('Could not find any user.', 404);
+    return next(error);
   }
+  const payload = {
+    email: user.email,
+  };
+  const expiryTime = 300;
+  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: expiryTime,
+  });
 };
 
 exports.login = login;

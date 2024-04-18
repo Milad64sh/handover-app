@@ -5,17 +5,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 // const corsOptions = require('./config/corsOptions');
-// const HttpError = require('./models/http-error');
 const corsOptions = require('./backend/config/corsOptions');
+// const HttpError = require('./models/http-error');
 const HttpError = require('./backend/models/http-error');
 const mongoose = require('mongoose');
 // const connectDB = require('./config/dbConn');
 const connectDB = require('./backend/config/dbConn');
+// const { logger, logEvents } = require('./middleware/logger');
 const { logger, logEvents } = require('./backend/middleware/logger');
 
 // const formsRoutes = require('./routes/forms-routes');
 const formsRoutes = require('./backend/routes/forms-routes');
+// const authRoutes = require('./routes/auth-routes');
 const authRoutes = require('./backend/routes/auth-routes');
+// const usersRoutes = require('./routes/users-routes');
 const usersRoutes = require('./backend/routes/users-routes');
 
 // app.use(logger);
@@ -37,6 +40,7 @@ app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/weekly-handovers', formsRoutes);
 app.use('/users', usersRoutes);
+//
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
