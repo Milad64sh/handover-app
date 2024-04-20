@@ -58,12 +58,13 @@ const Input = (props) => {
       onBlur={touchHandler}
       value={inputState.value}
       isWeeklyForm={props.isWeeklyForm}
+      isResetPassword={props.isResetPassword}
       disabled={disabled}
     />
   );
   return (
     <div className={styles.container}>
-      {props.isWeeklyForm ? (
+      {/* {props.isWeeklyForm ? (
         <label className={styles.container__weeklyFormLabel} htmlFor={props.id}>
           {props.label}
         </label>
@@ -72,6 +73,23 @@ const Input = (props) => {
           {props.label}
         </label>
       )}
+      {props.isResetPassword && (
+        <label className={styles.container__resetPassLabel} htmlFor={props.id}>
+          {props.label}
+        </label>
+      )} */}
+      <label
+        className={`${
+          props.isWeeklyForm
+            ? styles.container__weeklyFormLabel
+            : props.isResetPassword
+            ? styles.container__resetPassLabel
+            : styles.container__authLabel
+        }`}
+        htmlFor={props.id}
+      >
+        {props.label}
+      </label>
 
       <div
         className={`${styles.container__content}  ${
@@ -80,7 +98,18 @@ const Input = (props) => {
       >
         {element}
         {!inputState.isValid && inputState.isTouched && (
-          <p>{props.errorText}</p>
+          <ul className={styles.container__content__ul}>
+            {props.validators.map((validator, index) => {
+              if (!validate(inputState.value, [validator])) {
+                return (
+                  <li className={styles.container__content__ul__li} key={index}>
+                    {props.errorTexts[index]}
+                  </li>
+                );
+              }
+              return null;
+            })}
+          </ul>
         )}
       </div>
     </div>

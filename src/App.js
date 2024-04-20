@@ -26,6 +26,7 @@ import UpdateUser from './user/pages/UpdateUser.jsx';
 import ManagerUpdateWeeklyForm from './places/pages/ManagerUpdateWeeklyForm.jsx';
 import LoadingSpinner from './shared/components/UIElements/LoadingSpinner.js';
 import ForgetPassword from './user/components/ForgetPassword.jsx';
+import ResetPassword from './user/components/ResetPassword.jsx';
 
 const DailyForm = React.lazy(() => import('./places/pages/DailyForm.jsx'));
 const WeeklyForm = React.lazy(() => import('./places/pages/WeeklyForm.jsx'));
@@ -83,6 +84,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/forget-password' element={<ForgetPassword />} />
+        <Route path='/reset/:token' element={<ResetPassword />} />
         <Route path='/:userId/forms' element={<UserForms />} />
         <Route path='*' element={<Navigate to='/auth' replace />} />
       </>
