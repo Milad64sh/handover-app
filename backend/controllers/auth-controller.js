@@ -1,8 +1,10 @@
 const User = require('../models/user');
+const UserToken = require('../models/userToken');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const asyncHnadler = require('express-async-handler');
 const HttpError = require('../models/http-error');
+const nodemailer = require('nodemailer');
 
 const login = asyncHnadler(async (req, res, next) => {
   const { password, email, name } = req.body;
@@ -97,8 +99,11 @@ const logout = asyncHnadler(async (req, res) => {
 });
 
 const sendEmail = async (req, res, next) => {
-  const email = req.body.email;
+  let email = req.body.email;
+  email = email.replace(/\.(?=.*@)/g, '');
+  console.log('Email from request:', email);
   const user = await User.findOne({ email: email });
+  console.log('User found:', user);
   if (!user) {
     const error = new HttpError('Could not find any user.', 404);
     return next(error);
@@ -109,6 +114,53 @@ const sendEmail = async (req, res, next) => {
   const expiryTime = 300;
   const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: expiryTime,
+  });
+  const newToken = new UserToken({
+    userId: user._id,
+    token: token,
+  });
+  const mailTransporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'm.shalikarian@gmail.com',
+      pass: 'mjmq ofjj hlnd mxgk',
+    },
+  });
+  const resetLink = `${process.env.LIVE_URL}/reset/${token}`;
+  let mailDetails = {
+    from: 'm.shalikarian@gmail.com',
+    to: email,
+    subject: 'Reset Password',
+    html: `
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Password Reset Request</title>
+</head>
+<body>
+  <p>Dear ${user.name},</p>
+ <p>We have received a request to reset your password for your account with Jigsaw Creative Care. To complete the password reset process, please click on the button below:</p>
+ <a href="${resetLink}"><button style="background-color: #936ba3; color: white; padding: 10px; border: none; cursor: pointer; border-radius: 4px;">Reset Password</button></a>
+ <p>Please note that this link is only valid for 5 minutes. If you did not request a password, please disregard this message.</p>
+ <p>Thank you.</p>
+ <p>Jigsaw Creative Care</p>
+</body>
+</html>
+    `,
+  };
+  mailTransporter.sendMail(mailDetails, async (err, data) => {
+    if (err) {
+      console.log('Error:', err);
+      const error = new HttpError(
+        'Something went wrong while sending the email.',
+        500
+      );
+      return next(error);
+    } else {
+      await newToken.save();
+      res.status(200).json({ message: 'Email sent successfully.' });
+    }
   });
 };
 
