@@ -84,7 +84,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/forget-password' element={<ForgetPassword />} />
-        <Route path='/reset/:token' element={<ResetPassword />} />
+        <Route path='/reset-password/:token' element={<ResetPassword />} />
         <Route path='/:userId/forms' element={<UserForms />} />
         <Route path='*' element={<Navigate to='/auth' replace />} />
       </>

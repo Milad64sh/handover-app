@@ -46,8 +46,7 @@
       background-color: none;
       &::placeholder {
         font-style: italic;
-        text-indent: 5px; // Indent placeholder text by 5px
-        margin-left: -5px;
+        margin-left: 5px;
       }
     }
 

@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/formElements/Input';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
@@ -21,6 +21,7 @@ const API =
 const ResetPassword = () => {
   // const auth = useContext(AuthContext);
   const token = useParams().token;
+  const navigate = useNavigate();
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -39,7 +40,7 @@ const ResetPassword = () => {
 
     try {
       const responseData = await sendRequest(
-        `${API}/auth/reset`,
+        `${API}/auth/reset-password/`,
         'POST',
         JSON.stringify({
           token: token,
@@ -49,11 +50,14 @@ const ResetPassword = () => {
           'Content-Type': 'application/json',
         }
       );
+
       console.log(responseData); // Handle response data as needed
+      navigate('/auth');
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(token);
 
   return (
     <>

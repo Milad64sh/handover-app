@@ -176,18 +176,20 @@ const Auth = () => {
           </button>
         </form>
         <div className={styles.auth__form__access}>
-          <div className={styles.auth__form__acess__signup}>
+          <div className={styles.auth__form__access__forgetPass}>
+            <NavLink className={styles.link} to={'/forget-password'}>
+              Forgot Password?
+            </NavLink>
+          </div>
+          <div className={styles.auth__form__access__signup}>
             <span>New User?</span>
             <button
-              className={styles.auth__form__btn}
+              className={styles.auth__form__access__signup__btn}
               reverse
               onClick={switchModeHandler}
             >
-              {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+              &nbsp;Create Account
             </button>
-          </div>
-          <div className={styles.auth__form__acess__forgetPass}>
-            <NavLink to={'/forget-password'}>Forgot Password?</NavLink>
           </div>
         </div>
       </Card>
