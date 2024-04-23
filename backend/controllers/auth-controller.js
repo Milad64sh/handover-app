@@ -126,7 +126,7 @@ const sendEmail = async (req, res, next) => {
       pass: 'mjmq ofjj hlnd mxgk',
     },
   });
-  const resetLink = `${process.env.LIVE_URL}/reset/${token}`;
+  const resetLink = `${process.env.LIVE_URL}/reset-password/${token}`;
   let mailDetails = {
     from: 'm.shalikarian@gmail.com',
     to: email,
@@ -164,7 +164,42 @@ const sendEmail = async (req, res, next) => {
   });
 };
 
+const resetPassword = async (req, res, next) => {
+  const token = req.body.token;
+  const newPassword = req.body.password;
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, data) => {
+    if (err) {
+      console.log('Error:', err);
+      const error = new HttpError('Reset link is expired.', 500);
+      return next(error);
+    } else {
+      const response = data;
+      const user = await User.findOne({ email: response.email });
+      const salt = await bcrypt.genSalt(12);
+      const encryptedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = encryptedPassword;
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: user._id },
+          { $set: user },
+          { new: true }
+        );
+        return next;
+      } catch (err) {
+        console.log('Error:', err);
+        const error = new HttpError(
+          'Something went wrong while creating passsword.',
+          500
+        );
+        return next(error);
+      }
+    }
+  });
+};
+
 exports.login = login;
 exports.refresh = refresh;
 exports.logout = logout;
 exports.sendEmail = sendEmail;
+exports.resetPassword = resetPassword;
