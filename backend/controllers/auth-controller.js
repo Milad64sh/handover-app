@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const UserToken = require('../models/userToken');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const asyncHnadler = require('express-async-handler');
@@ -13,7 +14,9 @@ const login = asyncHnadler(async (req, res, next) => {
     return res.status(400).json({ message: 'All fields are required!' });
   }
 
-  const existingUser = await User.findOne({ email: email });
+  const normalizedEmail = email.replace(/\.(?=.*@)/g, '');
+  console.log(normalizedEmail);
+  const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (!existingUser || !existingUser.active) {
     console.log(`existing user: ${existingUser}`);
@@ -111,7 +114,7 @@ const sendEmail = async (req, res, next) => {
   const payload = {
     email: user.email,
   };
-  const expiryTime = 300;
+  const expiryTime = 3000;
   const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: expiryTime,
   });
@@ -165,38 +168,64 @@ const sendEmail = async (req, res, next) => {
 };
 
 const resetPassword = async (req, res, next) => {
-  const token = req.body.token;
-  const newPassword = req.body.password;
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, data) => {
-    if (err) {
-      console.log('Error:', err);
-      const error = new HttpError('Reset link is expired.', 500);
-      return next(error);
-    } else {
-      const response = data;
-      const user = await User.findOne({ email: response.email });
-      const salt = await bcrypt.genSalt(12);
-      const encryptedPassword = await bcrypt.hash(newPassword, salt);
-      user.password = encryptedPassword;
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: user._id },
-          { $set: user },
-          { new: true }
-        );
-        return next;
-      } catch (err) {
-        console.log('Error:', err);
-        const error = new HttpError(
-          'Something went wrong while creating passsword.',
-          500
-        );
-        return next(error);
-      }
+  try {
+    const decodedToken = jwt.verify(
+      req.params.token,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    console.log('Decoded Token:', decodedToken);
+    if (!decodedToken) {
+      return res.status(401).send({ message: 'Invalid token' });
     }
-  });
+    // const user = await User.findOne({ _id: decodedToken.userId });
+    const user = await User.findOne({ email: decodedToken.email });
+
+    if (!user) {
+      return res.status(401).send({ message: 'no user found' });
+    }
+    const salt = await bcrypt.genSalt(12);
+    req.body.newPassword = await bcrypt.hash(req.body.newPassword, salt);
+    user.password = req.body.newPassword;
+    await user.save();
+    res.status(200).send({ message: 'Password updated' });
+  } catch (err) {
+    console.log('Error:', err);
+  }
 };
+
+// const resetPassword = async (req, res, next) => {
+//   const token = req.body.token;
+//   const newPassword = req.body.password;
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, data) => {
+//     if (err) {
+//       console.log('Error:', err);
+//       const error = new HttpError('Reset link is expired.', 500);
+//       return next(error);
+//     } else {
+//       const response = data;
+//       const user = await User.findOne({ email: response.email });
+//       const salt = await bcrypt.genSalt(12);
+//       const encryptedPassword = await bcrypt.hash(newPassword, salt);
+//       user.password = encryptedPassword;
+//       try {
+//         const updatedUser = await User.findOneAndUpdate(
+//           { _id: user._id },
+//           { $set: user },
+//           { new: true }
+//         );
+//         return next;
+//       } catch (err) {
+//         console.log('Error:', err);
+//         const error = new HttpError(
+//           'Something went wrong while creating passsword.',
+//           500
+//         );
+//         return next(error);
+//       }
+//     }
+//   });
+// };
 
 exports.login = login;
 exports.refresh = refresh;
