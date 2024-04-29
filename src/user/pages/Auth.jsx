@@ -139,7 +139,7 @@ const Auth = () => {
                 label='Full Name'
                 validators={[VALIDATOR_REQUIRE()]}
                 isWeeklyForm={false}
-                errorText='Please enter your name.'
+                errorTexts={['Please enter your name.']}
                 onInput={inputHandler}
               />
             )}
@@ -150,8 +150,8 @@ const Auth = () => {
               element='input'
               type='email'
               label='E-mail'
-              validators={[VALIDATOR_EMAIL]}
-              errorText='Please enter a valid email address.'
+              validators={[VALIDATOR_EMAIL()]}
+              errorTexts={['Please enter a valid email address.']}
               onInput={inputHandler}
               isWeeklyForm={false}
             />
@@ -163,7 +163,9 @@ const Auth = () => {
               type='password'
               label='Password'
               validators={[VALIDATOR_MINLENGTH(8)]}
-              errorText='Please enter a valid password with at least 8 character.'
+              errorTexts={[
+                'Please enter a valid password with at least 8 character.',
+              ]}
               onInput={inputHandler}
             />
           </div>

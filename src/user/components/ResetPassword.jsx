@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/formElements/Input';
@@ -31,37 +31,53 @@ const ResetPassword = () => {
         value: '',
         isValid: false,
       },
+      confirmPassword: {
+        value: '',
+        isValid: false,
+      },
     },
     false
   );
+
+  useEffect(() => {
+    setFormData(
+      {
+        ...formState.inputs,
+        confirmPassword: {
+          value: formState.inputs.confirmPassword.value,
+          isValid:
+            formState.inputs.password.value ===
+            formState.inputs.confirmPassword.value,
+        },
+      },
+      formState.inputs.password.value === formState.inputs.confirmPassword.value
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState.inputs.password.value, formState.inputs.confirmPassword.value]);
 
   const resetSubmitHandler = async (event) => {
     event.preventDefault();
 
     try {
       const responseData = await sendRequest(
-        `${API}/auth/reset-password/`,
+        `${API}/auth/reset-password/${token}`,
         'POST',
         JSON.stringify({
-          token: token,
-          password: formState.inputs.password.value,
+          newPassword: formState.inputs.password.value,
         }),
         {
           'Content-Type': 'application/json',
         }
       );
-
       console.log(responseData); // Handle response data as needed
       navigate('/auth');
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(token);
 
   return (
     <>
-      {/* CREATE AN ERROR MODAL video 150 */}
       <ErrorModal error={error} onClear={clearError} />
 
       <Card className={styles.auth}>
@@ -91,7 +107,6 @@ const ResetPassword = () => {
               id='confirmPassword'
               element='input'
               type='password'
-              // label='Confirm Password'
               placeholder='Confirm Password'
               validators={[
                 VALIDATOR_MINLENGTH(8),
