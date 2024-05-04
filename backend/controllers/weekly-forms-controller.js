@@ -58,7 +58,7 @@ const getFormById = async (req, res, next) => {
     form = await Form.findById(formId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find a form.',
+      'Something went wrong, could not find a weekly-handover form.',
       500
     );
     return next(error);

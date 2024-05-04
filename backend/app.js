@@ -14,8 +14,10 @@ const connectDB = require('./config/dbConn');
 const { logger, logEvents } = require('./middleware/logger');
 // const { logger, logEvents } = require('./backend/middleware/logger');
 
-const formsRoutes = require('./routes/forms-routes');
+const weeklyFormsRoutes = require('./routes/weekly-forms-routes');
 // const formsRoutes = require('./backend/routes/forms-routes');
+const monthlyFormsRoutes = require('./routes/monthly-forms-routes');
+const allFromsRoutes = require('./routes/all-forms-routes');
 const authRoutes = require('./routes/auth-routes');
 // const authRoutes = require('./backend/routes/auth-routes');
 const usersRoutes = require('./routes/users-routes');
@@ -38,7 +40,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRoutes);
-app.use('/weekly-handovers', formsRoutes);
+app.use('/weekly-handovers', weeklyFormsRoutes);
+app.use('/monthly-handovers', monthlyFormsRoutes);
+app.use('/all-forms', allFromsRoutes);
 app.use('/users', usersRoutes);
 //
 

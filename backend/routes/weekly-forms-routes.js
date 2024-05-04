@@ -1,19 +1,19 @@
 const express = require('express');
 const { check } = require('express-validator');
-const formControllers = require('../controllers/forms-controller');
+const weeklyFormControllers = require('../controllers/weekly-forms-controller');
 const checkAuth = require('../middleware/check-auth');
 const verifyJWT = require('../middleware/verify-JWT.JS');
 
 const router = express.Router();
 // router.use(verifyJWT);
 
-router.get('/', formControllers.getAllForms);
-router.get('/:formid', formControllers.getFormById);
-router.get('/user/:uid', formControllers.getFormsByUserId);
+router.get('/', weeklyFormControllers.getAllForms);
+router.get('/:formid', weeklyFormControllers.getFormById);
+router.get('/user/:uid', weeklyFormControllers.getFormsByUserId);
 
 router.use(checkAuth);
 
-router.delete('/:formid', formControllers.deleteForm);
+router.delete('/:formid', weeklyFormControllers.deleteForm);
 
 router.post(
   '/',
@@ -32,7 +32,7 @@ router.post(
     check('question_9').isLength({ min: 10 }),
     check('question_10').isLength({ min: 10 }),
   ],
-  formControllers.createForm
+  weeklyFormControllers.createForm
 );
 
 router.post(
@@ -52,7 +52,7 @@ router.post(
     check('question_9').isLength({ min: 10 }),
     check('question_10').isLength({ min: 10 }),
   ],
-  formControllers.updateFormById
+  weeklyFormControllers.updateFormById
 );
 
 module.exports = router;

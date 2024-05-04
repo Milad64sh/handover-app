@@ -8,6 +8,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 8 },
   forms: [{ type: mongoose.Types.ObjectId, ref: 'Weekly-handover' }],
+  monthlyForms: [{ type: mongoose.Types.ObjectId, ref: 'Monthly-handover' }],
   roles: { type: String, default: 'Employee' },
   active: { type: Boolean, default: true },
 });
