@@ -14,6 +14,11 @@ export const SERVICEOPTIONS = [
   { label: 'JB', value: 'JB' },
   { label: 'SC', value: 'SC' },
 ];
+export const FORMOPTIONS = [
+  { label: 'Daily-Handover', value: 'Daily-Handover' },
+  { label: 'Weekly-Handover', value: 'Weekly-Handover' },
+  { label: 'Monthly-Handover', value: 'Monthly-Handover' },
+];
 
 const AllForms = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -22,6 +27,7 @@ const AllForms = () => {
   const [staffOptions, setStaffOptions] = useState([]);
   const [staffValue, setStaffValue] = useState([]);
   const [serviceValue, setServiceValue] = useState([]);
+  const [FormGroupValue, setFormGroupValue] = useState([]);
   const [paginationData, setPaginationData] = useState({
     total: 0,
     page: pageNumber,
@@ -43,15 +49,22 @@ const AllForms = () => {
       if (serviceValue.length > 0) {
         filters.service = serviceValue;
       }
+      if (FormGroupValue.length > 0) {
+        filters.formGroup = FormGroupValue;
+      }
       const staffQueryString = staffValue
         .map((option) => option.value)
         .join(',');
       const serviceQueryString = serviceValue
         .map((option) => option.value)
         .join(',');
+      const formGroupQueryString = serviceValue
+        .map((option) => option.value)
+        .join(',');
 
       // const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
-      const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
+      // const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
+      const url = `http://localhost:5000/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&formGroup=${formGroupQueryString}&limit=${limit}`;
       const responseData = await sendRequest(url);
 
       setLoadedForms(responseData.allForms);
@@ -68,8 +81,11 @@ const AllForms = () => {
 
   const fetchUsersNames = async () => {
     try {
+      // const responseData = await sendRequest(
+      //   `${process.env.REACT_APP_BACKEND_URL}/users/names`
+      // );
       const responseData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/users/names`
+        `http://localhost:5000/users/names`
       );
       if (!responseData) {
         throw new Error('Failed to fetch usersNames');
@@ -145,6 +161,7 @@ const AllForms = () => {
               staffValue={staffValue}
               serviceValue={serviceValue}
               serviceOptions={SERVICEOPTIONS}
+              formOptions={FORMOPTIONS}
               staffOptions={staffOptions}
               setStaffValue={setStaffValue}
               setServiceValue={setServiceValue}
