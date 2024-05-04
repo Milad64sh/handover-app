@@ -31,6 +31,9 @@ export const ACTIVE_OPTIONS = {
   active: 'Active',
   inactive: 'Inactive',
 };
+export const MONTHS = {
+  January: 'January',
+};
 const Select = (props) => {
   const [selectState, dispatch] = useReducer(selectReducer, {
     value: props.initialValue || '',

@@ -22,7 +22,7 @@ const MonthlyForm = () => {
       value: '',
       isValid: false,
     },
-    week: {
+    month: {
       value: '',
       isValid: false,
     },
@@ -199,7 +199,7 @@ const MonthlyForm = () => {
 
     try {
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/monthly-handovers`,
+        `http://localhost:5000/monthly-handovers`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
