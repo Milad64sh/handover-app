@@ -64,9 +64,9 @@ const AllForms = () => {
 
       // const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
       // const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
-      const url = `http://localhost:5000/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&formGroup=${formGroupQueryString}&limit=${limit}`;
+      const url = `http://localhost:5000/all-forms?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&formGroup=${formGroupQueryString}&limit=${limit}`;
       const responseData = await sendRequest(url);
-
+      console.log(responseData.allForms);
       setLoadedForms(responseData.allForms);
       setPaginationData({
         total: responseData.pagination.total,
