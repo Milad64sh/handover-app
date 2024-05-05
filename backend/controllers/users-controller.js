@@ -6,7 +6,7 @@ const asyncHandler = require('express-async-handler');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
-const Form = require('../models/form');
+const Form = require('../models/weekly-form');
 
 // ROUTES ONLY HAVE ACCESS BY ADMIN AND MANAGER
 

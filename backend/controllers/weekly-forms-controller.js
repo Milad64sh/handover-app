@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const HttpError = require('../models/http-error');
-const Form = require('../models/form');
+const Form = require('../models/weekly-form');
 const User = require('../models/user');
 
 const getAllForms = async (req, res, next) => {
