@@ -9,6 +9,7 @@ const userSchema = new Schema({
   password: { type: String, required: true, minlength: 8 },
   forms: [{ type: mongoose.Types.ObjectId, ref: 'Weekly-handover' }],
   monthlyForms: [{ type: mongoose.Types.ObjectId, ref: 'Monthly-handover' }],
+  dailyForms: [{ type: mongoose.Types.ObjectId, ref: 'Daily-handover' }],
   roles: { type: String, default: 'Employee' },
   active: { type: Boolean, default: true },
 });

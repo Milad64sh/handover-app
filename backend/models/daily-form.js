@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-
 const Schema = mongoose.Schema;
-const monthlyFormSchema = new Schema(
+const dailyFormSchema = new Schema(
   {
     service: { type: String, required: true },
-    month: { type: String, required: true },
+    day: { type: String, required: true },
     staff: { type: String, required: true },
     question_1: { type: String, required: true },
     question_2: { type: String, required: true },
@@ -43,18 +42,25 @@ const monthlyFormSchema = new Schema(
     question_34: { type: String, required: true },
     question_35: { type: String, required: true },
     question_36: { type: String, required: true },
-    question_37: { type: String, required: true },
     question_38: { type: String, required: true },
     question_39: { type: String, required: true },
     question_40: { type: String, required: true },
+    question_41: { type: String, required: true },
+    question_42: { type: String, required: true },
+    question_43: { type: String, required: true },
+    question_44: { type: String, required: true },
+    question_45: { type: String, required: true },
+    question_46: { type: String, required: true },
+    question_47: { type: String, required: true },
+    question_48: { type: String, required: true },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
   },
   {
     timestamps: true,
   }
 );
-monthlyFormSchema.plugin(AutoIncrement, {
-  inc_field: 'monthlyTicketNameCounter',
+dailyFormSchema.plugin(AutoIncrement, {
+  inc_field: 'dailyTicketNameCounter',
 });
 
-module.exports = mongoose.model('Monthly-handover', monthlyFormSchema);
+module.exports = mongoose.model('Daily-handover', dailyFormSchema);
