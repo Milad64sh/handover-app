@@ -4,7 +4,47 @@ const HttpError = require('../models/http-error');
 const DailyForm = require('../models/daily-form');
 const User = require('../models/user');
 
-const getAllDailyForms = async (req, res, next) => {};
+// GET ALL DAILY FORMS
+const getAllDailyForms = async (req, res, next) => {
+  let allDailyForms;
+  try {
+    let query = {};
+    if (req.query.staff) {
+      query.staff = req.query.staff;
+    }
+    if (req.query.service) {
+      query.service = req.query.service;
+    }
+    // PAGINATION LOGIC
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+    allDailyForms = await DailyForm.find(query).skip(skip).limit(pageSize);
+    const total = await DailyForm.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+    res.json({
+      allDailyForms: allDailyForms.map((form) =>
+        form.toObject({ getters: true })
+      ),
+      pagination: {
+        total,
+        page,
+        pages,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not find the form.',
+      500
+    );
+    return next(error);
+  }
+  if (!allDailyForms || allDailyForms.length === 0) {
+    const error = new HttpError('Could not find any form.', 404);
+    return next(error);
+  }
+};
 
 // GET FORM BY USER ID
 

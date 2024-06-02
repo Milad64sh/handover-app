@@ -4,7 +4,50 @@ const HttpError = require('../models/http-error');
 const MonthlyForm = require('../models/monthly-form');
 const User = require('../models/user');
 
-const getAllMonthlyForms = async (req, res, next) => {};
+const getAllMonthlyForms = async (req, res, next) => {
+  let allMonthlyForms;
+  try {
+    let query = {};
+    if (req.query.staff) {
+      query.staff = req.query.staff;
+    }
+    if (req.query.service) {
+      query.service = req.query.service;
+    }
+
+    // pagination logic
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+
+    allMonthlyForms = await MonthlyForm.find(query).skip(skip).limit(pageSize);
+
+    const total = await MonthlyForm.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+    res.json({
+      allMonthlyForms: allMonthlyForms.map((form) =>
+        form.toObject({ getters: true })
+      ),
+      pagination: {
+        total,
+        page,
+        pages,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    console.log(pagination);
+    const error = new HttpError(
+      'Something went wrong, could not find the user.',
+      500
+    );
+    return next(error);
+  }
+  if (!allMonthlyForms || allMonthlyForms.length === 0) {
+    const error = new HttpError('Could not find any form.', 404);
+    return next(error);
+  }
+};
 
 // GET FORM BY USER ID
 

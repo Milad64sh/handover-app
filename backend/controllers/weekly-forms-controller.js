@@ -7,8 +7,8 @@ const HttpError = require('../models/http-error');
 const Form = require('../models/weekly-form');
 const User = require('../models/user');
 
-const getAllForms = async (req, res, next) => {
-  let allForms;
+const getAllWeeklyForms = async (req, res, next) => {
+  let allWeeklyForms;
   try {
     let query = {};
     if (req.query.staff) {
@@ -23,12 +23,14 @@ const getAllForms = async (req, res, next) => {
     const pageSize = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * pageSize;
 
-    allForms = await Form.find(query).skip(skip).limit(pageSize);
+    allWeeklyForms = await Form.find(query).skip(skip).limit(pageSize);
 
     const total = await Form.countDocuments();
     const pages = Math.ceil(total / pageSize);
     res.json({
-      allForms: allForms.map((form) => form.toObject({ getters: true })),
+      allWeeklyForms: allWeeklyForms.map((form) =>
+        form.toObject({ getters: true })
+      ),
       pagination: {
         total,
         page,
@@ -44,7 +46,7 @@ const getAllForms = async (req, res, next) => {
     );
     return next(error);
   }
-  if (!allForms || allForms.length === 0) {
+  if (!allWeeklyForms || allWeeklyForms.length === 0) {
     const error = new HttpError('Could not find any form.', 404);
     return next(error);
   }
@@ -161,7 +163,7 @@ const createForm = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdForm.save({ session: sess });
-    user.forms.push(createdForm);
+    user.weeklyForms.push(createdForm);
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
@@ -289,8 +291,8 @@ const deleteForm = async (req, res, next) => {
   const sess = await mongoose.startSession();
   sess.startTransaction();
   try {
-    form.creator.forms.pull(form);
-    form.creator.markModified('forms');
+    form.creator.weeklyForms.pull(form);
+    form.creator.markModified('weeklyForms');
     await form.creator.save({ session: sess });
     await Form.deleteOne({ _id: formId }, { session: sess });
     await sess.commitTransaction();
@@ -306,7 +308,7 @@ const deleteForm = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted Place' });
 };
 
-exports.getAllForms = getAllForms;
+exports.getAllWeeklyForms = getAllWeeklyForms;
 exports.getFormById = getFormById;
 exports.getFormsByUserId = getFormsByUserId;
 exports.createForm = createForm;

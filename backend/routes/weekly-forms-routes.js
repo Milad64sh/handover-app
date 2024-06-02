@@ -7,7 +7,7 @@ const verifyJWT = require('../middleware/verify-JWT.JS');
 const router = express.Router();
 // router.use(verifyJWT);
 
-router.get('/', weeklyFormControllers.getAllForms);
+router.get('/', weeklyFormControllers.getAllWeeklyForms);
 router.get('/:formid', weeklyFormControllers.getFormById);
 router.get('/user/:uid', weeklyFormControllers.getFormsByUserId);
 
