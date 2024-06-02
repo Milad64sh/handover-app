@@ -15,7 +15,7 @@ export const SERVICEOPTIONS = [
   { label: 'SC', value: 'SC' },
 ];
 
-const AllForms = () => {
+const MonthlyUploadedForms = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const pageNumber = useParams();
   const [loadedForms, setLoadedForms] = useState();
@@ -31,6 +31,7 @@ const AllForms = () => {
 
   const toggleFilter = () => {
     setOpenFilters((prevState) => !prevState);
+    console.log('filter state:', openFilters);
   };
   const limit = 10;
 
@@ -49,22 +50,19 @@ const AllForms = () => {
       const serviceQueryString = serviceValue
         .map((option) => option.value)
         .join(',');
-      const formGroupQueryString = serviceValue
-        .map((option) => option.value)
-        .join(',');
 
       // const url = `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
       // const url = `${process.env.REACT_APP_BD_URL}/weekly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
-      const url = `http://localhost:5000/all-forms?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&formGroup=${formGroupQueryString}&limit=${limit}`;
+      const url = `http://localhost:5000/monthly-handovers?staff=${staffQueryString}&service=${serviceQueryString}&page=${page}&limit=${limit}`;
       const responseData = await sendRequest(url);
-      console.log(responseData.allForms);
-      setLoadedForms(responseData.allForms);
+      console.log(responseData);
+      setLoadedForms(responseData.allMonthlyForms);
       setPaginationData({
         total: responseData.pagination.total,
         page: responseData.pagination.page,
         pages: responseData.pagination.pages,
       });
-      // console.log('List of All forms:', responseData.allForms);
+      // console.log('List of All daily forms:', responseData.allForms);
     } catch (err) {
       console.log(err);
     }
@@ -129,6 +127,7 @@ const AllForms = () => {
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
+
       {!isLoading && loadedForms && (
         <>
           <div className={styles.button}>
@@ -188,4 +187,4 @@ const AllForms = () => {
   );
 };
 
-export default AllForms;
+export default MonthlyUploadedForms;

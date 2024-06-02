@@ -57,24 +57,6 @@ const Filters = ({
               />
             </div>
           </div>
-          <div className={styles.container__filters__item}>
-            <div className={styles.container__filters__item__label}>
-              Search by Forms:
-            </div>
-            <div className={styles.container__filters__item__filter}>
-              <FilterSelect
-                id='form filter'
-                element='select'
-                type='select'
-                label='Filter by Form'
-                multiple
-                options={formOptions}
-                value={serviceValue}
-                onChange={(o) => setServiceValue(o)}
-                onFilterChange={onFilterChange}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </>

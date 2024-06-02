@@ -1,212 +1,249 @@
 @import '../../../styles/variables.scss';
-.container {
+.nav {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 82px;
-  box-shadow: 0 2px 4px -2px $--light-grey;
-
-  &__content {
-    z-index: 2000;
+  flex-direction: column;
+  position: relative;
+  .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 90%;
-    &__links {
+    width: 100%;
+    height: 82px;
+    box-shadow: 0 2px 4px -2px $--light-grey;
+
+    &__content {
+      z-index: 2000;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      flex: 0 0 60%;
-      text-decoration: none;
-      @media screen and (max-width: 867px) {
-        display: none;
-      }
-      &__item {
-        background-color: transparent;
-        width: 25%;
-        border: none;
-        letter-spacing: 1px;
-        font-size: 1.15rem;
-        background-color: $--medium-purple;
-        padding: 5px 10px;
-        border-radius: 4px;
-        margin-left: 5px;
-        color: #fff;
-        text-align: center;
-        cursor: pointer;
-        &:hover {
-          background-color: darken($--medium-purple, 10%);
+      align-items: center;
+      width: 90%;
+      &__links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex: 0 0 60%;
+        text-decoration: none;
+        @media screen and (max-width: 867px) {
+          display: none;
         }
-
-        &__link {
-          text-decoration: none;
-          z-index: 10000;
+        &__item {
+          width: 25%;
+          border: none;
+          letter-spacing: 1px;
+          background-color: $--medium-purple;
+          padding: 15px 10px;
+          border-radius: 4px;
+          margin-left: 5px;
           color: #fff;
-          &.active {
+          text-align: center;
+          cursor: pointer;
+          &:hover {
             background-color: darken($--medium-purple, 10%);
           }
-        }
-      }
-    }
-    &__logo {
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 1.25rem;
-      &__link {
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        span {
-          padding: 0;
-        }
-      }
-    }
-  }
-  &__MobContent {
-    display: flex;
-    height: 82px;
-    &__menuIcon {
-      cursor: pointer;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: 5px;
-      margin-right: 10px;
-      z-index: 1000;
-      position: relative;
-      @media screen and (max-width: 867px) {
-        display: flex;
-        .iconBar {
-          width: 30px;
-          height: 2px;
-          background-color: darken($--medium-purple, 20%);
-          margin: 4px;
-          transition: all 0.3s ease-in;
-        }
-        &.open {
-          .iconBar:nth-child(1) {
-            transform: rotate(-45deg) translate(-7px, 7px);
-          }
-          .iconBar:nth-child(2) {
-            opacity: 0;
-          }
-          .iconBar:nth-child(3) {
-            transform: rotate(45deg) translate(-7px, -7px);
-          }
-        }
-      }
-    }
-    &__dropDown {
-      display: flex;
-      position: absolute;
-      flex-direction: column;
-      background-color: #fff;
-      width: 100%;
-      left: 0;
-      opacity: 0;
-      margin-top: -300px;
 
-      transition: all 0.3s ease-in-out;
-      &__category {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto;
-        text-align: center;
-        border-bottom: 1px solid $--medium-purple;
-        width: 90%;
-        transition: all 0.3s ease-in-out;
-        &:hover {
-          width: 95%;
+          &__link {
+            text-decoration: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            z-index: 10000;
+            color: #fff;
+            &.active {
+              background-color: darken($--medium-purple, 10%);
+            }
+            &__span {
+              height: 19px;
+              width: 19px;
+              transition: all 0.3s ease-in-out;
+              transform-origin: center;
+              &.rotate {
+                transform: rotateX(180deg);
+              }
+            }
+          }
         }
-
-        &__item {
+      }
+      &__logo {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.25rem;
+        &__link {
           display: flex;
-          flex-direction: row;
-          align-items: center;
+          flex-direction: column;
+          text-decoration: none;
+          span {
+            padding: 0;
+          }
+        }
+      }
+    }
+    &__MobContent {
+      display: flex;
+      // height: 82px;
+      &__menuIcon {
+        cursor: pointer;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+        margin-right: 10px;
+        z-index: 1000;
+        position: relative;
+        @media screen and (max-width: 867px) {
+          display: flex;
+          .iconBar {
+            width: 30px;
+            height: 2px;
+            background-color: darken($--medium-purple, 20%);
+            margin: 4px;
+            transition: all 0.3s ease-in;
+          }
+          &.open {
+            .iconBar:nth-child(1) {
+              transform: rotate(-45deg) translate(-7px, 7px);
+            }
+            .iconBar:nth-child(2) {
+              opacity: 0;
+            }
+            .iconBar:nth-child(3) {
+              transform: rotate(45deg) translate(-7px, -7px);
+            }
+          }
+        }
+      }
+      &__dropDown {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        background-color: #fff;
+        width: 100%;
+        left: 0;
+        opacity: 0;
+        margin-top: -500px;
+        font-size: 1.35rem;
+        font-weight: 700;
+        transition: all 0.3s ease-in-out;
+        &__category {
+          display: flex;
+          flex-direction: column;
           justify-content: center;
+          align-items: center;
+          margin: 0 auto;
+          text-align: center;
+          border-bottom: 1px solid $--medium-purple;
+          width: 90%;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            width: 95%;
+          }
+
+          &__item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            text-align: center;
+            padding: 10px 0;
+            width: 90%;
+            transition: all 0.3s ease-in-out;
+            color: darken($--medium-purple, 20%);
+            cursor: pointer;
+
+            &__span {
+              height: 15px;
+              width: 15px;
+              transition: all 0.3s ease-in-out;
+              transform-origin: center;
+              margin-left: 10px;
+              &.rotate {
+                transform: rotateX(180deg);
+              }
+            }
+          }
+          &__items {
+            transition: all 0.3s ease-in-out;
+            height: 0;
+            opacity: 0;
+            width: 100%;
+            z-index: -1;
+            &.show {
+              height: 145px;
+              opacity: 1;
+              z-index: 1000;
+            }
+          }
+        }
+        &__item {
+          display: block;
           margin: 0 auto;
           text-align: center;
           padding: 10px 0;
           width: 90%;
+          border-bottom: 1px solid $--medium-purple;
           transition: all 0.3s ease-in-out;
-          color: darken($--medium-purple, 20%);
-          cursor: pointer;
-
-          &__span {
-            height: 15px;
-            width: 15px;
-            transition: all 0.3s ease-in-out;
-            transform-origin: center;
-            margin-left: 10px;
-            &.rotate {
-              transform: rotateX(180deg);
+          &:hover {
+            width: 95%;
+          }
+          &__link {
+            color: darken($--medium-purple, 20%);
+            text-decoration: none;
+            &:hover {
+              color: darken($--medium-purple, 40%);
+            }
+            &.span {
+              height: 19px;
+              width: 19px;
+              transition: all 0.3s ease-in-out;
+              transform-origin: center;
+              &.rotate {
+                transform: rotateX(180deg);
+              }
             }
           }
         }
-        &__items {
-          transition: all 0.3s ease-in-out;
-          height: 0;
-          opacity: 0;
-          width: 100%;
-          z-index: -1;
-          &.show {
-            height: 90px;
-            opacity: 1;
-            z-index: 1000;
-          }
-        }
-      }
-      &__item {
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-        padding: 10px 0;
-        width: 90%;
-        border-bottom: 1px solid $--medium-purple;
-        transition: all 0.3s ease-in-out;
-        &:hover {
-          width: 95%;
-        }
-        &__link {
+        button {
+          background-color: transparent;
+          border: none;
           color: darken($--medium-purple, 20%);
-          text-decoration: none;
+          font-size: 1.35rem;
+          font-weight: 700;
+
+          cursor: pointer;
           &:hover {
             color: darken($--medium-purple, 40%);
           }
-          &.span {
-            height: 19px;
-            width: 19px;
-            transition: all 0.3s ease-in-out;
-            transform-origin: center;
-            &.rotate {
-              transform: rotateX(180deg);
-            }
+        }
+        &.open {
+          @media screen and (max-width: 867px) {
+            margin-top: 82px;
+            opacity: 1;
           }
         }
       }
-      button {
-        background-color: transparent;
-        border: none;
-        color: darken($--medium-purple, 20%);
-        font-size: 1.07rem;
-
-        cursor: pointer;
-        &:hover {
-          color: darken($--medium-purple, 40%);
-        }
-      }
-      &.open {
-        @media screen and (max-width: 867px) {
-          margin-top: 82px;
-          opacity: 1;
-        }
-      }
+    }
+  }
+  .dropDownAllForms {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-align: center;
+    width: 30%;
+    top: -300%;
+    left: 45%;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+    &.show {
+      opacity: 1;
+      z-index: 1000;
+      top: 100%;
     }
   }
 }

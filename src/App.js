@@ -27,6 +27,9 @@ import ManagerUpdateWeeklyForm from './places/pages/ManagerUpdateWeeklyForm.jsx'
 import LoadingSpinner from './shared/components/UIElements/LoadingSpinner.js';
 import ForgetPassword from './user/components/ForgetPassword.jsx';
 import ResetPassword from './user/components/ResetPassword.jsx';
+// import DailyUploadedForms from './places/pages/DailyUploadedForms.jsx';
+// import WeeklyUploadedForms from './places/pages/WeeklyUploadedForms.jsx';
+// import MonthlyUploadedForms from './places/pages/MonthlyUploadedForms.jsx';
 
 const DailyForm = React.lazy(() => import('./places/pages/DailyForm.jsx'));
 const WeeklyForm = React.lazy(() => import('./places/pages/WeeklyForm.jsx'));
@@ -34,6 +37,15 @@ const MonthlyForm = React.lazy(() => import('./places/pages/MonthlyForm.jsx'));
 const UserForms = React.lazy(() => import('./user/pages/UserForms.jsx'));
 const Users = React.lazy(() => import('./user/pages/Users.jsx'));
 const AllForms = React.lazy(() => import('./places/pages/AllForms.jsx'));
+const DailyUploadedForms = React.lazy(() =>
+  import('./places/pages/DailyUploadedForms.jsx')
+);
+const WeeklyUploadedForms = React.lazy(() =>
+  import('./places/pages/WeeklyUploadedForms.jsx')
+);
+const MonthlyUploadedForms = React.lazy(() =>
+  import('./places/pages/MonthlyUploadedForms.jsx')
+);
 const NewUser = React.lazy(() => import('./user/pages/NewUser.jsx'));
 const UpdateWeeklyForm = React.lazy(() =>
   import('./places/pages/UpdateWeeklyForm.jsx')
@@ -56,6 +68,18 @@ function App() {
             <Route path='/users/:userId' element={<UpdateUser />} />
             <Route path='/users/new' element={<NewUser />} />
             <Route path='/all-forms' element={<AllForms />} />
+            <Route
+              path='/daily-uploaded-forms'
+              element={<DailyUploadedForms />}
+            />
+            <Route
+              path='/weekly-uploaded-forms'
+              element={<WeeklyUploadedForms />}
+            />
+            <Route
+              path='/monthly-uploaded-forms'
+              element={<MonthlyUploadedForms />}
+            />
             <Route
               path='/all-forms/:formId'
               element={<ManagerUpdateWeeklyForm />}
