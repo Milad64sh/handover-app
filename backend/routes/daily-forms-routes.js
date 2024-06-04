@@ -4,7 +4,7 @@ const dailyFormsController = require('../controllers/daily-forms-controller');
 const router = express.Router();
 
 router.get('/', dailyFormsController.getAllDailyForms);
-router.get('/formid', dailyFormsController.getDailyFormById);
+router.get('/:formid', dailyFormsController.getDailyFormById);
 router.get('/user/:uid', dailyFormsController.getDailyFormsByUserId);
 router.post(
   '/',

@@ -50,50 +50,47 @@ const getAllDailyForms = async (req, res, next) => {
 
 const getDailyFormById = async (req, res, next) => {
   const formId = req.params.formid;
-  let monthlyForm;
+  let dailyForm;
   try {
-    monthlyForm = await MonthlyForm.findById(formId);
+    dailyForm = await DailyForm.findById(formId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find a  monthly-handover form.',
+      'Something went wrong, could not find a  daily-handover form.',
       500
     );
     return next(error);
   }
-  if (!monthlyForm) {
+  if (!dailyForm) {
     const error = new HttpError(
-      'Could not find a monthly-handover form for provided ID!'
+      'Could not find a daily-handover form for provided ID!'
     );
     return next(error);
   }
-  res.json({ form: form.toObject({ getters: true }) });
+  res.json({ form: dailyForm.toObject({ getters: true }) });
 };
 
 // GET FORMS BY USER ID
 
 const getDailyFormsByUserId = async (req, res, next) => {
   const userId = req.params.uid;
-  let userWithMonthlyForms;
+  let userWithDailyForms;
   try {
-    userWithMonthlyForms = await User.findById(userId).populate('monthlyForms');
+    userWithDailyForms = await User.findById(userId).populate('dailyForms');
   } catch (err) {
     const error = new HttpError(
-      'Fetching forms failed, please try again.',
+      'Fetching daily forms failed, please try again.',
       500
     );
     return next(error);
   }
-  if (!userWithMonthlyForms || userWithMonthlyForms.monthlyForms.length === 0) {
+  if (!userWithDailyForms || userWithDailyForms.dailyForms.length === 0) {
     return next(
-      new HttpError(
-        'Could not find Monthly-handover forms for provided ID.',
-        404
-      )
+      new HttpError('Could not find Daily-handover forms for provided ID.', 404)
     );
   }
   res.json({
-    monthlyForms: userWithMonthlyForms.monthlyForms.map((monthlyForm) =>
-      monthlyForm.toObject({ getters: true })
+    dailyForms: userWithDailyForms.dailyForms.map((dailyForm) =>
+      dailyForm.toObject({ getters: true })
     ),
   });
 };
