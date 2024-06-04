@@ -370,8 +370,7 @@ const DailyForm = () => {
                     type='text'
                     validators={[VALIDATOR_MINLENGTH(10)]}
                     onInput={inputHandler}
-                    label='Money Checks completed? Cash tin counted and balances, ensure all receipts in the cashbook.
-'
+                    label='Money Checks completed? Cash tin counted and balances, ensure all receipts in the cashbook.'
                     errorText='Please explain in more detail'
                   />
                   <Textarea
@@ -380,8 +379,7 @@ const DailyForm = () => {
                     type='text'
                     validators={[VALIDATOR_MINLENGTH(10)]}
                     onInput={inputHandler}
-                    label='All paperwork is s red in the sleep room securely and staff aware of GDPR
-'
+                    label='All paperwork is s red in the sleep room securely and staff aware of GDPR'
                     errorText='Please explain in more detail'
                   />
                   <Textarea
@@ -774,7 +772,7 @@ const DailyForm = () => {
               <div
                 className={styles.container__form__sectionMain__section__title}
               >
-                <h3>Records (Reg 14)</h3>
+                <h3>PM Task list (Reg 9, 12, 13)</h3>
               </div>
               <div
                 className={

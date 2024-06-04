@@ -27,6 +27,8 @@ import ManagerUpdateWeeklyForm from './places/pages/ManagerUpdateWeeklyForm.jsx'
 import LoadingSpinner from './shared/components/UIElements/LoadingSpinner.js';
 import ForgetPassword from './user/components/ForgetPassword.jsx';
 import ResetPassword from './user/components/ResetPassword.jsx';
+import ReadDailyForm from './places/pages/ReadDailyForm.jsx';
+import ReadMonthlyForm from './places/pages/ReadMonthlyForm.jsx';
 // import DailyUploadedForms from './places/pages/DailyUploadedForms.jsx';
 // import WeeklyUploadedForms from './places/pages/WeeklyUploadedForms.jsx';
 // import MonthlyUploadedForms from './places/pages/MonthlyUploadedForms.jsx';
@@ -90,15 +92,23 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/daily-handover' element={<DailyForm />} />
         <Route path='/weekly-handover' element={<WeeklyForm />} />
+        <Route path='/monthly-handover' element={<MonthlyForm />} />
         <Route
           path='/weekly-handovers/:formId'
           element={<UpdateWeeklyForm />}
         />
         <Route
+          path='/daily-handovers/:formId/view-form'
+          element={<ReadDailyForm />}
+        />
+        <Route
           path='/weekly-handovers/:formId/view-form'
           element={<ReadWeeklyForm />}
         />
-        <Route path='/monthly-handover' element={<MonthlyForm />} />
+        <Route
+          path='/monthly-handovers/:formId/view-form'
+          element={<ReadMonthlyForm />}
+        />
         <Route path='*' element={<Navigate to='/home' replace />} />
       </>
     );

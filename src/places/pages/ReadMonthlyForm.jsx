@@ -9,18 +9,18 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import styles from './readWeeklyForm.module.scss';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
-const ReadWeeklyForm = () => {
+const ReadMonthlyForm = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForm, setLoadedForm] = useState();
-  const weeklyFormId = useParams().formId;
+  const dailyFormId = useParams().formId;
   const [formState, setFormData] = useForm(
     {
       service: {
         value: '',
         isValid: false,
       },
-      week: {
+      day: {
         value: '',
         isValid: false,
       },
@@ -68,6 +68,158 @@ const ReadWeeklyForm = () => {
         value: '',
         isValid: false,
       },
+      question_11: {
+        value: '',
+        isValid: false,
+      },
+      question_12: {
+        value: '',
+        isValid: false,
+      },
+      question_13: {
+        value: '',
+        isValid: false,
+      },
+      question_14: {
+        value: '',
+        isValid: false,
+      },
+      question_15: {
+        value: '',
+        isValid: false,
+      },
+      question_16: {
+        value: '',
+        isValid: false,
+      },
+      question_17: {
+        value: '',
+        isValid: false,
+      },
+      question_18: {
+        value: '',
+        isValid: false,
+      },
+      question_19: {
+        value: '',
+        isValid: false,
+      },
+      question_20: {
+        value: '',
+        isValid: false,
+      },
+      question_21: {
+        value: '',
+        isValid: false,
+      },
+      question_22: {
+        value: '',
+        isValid: false,
+      },
+      question_23: {
+        value: '',
+        isValid: false,
+      },
+      question_24: {
+        value: '',
+        isValid: false,
+      },
+      question_25: {
+        value: '',
+        isValid: false,
+      },
+      question_26: {
+        value: '',
+        isValid: false,
+      },
+      question_27: {
+        value: '',
+        isValid: false,
+      },
+      question_28: {
+        value: '',
+        isValid: false,
+      },
+      question_29: {
+        value: '',
+        isValid: false,
+      },
+      question_30: {
+        value: '',
+        isValid: false,
+      },
+      question_31: {
+        value: '',
+        isValid: false,
+      },
+      question_32: {
+        value: '',
+        isValid: false,
+      },
+      question_33: {
+        value: '',
+        isValid: false,
+      },
+      question_34: {
+        value: '',
+        isValid: false,
+      },
+      question_35: {
+        value: '',
+        isValid: false,
+      },
+      question_36: {
+        value: '',
+        isValid: false,
+      },
+      question_37: {
+        value: '',
+        isValid: false,
+      },
+      question_38: {
+        value: '',
+        isValid: false,
+      },
+      question_39: {
+        value: '',
+        isValid: false,
+      },
+      question_40: {
+        value: '',
+        isValid: false,
+      },
+      question_41: {
+        value: '',
+        isValid: false,
+      },
+      question_42: {
+        value: '',
+        isValid: false,
+      },
+      question_43: {
+        value: '',
+        isValid: false,
+      },
+      question_44: {
+        value: '',
+        isValid: false,
+      },
+      question_45: {
+        value: '',
+        isValid: false,
+      },
+      question_46: {
+        value: '',
+        isValid: false,
+      },
+      question_47: {
+        value: '',
+        isValid: false,
+      },
+      question_48: {
+        value: '',
+        isValid: false,
+      },
     },
     false
   );
@@ -76,10 +228,10 @@ const ReadWeeklyForm = () => {
     const fetchForm = async () => {
       try {
         // const responseData = await sendRequest(
-        //   `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${weeklyFormId}`
+        //   `${process.env.REACT_APP_BACKEND_URL}/daily-handovers/${dailyFormId}`
         // );
         const responseData = await sendRequest(
-          `http://localhost:5000/weekly-handovers/${weeklyFormId}`
+          `http://localhost:5000/daily-handovers/${dailyFormId}`
         );
         setLoadedForm(responseData.form);
         setFormData(
@@ -88,8 +240,8 @@ const ReadWeeklyForm = () => {
               value: responseData.form.service,
               isValid: true,
             },
-            week: {
-              value: responseData.form.week,
+            day: {
+              value: responseData.form.day,
               isValid: true,
             },
             staff: {
@@ -136,6 +288,158 @@ const ReadWeeklyForm = () => {
               value: responseData.form.question_10,
               isValid: true,
             },
+            question_11: {
+              value: responseData.form.question_11,
+              isValid: true,
+            },
+            question_12: {
+              value: responseData.form.question_12,
+              isValid: true,
+            },
+            question_13: {
+              value: responseData.form.question_13,
+              isValid: true,
+            },
+            question_14: {
+              value: responseData.form.question_14,
+              isValid: true,
+            },
+            question_15: {
+              value: responseData.form.question_15,
+              isValid: true,
+            },
+            question_16: {
+              value: responseData.form.question_16,
+              isValid: true,
+            },
+            question_17: {
+              value: responseData.form.question_17,
+              isValid: true,
+            },
+            question_18: {
+              value: responseData.form.question_18,
+              isValid: true,
+            },
+            question_19: {
+              value: responseData.form.question_19,
+              isValid: true,
+            },
+            question_20: {
+              value: responseData.form.question_20,
+              isValid: true,
+            },
+            question_21: {
+              value: responseData.form.question_21,
+              isValid: true,
+            },
+            question_22: {
+              value: responseData.form.question_22,
+              isValid: true,
+            },
+            question_23: {
+              value: responseData.form.question_23,
+              isValid: true,
+            },
+            question_24: {
+              value: responseData.form.question_24,
+              isValid: true,
+            },
+            question_25: {
+              value: responseData.form.question_25,
+              isValid: true,
+            },
+            question_26: {
+              value: responseData.form.question_26,
+              isValid: true,
+            },
+            question_27: {
+              value: responseData.form.question_27,
+              isValid: true,
+            },
+            question_28: {
+              value: responseData.form.question_28,
+              isValid: true,
+            },
+            question_29: {
+              value: responseData.form.question_29,
+              isValid: true,
+            },
+            question_30: {
+              value: responseData.form.question_30,
+              isValid: true,
+            },
+            question_31: {
+              value: responseData.form.question_31,
+              isValid: true,
+            },
+            question_32: {
+              value: responseData.form.question_32,
+              isValid: true,
+            },
+            question_33: {
+              value: responseData.form.question_33,
+              isValid: true,
+            },
+            question_34: {
+              value: responseData.form.question_34,
+              isValid: true,
+            },
+            question_35: {
+              value: responseData.form.question_35,
+              isValid: true,
+            },
+            question_36: {
+              value: responseData.form.question_36,
+              isValid: true,
+            },
+            question_37: {
+              value: responseData.form.question_37,
+              isValid: true,
+            },
+            question_38: {
+              value: responseData.form.question_38,
+              isValid: true,
+            },
+            question_39: {
+              value: responseData.form.question_39,
+              isValid: true,
+            },
+            question_40: {
+              value: responseData.form.question_40,
+              isValid: true,
+            },
+            question_41: {
+              value: responseData.form.question_41,
+              isValid: true,
+            },
+            question_42: {
+              value: responseData.form.question_42,
+              isValid: true,
+            },
+            question_43: {
+              value: responseData.form.question_43,
+              isValid: true,
+            },
+            question_44: {
+              value: responseData.form.question_44,
+              isValid: true,
+            },
+            question_45: {
+              value: responseData.form.question_45,
+              isValid: true,
+            },
+            question_46: {
+              value: responseData.form.question_46,
+              isValid: true,
+            },
+            question_47: {
+              value: responseData.form.question_47,
+              isValid: true,
+            },
+            question_48: {
+              value: responseData.form.question_48,
+              isValid: true,
+            },
           },
           true
         );
@@ -144,7 +448,7 @@ const ReadWeeklyForm = () => {
       }
     };
     fetchForm();
-  }, [sendRequest, weeklyFormId, setFormData, auth.name]);
+  }, [sendRequest, dailyFormId, setFormData, auth.name]);
 
   if (isLoading) {
     return <LoadingSpinner asOverlay />;
@@ -153,11 +457,43 @@ const ReadWeeklyForm = () => {
     return <h2>Could not find form!</h2>;
   }
 
+  // const generateAndDownloadPDF = () => {
+  //   const container = document.querySelector(`.${styles.container}`);
+  //   const pdfWidth = 210;
+  //   const pdfHeight = 297;
+
+  //   html2canvas(container).then((canvas) => {
+  //     const imgData = canvas.toDataURL('image/png');
+  //     const pdf = new jsPDF({
+  //       orientation: 'portrait',
+  //       unit: 'mm',
+  //       format: 'a4',
+  //     });
+  //     const imgProps = pdf.getImageProperties(imgData);
+  //     const scaleX = pdfWidth / imgProps.width;
+  //     const scaleY = pdfHeight / imgProps.height;
+  //     const scale = Math.min(scaleX, scaleY);
+  //     let yPos = 0;
+  //     let remainingHeight = imgProps.height * scale;
+  //     while (remainingHeight > 0) {
+  //       const pageHeight = Math.min(remainingHeight, pdfHeight);
+  //       pdf.addImage(imgData, 'PNG', 0, yPos, pdfWidth, pageHeight);
+  //       yPos -= pdfHeight;
+  //       if (remainingHeight > pdfHeight) {
+  //         pdf.addPage();
+  //       }
+  //       remainingHeight -= pdfHeight;
+  //     }
+  //     const fileName = 'weekly_form.pdf';
+  //     pdf.save(fileName);
+  //   });
+  // };
+
   const generateAndDownloadPDF = () => {
     const element = document.querySelector(`.${styles.container}`);
     const opt = {
       margin: 0.5,
-      filename: 'weekly_form.pdf',
+      filename: 'daily_form.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
@@ -283,7 +619,7 @@ const ReadWeeklyForm = () => {
       <ErrorModal error={error} onClear={clearError} />
       <div style={containerStyle} className={styles.container}>
         <div style={containerTitleStyle} className={styles.container__title}>
-          <h2>weekly checks Form</h2>
+          <h2>daily handover Form</h2>
         </div>
         {!isLoading && loadedForm && (
           <div style={form} className={styles.container__form}>
@@ -319,7 +655,7 @@ const ReadWeeklyForm = () => {
                   style={input}
                   className={styles.container__form__general__item__input}
                 >
-                  {loadedForm.week}
+                  {loadedForm.day}
                 </div>
               </div>
               <div
@@ -349,7 +685,7 @@ const ReadWeeklyForm = () => {
                 style={sectionMainTitle}
                 className={styles.container__form__sectionMain__title}
               >
-                <h3>maintenance reports</h3>
+                <h3>Household Checks (Reg 9, 12 and 15)</h3>
               </div>
               <div
                 style={sectionMainQuestions}
@@ -361,17 +697,6 @@ const ReadWeeklyForm = () => {
                     styles.container__form__sectionMain__questions__section
                   }
                 >
-                  <div
-                    style={sectionMainSectionTitle}
-                    className={
-                      styles.container__form__sectionMain__questions__section__title
-                    }
-                  >
-                    <h3>
-                      Reg 9 Person-centred care, Reg 12 Safe care and treatment,
-                      Reg 13 Safeguarding service users
-                    </h3>
-                  </div>
                   <div
                     style={sectionMainSectionQuesiton}
                     className={
@@ -774,4 +1099,4 @@ const ReadWeeklyForm = () => {
   );
 };
 
-export default ReadWeeklyForm;
+export default ReadMonthlyForm;

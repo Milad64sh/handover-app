@@ -12,7 +12,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 100%;
+    width: 90%;
 
     &__item {
       &:nth-child(1) {
@@ -25,7 +25,7 @@
         animation-delay: 0.6s;
       }
       display: flex;
-      flex: 0 0 25%;
+      flex: 0 0 20%;
       border-radius: 10px;
       justify-content: center;
       padding: 5px 0;

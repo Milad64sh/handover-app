@@ -25,6 +25,8 @@ const FormsList = (props) => {
               creator={form.creator}
               service={form.service}
               week={form.week}
+              day={form.day}
+              month={form.month}
               staff={form.staff}
               onDelete={props.onDeleteForm}
             />

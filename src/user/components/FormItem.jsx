@@ -84,20 +84,64 @@ const FormItem = (props) => {
               <p>{props.service}</p>
             </div>
             <div className={styles.formItem__card__content__date}>
-              <span>week:</span>
-              <p>{props.week}</p>
+              {props.day && (
+                <>
+                  <span>day:</span>
+                  <p>{props.day}</p>
+                </>
+              )}
+              {props.week && (
+                <>
+                  <span>week:</span>
+                  <p>{props.week}</p>
+                </>
+              )}
+              {props.month && (
+                <>
+                  <span>month:</span>
+                  <p>{props.month}</p>
+                </>
+              )}
             </div>
           </div>
           <div className={styles.formItem__card__actions}>
             <div className={styles.formItem__card__actions__action}>
-              <Link
-                className={styles.formItem__card__actions__action__link}
-                to={`/weekly-handovers/${props.id}/view-form`}
-              >
-                <button className={styles.formItem__card__actions__action__btn}>
-                  READ
-                </button>
-              </Link>
+              {props.day && (
+                <Link
+                  className={styles.formItem__card__actions__action__link}
+                  to={`/daily-handovers/${props.id}/view-form`}
+                >
+                  <button
+                    className={styles.formItem__card__actions__action__btn}
+                  >
+                    READ
+                  </button>
+                </Link>
+              )}
+              {props.week && (
+                <Link
+                  className={styles.formItem__card__actions__action__link}
+                  to={`/weekly-handovers/${props.id}/view-form`}
+                >
+                  <button
+                    className={styles.formItem__card__actions__action__btn}
+                  >
+                    READ
+                  </button>
+                </Link>
+              )}
+              {props.month && (
+                <Link
+                  className={styles.formItem__card__actions__action__link}
+                  to={`/monthly-handovers/${props.id}/view-form`}
+                >
+                  <button
+                    className={styles.formItem__card__actions__action__btn}
+                  >
+                    READ
+                  </button>
+                </Link>
+              )}
             </div>
             {auth.isLoggedIn &&
               (auth.userId === props.creatorId || auth.isManager) && (
