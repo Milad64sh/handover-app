@@ -205,7 +205,7 @@ const updateFormById = async (req, res, next) => {
   try {
     form = await Form.findById(formId);
     if (!form) {
-      const error = new HttpError('Form not found', 404);
+      const error = new HttpError('Weekly Form not found', 404);
       return next(error);
     }
   } catch (err) {
