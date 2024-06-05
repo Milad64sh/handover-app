@@ -1,235 +1,470 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import Input from '../../shared/components/formElements/Input';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/Http-hook';
+import { AuthContext } from '../../shared/context/auth-context';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
+import Input from '../../shared/components/formElements/Input';
 import Textarea from '../../shared/components/formElements/Textarea';
-import { AuthContext } from '../../shared/context/auth-context';
-import { useForm } from '../../shared/hooks/form-hook';
-import { useHttpClient } from '../../shared/hooks/Http-hook';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import Card from '../../shared/components/UIElements/Card';
 import styles from './dailyForm.module.scss';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
-const DailyForm = () => {
+const UpdateDailyForm = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const [formState, inputHandler] = useForm({
-    service: {
-      value: '',
-      isValid: false,
-    },
-    day: {
-      value: '',
-      isValid: false,
-    },
-    staff: {
-      value: auth.name,
-      isValid: true,
-    },
-    question_1: {
-      value: '',
-      isValid: false,
-    },
-    question_2: {
-      value: '',
-      isValid: false,
-    },
-    question_3: {
-      value: '',
-      isValid: false,
-    },
-    question_4: {
-      value: '',
-      isValid: false,
-    },
-    question_5: {
-      value: '',
-      isValid: false,
-    },
-    question_6: {
-      value: '',
-      isValid: false,
-    },
-    question_7: {
-      value: '',
-      isValid: false,
-    },
-    question_8: {
-      value: '',
-      isValid: false,
-    },
-    question_9: {
-      value: '',
-      isValid: false,
-    },
-    question_10: {
-      value: '',
-      isValid: false,
-    },
-    question_11: {
-      value: '',
-      isValid: false,
-    },
-    question_12: {
-      value: '',
-      isValid: false,
-    },
-    question_13: {
-      value: '',
-      isValid: false,
-    },
-    question_14: {
-      value: '',
-      isValid: false,
-    },
-    question_15: {
-      value: '',
-      isValid: false,
-    },
-    question_16: {
-      value: '',
-      isValid: false,
-    },
-    question_17: {
-      value: '',
-      isValid: false,
-    },
-    question_18: {
-      value: '',
-      isValid: false,
-    },
-    question_19: {
-      value: '',
-      isValid: false,
-    },
-    question_20: {
-      value: '',
-      isValid: false,
-    },
-    question_21: {
-      value: '',
-      isValid: false,
-    },
-    question_22: {
-      value: '',
-      isValid: false,
-    },
-    question_23: {
-      value: '',
-      isValid: false,
-    },
-    question_24: {
-      value: '',
-      isValid: false,
-    },
-    question_25: {
-      value: '',
-      isValid: false,
-    },
-    question_26: {
-      value: '',
-      isValid: false,
-    },
-    question_27: {
-      value: '',
-      isValid: false,
-    },
-    question_28: {
-      value: '',
-      isValid: false,
-    },
-    question_29: {
-      value: '',
-      isValid: false,
-    },
-    question_30: {
-      value: '',
-      isValid: false,
-    },
-    question_31: {
-      value: '',
-      isValid: false,
-    },
-    question_32: {
-      value: '',
-      isValid: false,
-    },
-    question_33: {
-      value: '',
-      isValid: false,
-    },
-    question_34: {
-      value: '',
-      isValid: false,
-    },
-    question_35: {
-      value: '',
-      isValid: false,
-    },
-    question_36: {
-      value: '',
-      isValid: false,
-    },
-    question_37: {
-      value: '',
-      isValid: false,
-    },
-    question_38: {
-      value: '',
-      isValid: false,
-    },
-    question_39: {
-      value: '',
-      isValid: false,
-    },
-    question_40: {
-      value: '',
-      isValid: false,
-    },
-    question_41: {
-      value: '',
-      isValid: false,
-    },
-    question_42: {
-      value: '',
-      isValid: false,
-    },
-    question_43: {
-      value: '',
-      isValid: false,
-    },
-    question_44: {
-      value: '',
-      isValid: false,
-    },
-    question_45: {
-      value: '',
-      isValid: false,
-    },
-    question_46: {
-      value: '',
-      isValid: false,
-    },
-    question_47: {
-      value: '',
-      isValid: false,
-    },
-    question_48: {
-      value: '',
-      isValid: false,
-    },
-  });
-  const navigate = useNavigate();
-  const formSubmitHandler = async (event) => {
-    event.preventDefault();
+  const [loadedForm, setLoadedForm] = useState();
+  const dailyFormId = useParams().formId;
 
+  const navigate = useNavigate();
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      service: {
+        value: '',
+        isValid: false,
+      },
+      day: {
+        value: '',
+        isValid: false,
+      },
+      staff: {
+        value: auth.name,
+        isValid: true,
+      },
+      question_1: {
+        value: '',
+        isValid: false,
+      },
+      question_2: {
+        value: '',
+        isValid: false,
+      },
+      question_3: {
+        value: '',
+        isValid: false,
+      },
+      question_4: {
+        value: '',
+        isValid: false,
+      },
+      question_5: {
+        value: '',
+        isValid: false,
+      },
+      question_6: {
+        value: '',
+        isValid: false,
+      },
+      question_7: {
+        value: '',
+        isValid: false,
+      },
+      question_8: {
+        value: '',
+        isValid: false,
+      },
+      question_9: {
+        value: '',
+        isValid: false,
+      },
+      question_10: {
+        value: '',
+        isValid: false,
+      },
+      question_11: {
+        value: '',
+        isValid: false,
+      },
+      question_12: {
+        value: '',
+        isValid: false,
+      },
+      question_13: {
+        value: '',
+        isValid: false,
+      },
+      question_14: {
+        value: '',
+        isValid: false,
+      },
+      question_15: {
+        value: '',
+        isValid: false,
+      },
+      question_16: {
+        value: '',
+        isValid: false,
+      },
+      question_17: {
+        value: '',
+        isValid: false,
+      },
+      question_18: {
+        value: '',
+        isValid: false,
+      },
+      question_19: {
+        value: '',
+        isValid: false,
+      },
+      question_20: {
+        value: '',
+        isValid: false,
+      },
+      question_21: {
+        value: '',
+        isValid: false,
+      },
+      question_22: {
+        value: '',
+        isValid: false,
+      },
+      question_23: {
+        value: '',
+        isValid: false,
+      },
+      question_24: {
+        value: '',
+        isValid: false,
+      },
+      question_25: {
+        value: '',
+        isValid: false,
+      },
+      question_26: {
+        value: '',
+        isValid: false,
+      },
+      question_27: {
+        value: '',
+        isValid: false,
+      },
+      question_28: {
+        value: '',
+        isValid: false,
+      },
+      question_29: {
+        value: '',
+        isValid: false,
+      },
+      question_30: {
+        value: '',
+        isValid: false,
+      },
+      question_31: {
+        value: '',
+        isValid: false,
+      },
+      question_32: {
+        value: '',
+        isValid: false,
+      },
+      question_33: {
+        value: '',
+        isValid: false,
+      },
+      question_34: {
+        value: '',
+        isValid: false,
+      },
+      question_35: {
+        value: '',
+        isValid: false,
+      },
+      question_36: {
+        value: '',
+        isValid: false,
+      },
+      question_37: {
+        value: '',
+        isValid: false,
+      },
+      question_38: {
+        value: '',
+        isValid: false,
+      },
+      question_39: {
+        value: '',
+        isValid: false,
+      },
+      question_40: {
+        value: '',
+        isValid: false,
+      },
+      question_41: {
+        value: '',
+        isValid: false,
+      },
+      question_42: {
+        value: '',
+        isValid: false,
+      },
+      question_43: {
+        value: '',
+        isValid: false,
+      },
+      question_44: {
+        value: '',
+        isValid: false,
+      },
+      question_45: {
+        value: '',
+        isValid: false,
+      },
+      question_46: {
+        value: '',
+        isValid: false,
+      },
+      question_47: {
+        value: '',
+        isValid: false,
+      },
+      question_48: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false
+  );
+
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        // const responseData = await sendRequest(
+        //   `${process.env.REACT_APP_BACKEND_URL}/daily-handovers/${dailyFormId}`
+        // );
+        const responseData = await sendRequest(
+          `http://localhost:5000/daily-handovers/${dailyFormId}`
+        );
+
+        setLoadedForm(responseData);
+        console.log('form:', responseData);
+        setFormData(
+          {
+            service: {
+              value: responseData.form.service,
+              isValid: true,
+            },
+            week: {
+              value: responseData.form.week,
+              isValid: true,
+            },
+            staff: {
+              value: auth.name,
+              isValid: true,
+            },
+            question_1: {
+              value: responseData.form.question_1,
+              isValid: true,
+            },
+            question_2: {
+              value: responseData.form.question_2,
+              isValid: true,
+            },
+            question_3: {
+              value: responseData.form.question_3,
+              isValid: true,
+            },
+            question_4: {
+              value: responseData.form.question_4,
+              isValid: true,
+            },
+            question_5: {
+              value: responseData.form.question_5,
+              isValid: true,
+            },
+            question_6: {
+              value: responseData.form.question_6,
+              isValid: true,
+            },
+            question_7: {
+              value: responseData.form.question_7,
+              isValid: true,
+            },
+            question_8: {
+              value: responseData.form.question_8,
+              isValid: true,
+            },
+            question_9: {
+              value: responseData.form.question_9,
+              isValid: true,
+            },
+            question_10: {
+              value: responseData.form.question_10,
+              isValid: true,
+            },
+            question_11: {
+              value: responseData.form.question_11,
+              isValid: true,
+            },
+            question_12: {
+              value: responseData.form.question_12,
+              isValid: true,
+            },
+            question_13: {
+              value: responseData.form.question_13,
+              isValid: true,
+            },
+            question_14: {
+              value: responseData.form.question_14,
+              isValid: true,
+            },
+            question_15: {
+              value: responseData.form.question_15,
+              isValid: true,
+            },
+            question_16: {
+              value: responseData.form.question_16,
+              isValid: true,
+            },
+            question_17: {
+              value: responseData.form.question_17,
+              isValid: true,
+            },
+            question_18: {
+              value: responseData.form.question_18,
+              isValid: true,
+            },
+            question_19: {
+              value: responseData.form.question_19,
+              isValid: true,
+            },
+            question_20: {
+              value: responseData.form.question_20,
+              isValid: true,
+            },
+            question_21: {
+              value: responseData.form.question_21,
+              isValid: true,
+            },
+            question_22: {
+              value: responseData.form.question_22,
+              isValid: true,
+            },
+            question_23: {
+              value: responseData.form.question_23,
+              isValid: true,
+            },
+            question_24: {
+              value: responseData.form.question_24,
+              isValid: true,
+            },
+            question_25: {
+              value: responseData.form.question_25,
+              isValid: true,
+            },
+            question_26: {
+              value: responseData.form.question_26,
+              isValid: true,
+            },
+            question_27: {
+              value: responseData.form.question_27,
+              isValid: true,
+            },
+            question_28: {
+              value: responseData.form.question_28,
+              isValid: true,
+            },
+            question_29: {
+              value: responseData.form.question_29,
+              isValid: true,
+            },
+            question_30: {
+              value: responseData.form.question_30,
+              isValid: true,
+            },
+            question_31: {
+              value: responseData.form.question_31,
+              isValid: true,
+            },
+            question_32: {
+              value: responseData.form.question_32,
+              isValid: true,
+            },
+            question_33: {
+              value: responseData.form.question_33,
+              isValid: true,
+            },
+            question_34: {
+              value: responseData.form.question_34,
+              isValid: true,
+            },
+            question_35: {
+              value: responseData.form.question_35,
+              isValid: true,
+            },
+            question_36: {
+              value: responseData.form.question_36,
+              isValid: true,
+            },
+            question_37: {
+              value: responseData.form.question_37,
+              isValid: true,
+            },
+            question_38: {
+              value: responseData.form.question_38,
+              isValid: true,
+            },
+            question_39: {
+              value: responseData.form.question_39,
+              isValid: true,
+            },
+            question_40: {
+              value: responseData.form.question_40,
+              isValid: true,
+            },
+            question_41: {
+              value: responseData.form.question_41,
+              isValid: true,
+            },
+            question_42: {
+              value: responseData.form.question_42,
+              isValid: true,
+            },
+            question_43: {
+              value: responseData.form.question_43,
+              isValid: true,
+            },
+            question_44: {
+              value: responseData.form.question_44,
+              isValid: true,
+            },
+            question_45: {
+              value: responseData.form.question_45,
+              isValid: true,
+            },
+            question_46: {
+              value: responseData.form.question_46,
+              isValid: true,
+            },
+            question_47: {
+              value: responseData.form.question_47,
+              isValid: true,
+            },
+            question_48: {
+              value: responseData.form.question_48,
+              isValid: true,
+            },
+          },
+          true
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchForm();
+  }, [sendRequest, dailyFormId, setFormData, auth.name]);
+
+  const updatedFormSubmitHandler = async (event) => {
+    event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/daily-handovers`,
+        // `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${dailyFormId}`,
+        `http://localhost:5000/weekly-handovers/${dailyFormId}`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
@@ -283,20 +518,35 @@ const DailyForm = () => {
           question_46: formState.inputs.question_46.value,
           question_47: formState.inputs.question_47.value,
           question_48: formState.inputs.question_48.value,
-          creator: auth.userId,
         }),
         {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + auth.token,
         }
       );
-
-      // redirect user to a different page
-      navigate('/home');
     } catch (err) {
-      console.log('error is:', err);
+      console.error('Error sending request to EDIT:', err);
     }
+    navigate(`/${auth.userId}/forms`);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner asOverlay />;
+  }
+  if (!loadedForm && !error) {
+    return (
+      <>
+        <div className={styles.noContent}>
+          <div className={styles.noContent__content}>
+            <Card>
+              <h2>Could not find form!</h2>
+            </Card>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -308,7 +558,7 @@ const DailyForm = () => {
         <form
           action=''
           className={styles.container__form}
-          onSubmit={formSubmitHandler}
+          onSubmit={updatedFormSubmitHandler}
         >
           <div className={styles.container__form__general}>
             <div className={styles.container__form__general__item}>
@@ -320,6 +570,7 @@ const DailyForm = () => {
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText='Please enter a valid service'
                 onInput={inputHandler}
+                initialValue={loadedForm.service}
                 isWeeklyForm={true}
               />
             </div>
@@ -332,6 +583,7 @@ const DailyForm = () => {
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText='Please select a date'
                 onInput={inputHandler}
+                initialValue={loadedForm.day}
                 isWeeklyForm={true}
               />
             </div>
@@ -363,6 +615,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Verbal/Virtual Handover received? Communication book read and signed? Virtual communication book checked? Any Appointments? (Check diary)'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_1}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_2'
@@ -372,6 +626,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Money Checks completed? Cash tin counted and balances, ensure all receipts in the cashbook.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_2}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_3'
@@ -381,6 +637,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='All paperwork is s red in the sleep room securely and staff aware of GDPR'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_3}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_4'
@@ -390,6 +648,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Medication Checks completed? (Including PRN) booking in and reordering, daily stock control checks. Any special instructions such as a break in administering medication.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_4}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_5'
@@ -399,6 +659,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Personal care- Medication administered, hand and  e nail care, bathing/showering and skin care. Carry out service users weight as required. Prescribed ointments or other interventions carried out. Shaving and or menstrual cycle care. Ironing of clothes.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_5}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_6'
@@ -408,6 +670,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Fridge, Freezer and water Temperature checked and within safe recommended limits? Fridge- at for below 4° C Freezer- 18° C Water- 38 ° C   44° C'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_6}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -437,6 +701,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Check all Epilepsy monitors are working.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_7}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_8'
@@ -446,6 +712,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Test bed sensor is working and is wiped down.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_8}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_9'
@@ -455,6 +723,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Fitbit is present and working.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_9}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_10'
@@ -464,6 +734,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Check all door sensors are working.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_10}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_11'
@@ -473,6 +745,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Assistive Technology is in full working order?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_11}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_12'
@@ -482,6 +756,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='All devices are in full working order? (Log My Care devices, laptops, computers) If they are not working, have you reported this to resolved any non-working equipment.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_12}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_13'
@@ -491,6 +767,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Is the RING doorbell in situ outside the main front door and back door? Is it charged?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_13}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_14'
@@ -500,6 +778,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Do staff understand the purpose of the RING doorbell, Canary and door sensors?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_14}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_15'
@@ -509,6 +789,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have staff carried put a walk-through risk assessment? Example spot any hazard and ensure they made safe and reported if required.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_15}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -538,6 +820,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have any medication errors been reported?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_16}
+                    initialValid={true}
                   />
 
                   <Textarea
@@ -548,6 +832,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have medication cabinet temperatures been recorded?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_17}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -577,6 +863,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Are there any discrepancies recorded? If yes what action has been taken?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_18}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_19'
@@ -586,6 +874,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Are all transactions supported by a viable receipt and numbered correctly?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_19}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_20'
@@ -595,6 +885,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have receipts been scanned for the previous week?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_20}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_21'
@@ -604,6 +896,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have any loyalty cards, travel cards or access/discount cards been moni red and recorded?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_21}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_22'
@@ -613,6 +907,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have any cashcards been accounted for and daily balance logged?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_22}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -642,6 +938,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Is all necessary PPE in place and what does this consist of? When was it checked by Who?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_23}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_24'
@@ -651,6 +949,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have medication cabinet temperatures been recorded?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_24}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_25'
@@ -660,6 +960,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Where required paper hand towels, in situ, rather than cloth towels that carry a risk regarding infection control?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_25}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_26'
@@ -669,6 +971,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Are the beds being changed according   the frequency required in the service? If there is incontinence in the service is the bedding being changed daily. In the respite unit, the record would show that beds are changed as and when required and   clean bedding that each new stay is clearly documented.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_26}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -698,6 +1002,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='List the furniture that was thoroughly cleaned this shift.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_27}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_28'
@@ -707,6 +1013,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='What has been cleaned in the bedroom?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_29}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_29'
@@ -716,6 +1024,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='List, wardrobes or cupboards or drawers that were sorted out this shift.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_29}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_30'
@@ -725,6 +1035,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Please specify any other cleaning tasks this shift.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_30}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -754,6 +1066,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Are all meals and snacks entered on Log My Care and WhatsApp?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_31}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_32'
@@ -763,6 +1077,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Have you posted Day Plan/Schedules on LMC (Long My Care) and WhatsApp?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_32}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -792,6 +1108,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Verbal/Virtual Handover received? Communication book read and signed? Virtual communication book checked?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_33}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_34'
@@ -801,6 +1119,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Money Checks completed? Cash tin counted and balances, ensure all receipts in the cashbook.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_34}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_35'
@@ -810,6 +1130,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Any Appointments? (Check diary)'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_35}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_36'
@@ -819,6 +1141,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Previous Handover checked?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_36}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_37'
@@ -828,6 +1152,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='All paperwork in s red in the sleep room securely and staff aware of GDPR'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_37}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_38'
@@ -837,6 +1163,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Medication Checks completed? (Including PRN) booking in and reordering, daily s ck control checks. Any special instructions such as a break in administering medication. Make a note of medication cabinet temperatures.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_38}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_39'
@@ -846,6 +1174,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Personal care- Medication administered, hand and  e nail care, bathing/showering and skin care. Carry out service users weight as required. Prescribed ointments or other interventions carried out. Shaving and or menstrual cycle care. Ironing of clothes.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_39}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -878,6 +1208,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Incident Reports (including PRN) completed?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_40}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_41'
@@ -887,6 +1219,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Body Map completed?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_41}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_42'
@@ -896,6 +1230,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Behaviour reports or behaviour explorers completed'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_42}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_43'
@@ -905,6 +1241,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='File note (family, friends, professionals phone calls, visits, contact) completed?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_43}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_44'
@@ -914,6 +1252,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Mileage Book completed?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_44}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_45'
@@ -923,6 +1263,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Wake Night report completed if appropriate?'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_45}
+                    initialValid={true}
                   />
                   <Textarea
                     id='question_46'
@@ -932,6 +1274,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label='Other.'
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_46}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -964,6 +1308,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label=''
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_47}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -996,6 +1342,8 @@ const DailyForm = () => {
                     onInput={inputHandler}
                     label=''
                     errorText='Please explain in more detail'
+                    initialValue={loadedForm.question_48}
+                    initialValid={true}
                   />
                 </div>
               </div>
@@ -1014,4 +1362,4 @@ const DailyForm = () => {
   );
 };
 
-export default DailyForm;
+export default UpdateDailyForm;

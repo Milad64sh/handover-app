@@ -49,8 +49,14 @@ const MonthlyUploadedForms = React.lazy(() =>
   import('./places/pages/MonthlyUploadedForms.jsx')
 );
 const NewUser = React.lazy(() => import('./user/pages/NewUser.jsx'));
+const UpdateDailyForm = React.lazy(() =>
+  import('./places/pages/UpdateDailyForm.jsx')
+);
 const UpdateWeeklyForm = React.lazy(() =>
   import('./places/pages/UpdateWeeklyForm.jsx')
+);
+const UpdateMonthlyForm = React.lazy(() =>
+  import('./places/pages/UpdateMonthlyForm.jsx')
 );
 const ReadWeeklyForm = React.lazy(() =>
   import('./places/pages/ReadWeeklyFrom.jsx')
@@ -93,9 +99,14 @@ function App() {
         <Route path='/daily-handover' element={<DailyForm />} />
         <Route path='/weekly-handover' element={<WeeklyForm />} />
         <Route path='/monthly-handover' element={<MonthlyForm />} />
+        <Route path='/daily-handovers/:formId' element={<UpdateDailyForm />} />
         <Route
           path='/weekly-handovers/:formId'
           element={<UpdateWeeklyForm />}
+        />
+        <Route
+          path='/monthly-handovers/:formId'
+          element={<UpdateMonthlyForm />}
         />
         <Route
           path='/daily-handovers/:formId/view-form'

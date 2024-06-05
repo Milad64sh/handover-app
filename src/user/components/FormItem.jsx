@@ -23,16 +23,42 @@ const FormItem = (props) => {
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${props.id}`,
-
-        'DELETE',
-        null,
-        {
-          Authorization: 'Bearer ' + auth.token,
-        }
-      );
-      props.onDelete(props.id);
+      if (props.day) {
+        await sendRequest(
+          // `${process.env.REACT_APP_BACKEND_URL}/daily-handovers/${props.id}`,
+          `http://localhost:5000/daily-handovers/${props.id}`,
+          'DELETE',
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token,
+          }
+        );
+        props.onDelete(props.id);
+      }
+      if (props.week) {
+        await sendRequest(
+          // `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${props.id}`,
+          `http://localhost:5000/weekly-handovers/${props.id}`,
+          'DELETE',
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token,
+          }
+        );
+        props.onDelete(props.id);
+      }
+      if (props.month) {
+        await sendRequest(
+          // `${process.env.REACT_APP_BACKEND_URL}/monthly-handovers/${props.id}`,
+          `http://localhost:5000/monthly-handovers/${props.id}`,
+          'DELETE',
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token,
+          }
+        );
+        props.onDelete(props.id);
+      }
     } catch (err) {
       console.log(auth.token);
       console.log(err);
@@ -147,20 +173,60 @@ const FormItem = (props) => {
               (auth.userId === props.creatorId || auth.isManager) && (
                 <>
                   <div className={styles.formItem__card__actions__action}>
-                    <Link
-                      className={styles.formItem__card__actions__action__link}
-                      to={`/weekly-handovers/${props.id}`}
-                    >
-                      <button
-                        onClick={() => {
-                          console.log(props.creator);
-                          console.log(props);
-                        }}
-                        className={styles.formItem__card__actions__action__btn}
+                    {props.day && (
+                      <Link
+                        className={styles.formItem__card__actions__action__link}
+                        to={`/daily-handovers/${props.id}`}
                       >
-                        EDIT
-                      </button>
-                    </Link>
+                        <button
+                          onClick={() => {
+                            console.log(props.creator);
+                            console.log(props);
+                          }}
+                          className={
+                            styles.formItem__card__actions__action__btn
+                          }
+                        >
+                          EDIT
+                        </button>
+                      </Link>
+                    )}
+                    {props.week && (
+                      <Link
+                        className={styles.formItem__card__actions__action__link}
+                        to={`/weekly-handovers/${props.id}`}
+                      >
+                        <button
+                          onClick={() => {
+                            console.log(props.creator);
+                            console.log(props);
+                          }}
+                          className={
+                            styles.formItem__card__actions__action__btn
+                          }
+                        >
+                          EDIT
+                        </button>
+                      </Link>
+                    )}
+                    {props.month && (
+                      <Link
+                        className={styles.formItem__card__actions__action__link}
+                        to={`/monthly-handovers/${props.id}`}
+                      >
+                        <button
+                          onClick={() => {
+                            console.log(props.creator);
+                            console.log(props);
+                          }}
+                          className={
+                            styles.formItem__card__actions__action__btn
+                          }
+                        >
+                          EDIT
+                        </button>
+                      </Link>
+                    )}
                   </div>
                   {auth.isLoggedIn &&
                     (auth.userId === props.creatorId || auth.isManager) && (

@@ -6,7 +6,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import styles from './readWeeklyForm.module.scss';
+import styles from './readDailyForm.module.scss';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const ReadDailyForm = () => {
@@ -464,9 +464,9 @@ const ReadDailyForm = () => {
       margin: 0.5,
       filename: 'daily_form.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 3 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      pagebreak: { mode: ['css', 'legacy'] },
     };
 
     html2pdf().set(opt).from(element).save();
@@ -495,26 +495,29 @@ const ReadDailyForm = () => {
     borderRadius: '10px',
     width: '90%',
     marginBottom: '3rem',
+    breakInside: 'avoid',
+    pageBreakInside: 'avoid',
   };
-  const general = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'start',
-    paddingLeft: '20px',
-    paddingTop: '20px',
-    paddingBottom: '20px',
-    width: '100%',
-    borderBottom: '1px solid #aaa9a9',
-    backgroundColor: 'none',
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
-  };
+  // const general = {
+  //   display: 'block',
+  //   paddingLeft: '20px',
+  //   paddingTop: '20px',
+  //   paddingBottom: '20px',
+  //   width: '100%',
+  //   borderBottom: '1px solid #aaa9a9',
+  //   backgroundColor: 'none',
+  //   borderTopLeftRadius: '10px',
+  //   borderTopRightRadius: '10px',
+  //   breakInside: 'avoid',
+  //   pageBreakInside: 'avoid',
+  // };
   const item = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'start',
     width: '100%',
+    marginLeft: '30px',
     padding: '5px 0',
   };
   const label = {
@@ -537,6 +540,8 @@ const ReadDailyForm = () => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    breakInside: 'avoid',
+    pageBreakInside: 'avoid',
     width: '90%',
     border: '1px solid #aaa9a9',
     borderRadius: '10px',
@@ -558,7 +563,7 @@ const ReadDailyForm = () => {
   };
   const sectionMainSectionTitle = {
     borderBottom: '1px solid #aaa9a9',
-    width: '90%',
+    width: '70vw',
     padding: '5px 0',
     color: '#1d1d79',
     textTransform: 'capitalize',
@@ -571,12 +576,15 @@ const ReadDailyForm = () => {
     marginBottom: '5px',
   };
   const sectionMainSectionQuesitonLabel = {
+    display: 'flex',
     padding: '10px 0',
+    width: '70vw',
   };
   const sectionMainTextarea = {
     borderRadius: '5px',
     padding: '20px 5px',
     border: '1px solid #aaa9a9',
+    width: '70vw',
   };
   return (
     <div className={styles.wrapper}>
@@ -587,10 +595,18 @@ const ReadDailyForm = () => {
         </div>
         {!isLoading && loadedForm && (
           <div style={form} className={styles.container__form}>
-            <div style={general} className={styles.container__form__general}>
+            {/* <div
+              style={sectionMain}
+              className={styles.container__form__general}
+            ></div> */}
+            {/* AM TASK LIST */}
+            <div
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -607,7 +623,7 @@ const ReadDailyForm = () => {
               </div>
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -624,7 +640,7 @@ const ReadDailyForm = () => {
               </div>
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -639,12 +655,6 @@ const ReadDailyForm = () => {
                   {loadedForm.staff}
                 </div>
               </div>
-            </div>
-            {/* AM TASK LIST */}
-            <div
-              style={sectionMain}
-              className={styles.container__form__sectionMain}
-            >
               <div
                 style={sectionMainQuestions}
                 className={styles.container__form__sectionMain__questions}
@@ -825,234 +835,239 @@ const ReadDailyForm = () => {
             </div>
             {/* ASSISTIVE TECHNOLOGY */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Assistive Technology and Premises (Reg 15)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Check all Epilepsy monitors are working.
+                    <h3>Assistive Technology and Premises (Reg 15)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_7}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Test bed sensor is working and is wiped down.
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_8}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Fitbit is present and working.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Check all Epilepsy monitors are working.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_7}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_9}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Check all door sensors are working.
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_10}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Assistive Technology is in full working order?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Test bed sensor is working and is wiped down.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_8}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_11}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    All devices are in full working order? (Log My Care devices,
-                    laptops, computers) If they are not working, have you
-                    reported this to resolved any non-working equipment.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Fitbit is present and working.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_9}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_12}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Is the RING doorbell in situ outside the main front door and
-                    back door? Is it charged?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_13}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Do staff understand the purpose of the RING doorbell, Canary
-                    and door sensors?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Check all door sensors are working.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_10}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_14}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Have staff carried put a walk-through risk assessment?
-                    Example spot any hazard and ensure they made safe and
-                    reported if required.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Assistive Technology is in full working order?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_11}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_15}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      All devices are in full working order? (Log My Care
+                      devices, laptops, computers) If they are not working, have
+                      you reported this to resolved any non-working equipment.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_12}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is the RING doorbell in situ outside the main front door
+                      and back door? Is it charged?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_13}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Do staff understand the purpose of the RING doorbell,
+                      Canary and door sensors?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_14}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have staff carried put a walk-through risk assessment?
+                      Example spot any hazard and ensure they made safe and
+                      reported if required.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_15}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1060,977 +1075,1024 @@ const ReadDailyForm = () => {
 
             {/* MEDICATION */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Medication (Reg 9, 11, 12)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Have any medication errors been reported?
+                    <h3>Medication (Reg 9, 11, 12)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_16}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have any medication errors been reported?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_16}
+                    </div>
                   </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    Have medication cabinet temperatures been recorded?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_17}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have medication cabinet temperatures been recorded?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_17}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* FINANCE */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Finance Checks (Reg 13)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Are there any discrepancies recorded? If yes what action has
-                    been taken?
+                    <h3>Finance Checks (Reg 13)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_18}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Are all transactions supported by a viable receipt and
-                    numbered correctly?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_19}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Have receipts been scanned for the previous week?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are there any discrepancies recorded? If yes what action
+                      has been taken?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_18}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_20}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Have any loyalty cards, travel cards or access/discount
-                    cards been moni red and recorded?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_21}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Have any cashcards been accounted for and daily balance
-                    logged?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are all transactions supported by a viable receipt and
+                      numbered correctly?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_19}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_22}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have receipts been scanned for the previous week?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_20}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have any loyalty cards, travel cards or access/discount
+                      cards been moni red and recorded?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_21}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have any cashcards been accounted for and daily balance
+                      logged?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_22}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* INFECTION CONTROL */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Infection control (Reg 15)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Is all necessary PPE in place and what does this consist of?
-                    When was it checked by Who?
+                    <h3>Infection control (Reg 15)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_23}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Have medication cabinet temperatures been recorded?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_24}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Where required paper hand towels, in situ, rather than cloth
-                    towels that carry a risk regarding infection control?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is all necessary PPE in place and what does this consist
+                      of? When was it checked by Who?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_23}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_25}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Are the beds being changed according the frequency required
-                    in the service? If there is incontinence in the service is
-                    the bedding being changed daily. In the respite unit, the
-                    record would show that beds are changed as and when required
-                    and clean bedding that each new stay is clearly documented.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have medication cabinet temperatures been recorded?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_24}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_26}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Where required paper hand towels, in situ, rather than
+                      cloth towels that carry a risk regarding infection
+                      control?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_25}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are the beds being changed according the frequency
+                      required in the service? If there is incontinence in the
+                      service is the bedding being changed daily. In the respite
+                      unit, the record would show that beds are changed as and
+                      when required and clean bedding that each new stay is
+                      clearly documented.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_26}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* PREMISES AND EQUIPMENT */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Premises and equipment (Reg 15)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    List the furniture that was thoroughly cleaned this shift.
+                    <h3>Premises and equipment (Reg 15)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_27}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    What has been cleaned in the bedroom?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_28}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    List, wardrobes or cupboards or drawers that were sorted out
-                    this shift.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      List the furniture that was thoroughly cleaned this shift.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_27}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_29}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      What has been cleaned in the bedroom?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_28}
+                    </div>
                   </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    Please specify any other cleaning tasks this shift.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      List, wardrobes or cupboards or drawers that were sorted
+                      out this shift.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_29}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_30}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Please specify any other cleaning tasks this shift.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_30}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* RECORDS */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>Records (Reg 14)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Are all meals and snacks entered on Log My Care and
-                    WhatsApp?
+                    <h3>Records (Reg 14)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_31}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are all meals and snacks entered on Log My Care and
+                      WhatsApp?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_31}
+                    </div>
                   </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    Have you posted Day Plan/Schedules on LMC (Long My Care) and
-                    WhatsApp?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_32}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have you posted Day Plan/Schedules on LMC (Long My Care)
+                      and WhatsApp?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_32}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* PM TASK LIST */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>PM Task list (Reg 9, 12, 13)</h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Verbal/Virtual Handover received? Communication book read
-                    and signed? Virtual communication book checked?
+                    <h3>PM Task list (Reg 9, 12, 13)</h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_33}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Money Checks completed? Cash tin counted and balances,
-                    ensure all receipts in the cashbook.
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_34}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Any Appointments? (Check diary)
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Verbal/Virtual Handover received? Communication book read
+                      and signed? Virtual communication book checked?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_33}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_35}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Previous Handover checked?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_36}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    All paperwork in s red in the sleep room securely and staff
-                    aware of GDPR
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Money Checks completed? Cash tin counted and balances,
+                      ensure all receipts in the cashbook.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_34}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_37}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Medication Checks completed? (Including PRN) booking in and
-                    reordering, daily s ck control checks. Any special
-                    instructions such as a break in administering medication.
-                    Make a note of medication cabinet temperatures.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Any Appointments? (Check diary)
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_35}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_38}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Personal care- Medication administered, hand and e nail
-                    care, bathing/showering and skin care. Carry out service
-                    users weight as required. Prescribed ointments or other
-                    interventions carried out. Shaving and or menstrual cycle
-                    care. Ironing of clothes.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Previous Handover checked?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_36}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_39}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      All paperwork in s red in the sleep room securely and
+                      staff aware of GDPR
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_37}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Medication Checks completed? (Including PRN) booking in
+                      and reordering, daily s ck control checks. Any special
+                      instructions such as a break in administering medication.
+                      Make a note of medication cabinet temperatures.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_38}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Personal care- Medication administered, hand and e nail
+                      care, bathing/showering and skin care. Carry out service
+                      users weight as required. Prescribed ointments or other
+                      interventions carried out. Shaving and or menstrual cycle
+                      care. Ironing of clothes.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_39}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* IF REQUIRED */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>
-                    If required, have any of the below forms been completed and
-                    sent Head Office{' '}
-                  </h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    Incident Reports (including PRN) completed?
+                    <h3>
+                      If required, have any of the below forms been completed
+                      and sent Head Office{' '}
+                    </h3>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_40}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Body Map completed?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_41}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Behaviour reports or behaviour explorers completed
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Incident Reports (including PRN) completed?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_40}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_42}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    File note (family, friends, professionals phone calls,
-                    visits, contact) completed?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_43}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Mileage Book completed?
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Body Map completed?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_41}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_44}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Wake Night report completed if appropriate?
-                  </div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
-                    }
-                  >
-                    {loadedForm.question_45}
-                  </div>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
-                  }
-                >
-                  <div
-                    style={sectionMainSectionQuesitonLabel}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  >
-                    Other.
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Behaviour reports or behaviour explorers completed
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_42}
+                    </div>
                   </div>
                   <div
-                    style={sectionMainTextarea}
+                    style={sectionMainSectionQuesiton}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__question
                     }
                   >
-                    {loadedForm.question_46}
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      File note (family, friends, professionals phone calls,
+                      visits, contact) completed?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_43}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Mileage Book completed?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_44}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Wake Night report completed if appropriate?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_45}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Other.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_46}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* SLEEPING OR WAKING NIGHT */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>
-                    Sleeping or waking night report any matters arising from the
-                    night
-                  </h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  ></div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    {loadedForm.question_47}
+                    <h3>
+                      Sleeping or waking night report any matters arising from
+                      the night
+                    </h3>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    ></div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_47}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {/* SLEEPING OR WAKING NIGHT */}
             <div
-              style={sectionMainQuestions}
-              className={styles.container__form__sectionMain__questions}
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
             >
               <div
-                style={sectionMainSection}
-                className={
-                  styles.container__form__sectionMain__questions__section
-                }
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
               >
                 <div
-                  style={sectionMainSectionTitle}
+                  style={sectionMainSection}
                   className={
-                    styles.container__form__sectionMain__questions__section__title
-                  }
-                >
-                  <h3>
-                    Are there any other concerns report? Have any complaints
-                    been received and reported the Manager?
-                  </h3>
-                </div>
-                <div
-                  style={sectionMainSectionQuesiton}
-                  className={
-                    styles.container__form__sectionMain__questions__section__question
+                    styles.container__form__sectionMain__questions__section
                   }
                 >
                   <div
-                    style={sectionMainSectionQuesitonLabel}
+                    style={sectionMainSectionTitle}
                     className={
-                      styles.container__form__sectionMain__questions__section__question__label
-                    }
-                  ></div>
-                  <div
-                    style={sectionMainTextarea}
-                    className={
-                      styles.container__form__sectionMain__questions__section__question__textarea
+                      styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    {loadedForm.question_48}
+                    <h3>
+                      Are there any other concerns report? Have any complaints
+                      been received and reported the Manager?
+                    </h3>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    ></div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_48}
+                    </div>
                   </div>
                 </div>
               </div>
