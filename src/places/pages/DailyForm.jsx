@@ -826,7 +826,7 @@ const DailyForm = () => {
                     type='text'
                     validators={[VALIDATOR_MINLENGTH(10)]}
                     onInput={inputHandler}
-                    label='All paperwork in s red in the sleep room securely and staff aware of GDPR'
+                    label='All paperwork is stored in the sleep room securely and staff aware of GDPR'
                     errorText='Please explain in more detail'
                   />
                   <Textarea

@@ -60,7 +60,8 @@ const FormItem = (props) => {
         props.onDelete(props.id);
       }
     } catch (err) {
-      console.log(auth.token);
+      // console.log(auth.token);
+
       console.log(err);
     }
   };

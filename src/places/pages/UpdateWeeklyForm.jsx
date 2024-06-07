@@ -181,7 +181,7 @@ const UpdateWeeklyForm = () => {
     } catch (err) {
       console.error('Error sending request to EDIT:', err);
     }
-    navigate(`/${auth.userId}/forms`);
+    navigate('/weekly-uploaded-forms');
   };
 
   if (isLoading) {

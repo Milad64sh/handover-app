@@ -6,21 +6,21 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/Http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import styles from './readWeeklyForm.module.scss';
+import styles from './readMonthlyForm.module.scss';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const ReadMonthlyForm = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedForm, setLoadedForm] = useState();
-  const dailyFormId = useParams().formId;
+  const monthlyFormId = useParams().formId;
   const [formState, setFormData] = useForm(
     {
       service: {
         value: '',
         isValid: false,
       },
-      day: {
+      month: {
         value: '',
         isValid: false,
       },
@@ -188,38 +188,6 @@ const ReadMonthlyForm = () => {
         value: '',
         isValid: false,
       },
-      question_41: {
-        value: '',
-        isValid: false,
-      },
-      question_42: {
-        value: '',
-        isValid: false,
-      },
-      question_43: {
-        value: '',
-        isValid: false,
-      },
-      question_44: {
-        value: '',
-        isValid: false,
-      },
-      question_45: {
-        value: '',
-        isValid: false,
-      },
-      question_46: {
-        value: '',
-        isValid: false,
-      },
-      question_47: {
-        value: '',
-        isValid: false,
-      },
-      question_48: {
-        value: '',
-        isValid: false,
-      },
     },
     false
   );
@@ -228,10 +196,10 @@ const ReadMonthlyForm = () => {
     const fetchForm = async () => {
       try {
         // const responseData = await sendRequest(
-        //   `${process.env.REACT_APP_BACKEND_URL}/daily-handovers/${dailyFormId}`
+        //   `${process.env.REACT_APP_BACKEND_URL}/monthly-handovers/${monthlyFormId}`
         // );
         const responseData = await sendRequest(
-          `http://localhost:5000/daily-handovers/${dailyFormId}`
+          `http://localhost:5000/monthly-handovers/${monthlyFormId}`
         );
         setLoadedForm(responseData.form);
         setFormData(
@@ -240,8 +208,8 @@ const ReadMonthlyForm = () => {
               value: responseData.form.service,
               isValid: true,
             },
-            day: {
-              value: responseData.form.day,
+            month: {
+              value: responseData.form.month,
               isValid: true,
             },
             staff: {
@@ -408,38 +376,6 @@ const ReadMonthlyForm = () => {
               value: responseData.form.question_40,
               isValid: true,
             },
-            question_41: {
-              value: responseData.form.question_41,
-              isValid: true,
-            },
-            question_42: {
-              value: responseData.form.question_42,
-              isValid: true,
-            },
-            question_43: {
-              value: responseData.form.question_43,
-              isValid: true,
-            },
-            question_44: {
-              value: responseData.form.question_44,
-              isValid: true,
-            },
-            question_45: {
-              value: responseData.form.question_45,
-              isValid: true,
-            },
-            question_46: {
-              value: responseData.form.question_46,
-              isValid: true,
-            },
-            question_47: {
-              value: responseData.form.question_47,
-              isValid: true,
-            },
-            question_48: {
-              value: responseData.form.question_48,
-              isValid: true,
-            },
           },
           true
         );
@@ -448,7 +384,7 @@ const ReadMonthlyForm = () => {
       }
     };
     fetchForm();
-  }, [sendRequest, dailyFormId, setFormData, auth.name]);
+  }, [sendRequest, monthlyFormId, setFormData, auth.name]);
 
   if (isLoading) {
     return <LoadingSpinner asOverlay />;
@@ -457,49 +393,16 @@ const ReadMonthlyForm = () => {
     return <h2>Could not find form!</h2>;
   }
 
-  // const generateAndDownloadPDF = () => {
-  //   const container = document.querySelector(`.${styles.container}`);
-  //   const pdfWidth = 210;
-  //   const pdfHeight = 297;
-
-  //   html2canvas(container).then((canvas) => {
-  //     const imgData = canvas.toDataURL('image/png');
-  //     const pdf = new jsPDF({
-  //       orientation: 'portrait',
-  //       unit: 'mm',
-  //       format: 'a4',
-  //     });
-  //     const imgProps = pdf.getImageProperties(imgData);
-  //     const scaleX = pdfWidth / imgProps.width;
-  //     const scaleY = pdfHeight / imgProps.height;
-  //     const scale = Math.min(scaleX, scaleY);
-  //     let yPos = 0;
-  //     let remainingHeight = imgProps.height * scale;
-  //     while (remainingHeight > 0) {
-  //       const pageHeight = Math.min(remainingHeight, pdfHeight);
-  //       pdf.addImage(imgData, 'PNG', 0, yPos, pdfWidth, pageHeight);
-  //       yPos -= pdfHeight;
-  //       if (remainingHeight > pdfHeight) {
-  //         pdf.addPage();
-  //       }
-  //       remainingHeight -= pdfHeight;
-  //     }
-  //     const fileName = 'weekly_form.pdf';
-  //     pdf.save(fileName);
-  //   });
-  // };
-
   const generateAndDownloadPDF = () => {
     const element = document.querySelector(`.${styles.container}`);
     const opt = {
       margin: 0.5,
-      filename: 'daily_form.pdf',
+      filename: 'monthly_form.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      pagebreak: { mode: ['css', 'legacy'] },
     };
-
     html2pdf().set(opt).from(element).save();
   };
   const containerStyle = {
@@ -515,7 +418,7 @@ const ReadMonthlyForm = () => {
     fontFamily: 'inherit',
     textTransform: 'uppercase',
     padding: '10px 0 20px 0',
-    color: '#1d1d79',
+    color: '#ffd965',
   };
   const form = {
     display: 'flex',
@@ -555,6 +458,7 @@ const ReadMonthlyForm = () => {
     textTransform: 'capitalize',
     letterSpacing: '1px',
     color: '#1d1d79',
+    marginLeft: '40px',
   };
   const input = {
     padding: '10px 10px',
@@ -596,7 +500,7 @@ const ReadMonthlyForm = () => {
     borderBottom: '1px solid #aaa9a9',
     width: '90%',
     padding: '5px 0',
-    color: '#1d1d79',
+    color: '#ffd965',
     textTransform: 'capitalize',
   };
   const sectionMainSectionQuesiton = {
@@ -608,25 +512,35 @@ const ReadMonthlyForm = () => {
   };
   const sectionMainSectionQuesitonLabel = {
     padding: '10px 0',
+    pageBreakInside: 'avoid',
   };
   const sectionMainTextarea = {
     borderRadius: '5px',
     padding: '20px 5px',
     border: '1px solid #aaa9a9',
+    pageBreakInside: 'avoid',
   };
   return (
     <div className={styles.wrapper}>
       <ErrorModal error={error} onClear={clearError} />
       <div style={containerStyle} className={styles.container}>
         <div style={containerTitleStyle} className={styles.container__title}>
-          <h2>daily handover Form</h2>
+          <h2>monthly handover Form</h2>
         </div>
         {!isLoading && loadedForm && (
           <div style={form} className={styles.container__form}>
-            <div style={general} className={styles.container__form__general}>
+            {/* <div
+              style={sectionMain}
+              className={styles.container__form__general}
+            ></div> */}
+            {/* AM TASK LIST */}
+            <div
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -643,7 +557,7 @@ const ReadMonthlyForm = () => {
               </div>
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -655,12 +569,12 @@ const ReadMonthlyForm = () => {
                   style={input}
                   className={styles.container__form__general__item__input}
                 >
-                  {loadedForm.day}
+                  {loadedForm.month}
                 </div>
               </div>
               <div
                 style={item}
-                className={styles.container__form__general__item}
+                className={styles.container__form__sectionMain__item}
               >
                 <div
                   style={label}
@@ -675,18 +589,6 @@ const ReadMonthlyForm = () => {
                   {loadedForm.staff}
                 </div>
               </div>
-            </div>
-            {/* MAINTENANCE */}
-            <div
-              style={sectionMain}
-              className={styles.container__form__sectionMain}
-            >
-              <div
-                style={sectionMainTitle}
-                className={styles.container__form__sectionMain__title}
-              >
-                <h3>Household Checks (Reg 9, 12 and 15)</h3>
-              </div>
               <div
                 style={sectionMainQuestions}
                 className={styles.container__form__sectionMain__questions}
@@ -697,6 +599,14 @@ const ReadMonthlyForm = () => {
                     styles.container__form__sectionMain__questions__section
                   }
                 >
+                  <div
+                    style={sectionMainSectionTitle}
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Household Checks (Reg 9, 12 and 15)</h3>
+                  </div>
                   <div
                     style={sectionMainSectionQuesiton}
                     className={
@@ -709,8 +619,9 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Is there evedience that staff are completing weekly
-                      maintenance reports?
+                      Is all furniture fit for purpose is it cleaned and well
+                      maintained. If there is fabric furniture, are they safety
+                      approved?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -733,8 +644,8 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Is there any outstanding maintenace issues for the
-                      service?
+                      Does the crockery reflect the risk assessments in place at
+                      the service?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -753,14 +664,6 @@ const ReadMonthlyForm = () => {
                   }
                 >
                   <div
-                    style={sectionMainSectionTitle}
-                    className={
-                      styles.container__form__sectionMain__questions__section__title
-                    }
-                  >
-                    <h3>Exterior Property</h3>
-                  </div>
-                  <div
                     style={sectionMainSectionQuesiton}
                     className={
                       styles.container__form__sectionMain__questions__section__question
@@ -772,7 +675,7 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Is the exterior of the property in good order?
+                      Do any rooms need decorating or maintenance?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -795,7 +698,8 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Is the exterior of the property in good order?
+                      Does any carpet need replacing or cleaning within the
+                      property?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -806,6 +710,32 @@ const ReadMonthlyForm = () => {
                       {loadedForm.question_4}
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            {/* MEDICATION */}
+            <div
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
+                <div
+                  style={sectionMainSection}
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    style={sectionMainSectionTitle}
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Medication (Reg 9, 12 and 15)</h3>
+                  </div>
                   <div
                     style={sectionMainSectionQuesiton}
                     className={
@@ -818,8 +748,8 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Are there any health and safety issues in regards to the
-                      house and garden? Have these been reported?
+                      Are all medication stock checks completed and the weekly
+                      Managers checks completed?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -830,39 +760,6 @@ const ReadMonthlyForm = () => {
                       {loadedForm.question_5}
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* FINANCE */}
-            <div
-              style={sectionMain}
-              className={styles.container__form__sectionMain}
-            >
-              <div
-                style={sectionMainTitle}
-                className={styles.container__form__sectionMain__title}
-              >
-                <h3>finance checks</h3>
-              </div>
-              <div
-                style={sectionMainQuestions}
-                className={styles.container__form__sectionMain__questions}
-              >
-                <div
-                  style={sectionMainSection}
-                  className={
-                    styles.container__form__sectionMain__questions__section
-                  }
-                >
-                  <div
-                    style={sectionMainSectionTitle}
-                    className={
-                      styles.container__form__sectionMain__questions__section__title
-                    }
-                  >
-                    <h3>Reg 13 Safeguarding</h3>
-                  </div>
                   <div
                     style={sectionMainSectionQuesiton}
                     className={
@@ -875,7 +772,7 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Have receipts been scanned for the previous week?
+                      Has medication been ordered?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -886,39 +783,6 @@ const ReadMonthlyForm = () => {
                       {loadedForm.question_6}
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* INFECTION */}
-            <div
-              style={sectionMain}
-              className={styles.container__form__sectionMain}
-            >
-              <div
-                style={sectionMainTitle}
-                className={styles.container__form__sectionMain__title}
-              >
-                <h3>infection control</h3>
-              </div>
-              <div
-                style={sectionMainQuestions}
-                className={styles.container__form__sectionMain__questions}
-              >
-                <div
-                  style={sectionMainSection}
-                  className={
-                    styles.container__form__sectionMain__questions__section
-                  }
-                >
-                  <div
-                    style={sectionMainSectionTitle}
-                    className={
-                      styles.container__form__sectionMain__questions__section__title
-                    }
-                  >
-                    <h3>Reg 15 premises and equipment</h3>
-                  </div>
                   <div
                     style={sectionMainSectionQuesiton}
                     className={
@@ -931,9 +795,8 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Is there sufficient arrangements in place and appropriate
-                      plastic bags to deal appropriately with household waste
-                      and recycling? when was this checked and by who?
+                      Has medication been booked in and out in the appropriate
+                      book?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -956,8 +819,8 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Are there adequate stock supplies of hand wash and hand
-                      sanitiser?
+                      Have MAR charts been competed correctly, are there any
+                      gaps?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -971,18 +834,11 @@ const ReadMonthlyForm = () => {
                 </div>
               </div>
             </div>
-
-            {/* TASK */}
+            {/* INFECTION CONTROL */}
             <div
-              style={sectionMain}
+              // style={sectionMain}
               className={styles.container__form__sectionMain}
             >
-              <div
-                style={sectionMainTitle}
-                className={styles.container__form__sectionMain__title}
-              >
-                <h3>task</h3>
-              </div>
               <div
                 style={sectionMainQuestions}
                 className={styles.container__form__sectionMain__questions}
@@ -999,7 +855,7 @@ const ReadMonthlyForm = () => {
                       styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    <h3>Reg 12 Safeguarding</h3>
+                    <h3>Infection Control (Reg 15)</h3>
                   </div>
                   <div
                     style={sectionMainSectionQuesiton}
@@ -1013,7 +869,10 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      First aid box checked?
+                      That adequate arrangements in place for dealing with
+                      clinical waste? What are these arrangements is that
+                      equipment in place or clinical waste bins collected and is
+                      there a contract in place for this?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -1024,21 +883,39 @@ const ReadMonthlyForm = () => {
                       {loadedForm.question_9}
                     </div>
                   </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Was the mattress turned and aired this month what date did
+                      this happen and who was involved? Is the mattress and
+                      bedding in good condition?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_10}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* TASK */}
+            {/* INFECTION */}
             <div
-              style={sectionMain}
+              // style={sectionMain}
               className={styles.container__form__sectionMain}
             >
-              <div
-                style={sectionMainTitle}
-                className={styles.container__form__sectionMain__title}
-              >
-                <h3>task</h3>
-              </div>
               <div
                 style={sectionMainQuestions}
                 className={styles.container__form__sectionMain__questions}
@@ -1050,12 +927,12 @@ const ReadMonthlyForm = () => {
                   }
                 >
                   <div
-                    sectionMainSectionTitle
+                    style={sectionMainSectionTitle}
                     className={
                       styles.container__form__sectionMain__questions__section__title
                     }
                   >
-                    <h3>Reg 15 Premises and equipment</h3>
+                    <h3>Room Cleaning (Reg 15)</h3>
                   </div>
                   <div
                     style={sectionMainSectionQuesiton}
@@ -1064,12 +941,13 @@ const ReadMonthlyForm = () => {
                     }
                   >
                     <div
-                      sectionMainSectionQuesitonLabel
+                      style={sectionMainSectionQuesitonLabel}
                       className={
                         styles.container__form__sectionMain__questions__section__question__label
                       }
                     >
-                      Fire alarms and carbon monoxide alarms checked?
+                      Were the skirting boards cleaned this month? If so, what
+                      day and by who?
                     </div>
                     <div
                       style={sectionMainTextarea}
@@ -1077,7 +955,750 @@ const ReadMonthlyForm = () => {
                         styles.container__form__sectionMain__questions__section__question__textarea
                       }
                     >
-                      {loadedForm.question_10}
+                      {loadedForm.question_11}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have cobwebs been removed?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_12}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is paintwork clean?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_13}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are there any marks on the wall and if so what has been
+                      done to address this?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_14}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Do radiators have covers, and if no are they needed? Are
+                      these clean?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_15}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is flooring clean then satisfactory condition?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_16}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Does the room need redecoration or repair and if so, what
+                      has been done about this and by Who?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_17}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have lamp shades been cleaned, dusted, light switched been
+                      cleaned, windowsills, door handles and are the rooms free
+                      of odours?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_18}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* TASK */}
+            <div
+              // style={sectionMain}
+              className={styles.container__form__sectionMain}
+            >
+              <div
+                style={sectionMainQuestions}
+                className={styles.container__form__sectionMain__questions}
+              >
+                <div
+                  style={sectionMainSection}
+                  className={
+                    styles.container__form__sectionMain__questions__section
+                  }
+                >
+                  <div
+                    style={sectionMainSectionTitle}
+                    className={
+                      styles.container__form__sectionMain__questions__section__title
+                    }
+                  >
+                    <h3>Fire Safety and Health & Safety</h3>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      What date did the most recent fire drill take place?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_19}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Who took part in the fire drill?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_20}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      How long did it take to evacuate?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_21}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Did anyone refuse to evacuate?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_22}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Were they able to take their work mobiles with them when
+                      they evacuated. Please discuss the importance of this
+                      because Work mobiles contain important phone numbers and
+                      all care planning information.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_23}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Any matters arising or concerns highlighted following the
+                      fire drill?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_24}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Any health and safety concerns arising from the fire
+                      drill.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_25}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Was the grab bag accessible and taken with Staff during
+                      evacuation?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_26}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are there any barriers to take the grab bag with you?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_27}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Any health and safety discussions or education, taking
+                      place this month with the people we support. If so, what
+                      was covered?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_28}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      If there is an alarm system, when was this last serviced;
+                      The requirement is annually, is this in date?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_29}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      There are fire extinguishers. When; the requirement
+                      annually is this in date?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_30}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Were the smoke alarms tested weekly can you see evidence
+                      of this in the handover book?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_31}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Were there any service or repair requirements from the
+                      testing of the smoke alarms and if so, has this been
+                      arranged?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_32}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Were there any service or repair requirements from the
+                      testing of the smoke alarms and if so, has this been
+                      arranged?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_33}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      If there is emergency lighting, has this been checked and
+                      what date there should be checked at least annually.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_34}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      If there is a fire blanket in the kitchen, Is this in
+                      date?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_35}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is the property clean and tidy and free of clutter?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_36}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Are the fire exits clear of any obstructions?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_37}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Has all electrical equipment had PAT testing and have you
+                      checked the date on the label on the item?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_38}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Plug sockets- To confirm that they are not overloaded and
+                      causing a fire or trip hazard.
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_39}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Is there an inventory of all items in the house and have
+                      new items been added to the inventory?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_24}
+                    </div>
+                  </div>
+                  <div
+                    style={sectionMainSectionQuesiton}
+                    className={
+                      styles.container__form__sectionMain__questions__section__question
+                    }
+                  >
+                    <div
+                      style={sectionMainSectionQuesitonLabel}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__label
+                      }
+                    >
+                      Have the Grab bags been checked to see if they contain the
+                      following items? What date were these checked? What were
+                      the findings? Do any items below need replacing?
+                    </div>
+                    <div
+                      style={sectionMainTextarea}
+                      className={
+                        styles.container__form__sectionMain__questions__section__question__textarea
+                      }
+                    >
+                      {loadedForm.question_41}
                     </div>
                   </div>
                 </div>

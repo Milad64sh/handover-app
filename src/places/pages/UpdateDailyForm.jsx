@@ -241,16 +241,15 @@ const UpdateDailyForm = () => {
           `http://localhost:5000/daily-handovers/${dailyFormId}`
         );
 
-        setLoadedForm(responseData);
-        console.log('form:', responseData);
+        setLoadedForm(responseData.form);
         setFormData(
           {
             service: {
               value: responseData.form.service,
               isValid: true,
             },
-            week: {
-              value: responseData.form.week,
+            day: {
+              value: responseData.form.day,
               isValid: true,
             },
             staff: {
@@ -463,8 +462,8 @@ const UpdateDailyForm = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        // `${process.env.REACT_APP_BACKEND_URL}/weekly-handovers/${dailyFormId}`,
-        `http://localhost:5000/weekly-handovers/${dailyFormId}`,
+        // `${process.env.REACT_APP_BACKEND_URL}/daily-handovers/${dailyFormId}`,
+        `http://localhost:5000/daily-handovers/${dailyFormId}`,
         'POST',
         JSON.stringify({
           service: formState.inputs.service.value,
@@ -527,7 +526,7 @@ const UpdateDailyForm = () => {
     } catch (err) {
       console.error('Error sending request to EDIT:', err);
     }
-    navigate(`/${auth.userId}/forms`);
+    navigate('/daily-uploaded-forms');
   };
 
   if (isLoading) {
@@ -1150,7 +1149,7 @@ const UpdateDailyForm = () => {
                     type='text'
                     validators={[VALIDATOR_MINLENGTH(10)]}
                     onInput={inputHandler}
-                    label='All paperwork in s red in the sleep room securely and staff aware of GDPR'
+                    label='All paperwork is stored in the sleep room securely and staff aware of GDPR'
                     errorText='Please explain in more detail'
                     initialValue={loadedForm.question_37}
                     initialValid={true}

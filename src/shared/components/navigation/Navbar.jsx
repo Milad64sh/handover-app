@@ -1,34 +1,45 @@
 import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-context';
+import AppContext from '../../../appContext';
 import styles from './navbar.module.scss';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import DropDownHandover from './components/DropDownHandover';
 import DropDownAllForms from './components/DropDownAllForms';
 import DropDownWideScreen from './components/DropDownWideScreen';
 
-const Navbar = (props) => {
+const Navbar = () => {
+  const {
+    setShowFormsWideScreen,
+    showFormsWideScreen,
+    toggleAllFormsWideScreen,
+  } = useContext(AppContext);
   const auth = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
   const [showForms, setShowForms] = useState(false);
-  const [showFormsWideScreen, setShowFormsWideScreen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+    setShowCategory(false);
+    setShowForms(false);
   };
 
   const toggleAllForms = () => {
     setShowForms((prev) => !prev);
     setShowCategory(false);
   };
-  const toggleAllFormSWideScreen = () => {
-    setShowFormsWideScreen((prev) => !prev);
-  };
 
   const toggleCategory = () => {
     setShowCategory((prev) => !prev);
     setShowForms(false);
+    setShowFormsWideScreen(false);
+  };
+
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+    setShowCategory(false);
+    setShowFormsWideScreen(false);
   };
 
   return (
@@ -44,6 +55,7 @@ const Navbar = (props) => {
                 onClick={() => {
                   setIsMenuOpen(false);
                   setShowCategory(false);
+                  setShowFormsWideScreen(false);
                 }}
               >
                 jigsaw creative care
@@ -226,7 +238,9 @@ const Navbar = (props) => {
                 )}
               </div>
             </div>
-            {/* laptop screen */}
+
+            {/* LAPTOP SCREEN */}
+
             <div className={styles.container__content__links}>
               {auth.isLoggedIn && auth.isManager && (
                 <>
@@ -235,6 +249,7 @@ const Navbar = (props) => {
                       className={styles.container__content__links__item__link}
                       to={'/users'}
                       activeClassName={styles.active}
+                      onClick={handleLinkClick}
                     >
                       USERS
                     </NavLink>
@@ -243,7 +258,7 @@ const Navbar = (props) => {
                     <div
                       className={styles.container__content__links__item__link}
                       activeClassName={styles.active}
-                      onClick={toggleAllFormSWideScreen}
+                      onClick={toggleAllFormsWideScreen}
                     >
                       All FORMS
                       <div
@@ -260,6 +275,7 @@ const Navbar = (props) => {
                       className={styles.container__content__links__item__link}
                       to={'/users/new'}
                       activeClassName={styles.active}
+                      onClick={handleLinkClick}
                     >
                       NEW USER
                     </NavLink>
@@ -272,6 +288,7 @@ const Navbar = (props) => {
                     className={styles.container__content__links__item__link}
                     to={`${auth.userId}/forms`}
                     activeClassName={styles.active}
+                    onClick={handleLinkClick}
                   >
                     MY FORMS
                   </NavLink>
@@ -283,6 +300,7 @@ const Navbar = (props) => {
                     className={styles.container__content__links__item__link}
                     to={'/auth'}
                     activeClassName={styles.active}
+                    onClick={handleLinkClick}
                   >
                     LOGIN
                   </NavLink>
@@ -304,7 +322,7 @@ const Navbar = (props) => {
             showFormsWideScreen ? styles.show : ''
           }`}
         >
-          <DropDownWideScreen />
+          <DropDownWideScreen SetShowFormsWideScreen={setShowFormsWideScreen} />
         </div>
       </nav>
     </>

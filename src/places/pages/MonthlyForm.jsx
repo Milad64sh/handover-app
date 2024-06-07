@@ -190,6 +190,10 @@ const MonthlyForm = () => {
       value: '',
       isValid: false,
     },
+    question_41: {
+      value: '',
+      isValid: false,
+    },
   });
 
   const navigate = useNavigate();
@@ -245,6 +249,7 @@ const MonthlyForm = () => {
           question_38: formState.inputs.question_38.value,
           question_39: formState.inputs.question_39.value,
           question_40: formState.inputs.question_40.value,
+          question_41: formState.inputs.question_41.value,
           creator: auth.userId,
         }),
         {
@@ -401,7 +406,7 @@ const MonthlyForm = () => {
             </div>
           </div>
 
-          {/* FINANCE */}
+          {/* INFECTION CONTROL */}
           <div className={styles.container__form__sectionMain}>
             <div className={styles.container__form__sectionMain__title}>
               <h3>Infection Control (Reg 15)</h3>
@@ -427,8 +432,7 @@ const MonthlyForm = () => {
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Was the mattress turned and aired this month what date did this happen and who was involved?
-Is the mattress and bedding in good condition?'
+                  label='Was the mattress turned and aired this month what date did this happen and who was involved? Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
               </div>
@@ -483,7 +487,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_14'
+                  id='question_15'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -492,7 +496,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_15'
+                  id='question_16'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -501,7 +505,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_16'
+                  id='question_17'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -510,7 +514,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_17'
+                  id='question_18'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -534,7 +538,7 @@ Is the mattress and bedding in good condition?'
                 }
               >
                 <Textarea
-                  id='question_18'
+                  id='question_19'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -543,7 +547,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_19'
+                  id='question_20'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -552,7 +556,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_20'
+                  id='question_21'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -561,7 +565,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_21'
+                  id='question_22'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -570,7 +574,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_22'
+                  id='question_23'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -579,7 +583,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_23'
+                  id='question_24'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -588,7 +592,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_24'
+                  id='question_25'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -597,7 +601,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_25'
+                  id='question_26'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -606,7 +610,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_26'
+                  id='question_27'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -615,7 +619,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_27'
+                  id='question_28'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -624,7 +628,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_28'
+                  id='question_29'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -633,7 +637,7 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_29'
+                  id='question_30'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
@@ -642,21 +646,12 @@ Is the mattress and bedding in good condition?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
-                  id='question_30'
-                  element='textarea'
-                  type='text'
-                  validators={[VALIDATOR_MINLENGTH(10)]}
-                  onInput={inputHandler}
-                  label='Were the smoke alarms tested weekly can you see evidence of this in the handover book?'
-                  errorText='Please explain in more detail'
-                />
-                <Textarea
                   id='question_31'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Were there any service or repair requirements from the testing of the smoke alarms and if so, has this been arranged?'
+                  label='Were the smoke alarms tested weekly can you see evidence of this in the handover book?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -674,7 +669,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='If there is emergency lighting, has this been checked and what date there should be checked at least annually.'
+                  label='Were there any service or repair requirements from the testing of the smoke alarms and if so, has this been arranged?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -683,7 +678,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='If there is a fire blanket in the kitchen, Is this in date?'
+                  label='If there is emergency lighting, has this been checked and what date there should be checked at least annually.'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -692,7 +687,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Is the property clean and tidy and free of clutter?'
+                  label='If there is a fire blanket in the kitchen, Is this in date?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -701,7 +696,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Are the fire exits clear of any obstructions?'
+                  label='Is the property clean and tidy and free of clutter?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -710,7 +705,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Has all electrical equipment had PAT testing and have you checked the date on the label on the item?'
+                  label='Are the fire exits clear of any obstructions?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -719,7 +714,7 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Plug sockets- To confirm that they are not overloaded and causing a fire or trip hazard.'
+                  label='Has all electrical equipment had PAT testing and have you checked the date on the label on the item?'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
@@ -728,11 +723,20 @@ Is the mattress and bedding in good condition?'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}
                   onInput={inputHandler}
-                  label='Is there an inventory of all items in the house and have new items been added to the inventory?'
+                  label='Plug sockets- To confirm that they are not overloaded and causing a fire or trip hazard.'
                   errorText='Please explain in more detail'
                 />
                 <Textarea
                   id='question_40'
+                  element='textarea'
+                  type='text'
+                  validators={[VALIDATOR_MINLENGTH(10)]}
+                  onInput={inputHandler}
+                  label='Is there an inventory of all items in the house and have new items been added to the inventory?'
+                  errorText='Please explain in more detail'
+                />
+                <Textarea
+                  id='question_41'
                   element='textarea'
                   type='text'
                   validators={[VALIDATOR_MINLENGTH(10)]}

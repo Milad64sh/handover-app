@@ -6,14 +6,18 @@ import AppContext from '../../appContext';
 import { AuthContext } from '../../shared/context/auth-context';
 import Handovers from '../components/Handovers';
 const Home = () => {
-  const { openItem } = useContext(AppContext);
+  const { openItem, showFormsWideScreen, toggleAllFormsWideScreen } =
+    useContext(AppContext);
   const auth = useContext(AuthContext);
   return (
     <>
       <div className={styles.container}>
         {auth.isLoggedIn && (
           <div className={styles.sidebar}>
-            <Sidebar />
+            <Sidebar
+              toggleAllFormsWideScreen={toggleAllFormsWideScreen}
+              showFormsWideScreen={showFormsWideScreen}
+            />
           </div>
         )}
         <div className={styles.hero}>

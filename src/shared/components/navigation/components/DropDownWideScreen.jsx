@@ -2,18 +2,17 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './dropDownWideScreen.module.scss';
 
-const DropDownWideScreen = ({
-  toggleMenu,
-  toggleAllForms,
-  handleNavigation,
-}) => {
+const DropDownWideScreen = ({ SetShowFormsWideScreen }) => {
+  const toggleAllform = () => {
+    SetShowFormsWideScreen(false);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.container__item}>
         <NavLink
           className={styles.href}
           to={'/daily-uploaded-forms'}
-          onClick={handleNavigation}
+          onClick={toggleAllform}
         >
           daily uploaded forms
         </NavLink>
@@ -22,7 +21,7 @@ const DropDownWideScreen = ({
         <NavLink
           className={styles.href}
           to={'/weekly-uploaded-forms'}
-          onClick={handleNavigation}
+          onClick={toggleAllform}
         >
           weekly uploaded forms
         </NavLink>
@@ -31,7 +30,7 @@ const DropDownWideScreen = ({
         <NavLink
           className={styles.href}
           to={'/monthly-uploaded-forms'}
-          onClick={handleNavigation}
+          onClick={toggleAllform}
         >
           monthly uploaded forms
         </NavLink>
