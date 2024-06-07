@@ -1,11 +1,15 @@
 const express = require('express');
 const { check } = require('express-validator');
 const dailyFormsController = require('../controllers/daily-forms-controller');
+const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
 router.get('/', dailyFormsController.getAllDailyForms);
 router.get('/:formid', dailyFormsController.getDailyFormById);
 router.get('/user/:uid', dailyFormsController.getDailyFormsByUserId);
+
+router.use(checkAuth);
+
 router.post(
   '/',
   [
@@ -63,6 +67,7 @@ router.post(
   ],
   dailyFormsController.postDailyForm
 );
+
 router.post(
   '/:formid',
   [
@@ -120,5 +125,7 @@ router.post(
   ],
   dailyFormsController.updateDailyFormById
 );
+
+router.delete('/:formid', dailyFormsController.deleteDailyForm);
 
 module.exports = router;

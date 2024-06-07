@@ -47,6 +47,7 @@ const monthlyFormSchema = new Schema(
     question_38: { type: String, required: true },
     question_39: { type: String, required: true },
     question_40: { type: String, required: true },
+    question_41: { type: String, required: true },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
   },
   {

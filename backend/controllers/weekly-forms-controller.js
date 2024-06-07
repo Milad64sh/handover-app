@@ -265,7 +265,7 @@ const deleteForm = async (req, res, next) => {
     form = await Form.findById(formId).populate('creator');
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete the form.',
+      'Something went wrong, could not delete the weekly form.',
       500
     );
     return next(error);
@@ -277,7 +277,7 @@ const deleteForm = async (req, res, next) => {
   ) {
     console.log(req.userData);
     const error = new HttpError(
-      `You are not allowed to delete this document. creator id is: ${form.creator.id} and user id is: ${req.userData.userId}, and user roles is ${req.userData}`,
+      'You are not allowed to delete this document.',
       401
     );
 
@@ -305,7 +305,7 @@ const deleteForm = async (req, res, next) => {
 
     return next(error);
   }
-  res.status(200).json({ message: 'Deleted Place' });
+  res.status(200).json({ message: 'Deleted weekly form' });
 };
 
 exports.getAllWeeklyForms = getAllWeeklyForms;

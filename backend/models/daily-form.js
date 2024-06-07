@@ -42,6 +42,7 @@ const dailyFormSchema = new Schema(
     question_34: { type: String, required: true },
     question_35: { type: String, required: true },
     question_36: { type: String, required: true },
+    question_37: { type: String, required: true },
     question_38: { type: String, required: true },
     question_39: { type: String, required: true },
     question_40: { type: String, required: true },

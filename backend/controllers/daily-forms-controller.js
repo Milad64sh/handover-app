@@ -95,6 +95,7 @@ const getDailyFormsByUserId = async (req, res, next) => {
   });
 };
 
+//  CREATE NEW FORM
 const postDailyForm = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -235,6 +236,8 @@ const postDailyForm = async (req, res, next) => {
   }
   res.status(201).json({ dailyForm: createdDailyForm });
 };
+
+//  UPDATE/EDIT FORM
 const updateDailyFormById = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -316,6 +319,7 @@ const updateDailyFormById = async (req, res, next) => {
     dailyForm.creator.toString() !== req.userData.userId &&
     req.userData.status !== 'Manager'
   ) {
+    console.log(req.userData);
     const error = new HttpError(
       'You are not allowed to edit this document.',
       401
@@ -386,8 +390,55 @@ const updateDailyFormById = async (req, res, next) => {
   res.status(200).json({ dailyForm: dailyForm.toObject({ getters: true }) });
 };
 
+// DELETE FORM
+const deleteDailyForm = async (req, res, next) => {
+  const formId = req.params.formid;
+  let dailyForm;
+  try {
+    dailyForm = await DailyForm.findById(formId).populate('creator');
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not delete the daily form.',
+      500
+    );
+    return next(error);
+  }
+  if (
+    dailyForm.creator.id !== req.userData.userId &&
+    req.userData.roles !== 'Manager'
+  ) {
+    const error = new HttpError(
+      'You are not allowed to delete this document.',
+      401
+    );
+    return next(error);
+  }
+  if (!dailyForm) {
+    const error = new HttpError('Form for this user not found', 404);
+    return next(error);
+  }
+  const sess = await mongoose.startSession();
+  sess.startTransaction();
+  try {
+    dailyForm.creator.dailyForms.pull(dailyForm);
+    dailyForm.markModified('weeklyForms');
+    await dailyForm.creator.save({ session: sess });
+    await DailyForm.deleteOne({ _id: formId }, { session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      'Something went wrong, could not delete the form.',
+      500
+    );
+    return next(error);
+  }
+  res.status(200).json({ message: 'Deleted Daily form' });
+};
+
 exports.getAllDailyForms = getAllDailyForms;
 exports.getDailyFormById = getDailyFormById;
 exports.getDailyFormsByUserId = getDailyFormsByUserId;
 exports.postDailyForm = postDailyForm;
 exports.updateDailyFormById = updateDailyFormById;
+exports.deleteDailyForm = deleteDailyForm;
